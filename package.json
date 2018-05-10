@@ -1,0 +1,30 @@
+{
+  "name": "bootstrap-4-vue-treeview",
+  "version": "0.1.0",
+  "description": "A tree view component for Bootstrap 4 and Vue.js 2.x.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kamil-lip/bootstrap-4-vue-treeview.git"
+  },
+  "keywords": [
+    "Bootstrap",
+    "vue",
+    "tree",
+    "view",
+    "Bootstrap 4",
+    "treeview",
+    "vue2",
+    "component",
+    "VueJS"
+  ],
+  "author": "Kamil Lipiński",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kamil-lip/bootstrap-4-vue-treeview/issues"
+  },
+  "homepage": "https://github.com/kamil-lip/bootstrap-4-vue-treeview#readme"
+}
