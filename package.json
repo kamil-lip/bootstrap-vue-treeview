@@ -2,9 +2,10 @@
   "name": "bootstrap-4-vue-treeview",
   "version": "0.1.0",
   "description": "A tree view component for Bootstrap 4 and Vue.js 2.x.",
-  "main": "index.js",
+  "main": "dist/treeview.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cross-env NODE_ENV=production node scripts/build"
   },
   "repository": {
     "type": "git",
@@ -26,5 +27,13 @@
   "bugs": {
     "url": "https://github.com/kamil-lip/bootstrap-4-vue-treeview/issues"
   },
-  "homepage": "https://github.com/kamil-lip/bootstrap-4-vue-treeview#readme"
+  "homepage": "https://github.com/kamil-lip/bootstrap-4-vue-treeview#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "cross-env": "^5.1.5",
+    "rollup": "^0.58.2",
+    "rollup-plugin-babel": "^3.0.4",
+    "rollup-plugin-vue": "^4.1.3",
+    "vue-template-compiler": "^2.5.16"
+  }
 }

@@ -1,4 +1,6 @@
-<template>
+<template> 
+
+<div>Hello from TreeView</div>
 
 </template>
 
@@ -7,6 +9,8 @@
 export default {
 
 }
+
+
 </script>
 
 <style>
