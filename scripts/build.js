@@ -22,23 +22,27 @@ async function build() {
 		input: entryPointPath,
 		plugins: [
 		VuePlugin()
-		],
-		output: [
+		]
+		// TODO: add external
+	})
+	// or write the bundle to disk
+	await bundle.write(
 		{
 			format: 'cjs',
 			name: camelCase(name),
 			file: path.resolve(distPath, name + '.common.js'),
 			sourcemap: true
-		},
+		}
+	);
+
+	await bundle.write(
 		{
 			format: 'umd',
 			name: camelCase(name),
 			file: path.resolve(distPath, name + '.js'),
 			sourcemap: true
 		}
-		]
-		// TODO: add external
-	})
+	);
 }
 
 async function main() {
