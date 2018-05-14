@@ -31,6 +31,7 @@
   "devDependencies": {
     "babel-core": "^6.26.3",
     "cross-env": "^5.1.5",
+    "del": "^3.0.0",
     "rollup": "^0.58.2",
     "rollup-plugin-babel": "^3.0.4",
     "rollup-plugin-vue": "^4.1.3",
