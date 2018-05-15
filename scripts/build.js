@@ -8,7 +8,9 @@ const distPath = path.resolve(basePath, 'dist');
 const { camelCase } = require('lodash')
 const rollup = require('rollup')
 const babel = require('rollup-plugin-babel')
-
+const resolve = require('rollup-plugin-node-resolve')
+const commonjs = require('rollup-plugin-commonjs')
+const css = require('rollup-plugin-css-porter')
 const entryPointPath = path.resolve(basePath, 'src/index')
 const { name, dependencies } = require('../package.json')
 
@@ -22,7 +24,13 @@ async function build() {
 	const bundle = await rollup.rollup({
 		input: entryPointPath,
 		plugins: [
-		VuePlugin()
+			VuePlugin(),
+		    css(),
+		    resolve({ external: ['vue'] }),
+		    commonjs(),
+		    babel({
+		      plugins: ['external-helpers']
+		    })
 		]
 		// TODO: add external
 	})

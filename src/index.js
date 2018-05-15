@@ -1,4 +1,4 @@
-const bTreeView = require('./components/TreeView').default;
+import bTreeView from './components/TreeView.vue';
 
 const VuePlugin = {
 	install(Vue) {
