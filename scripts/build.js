@@ -35,25 +35,36 @@ async function build() {
 		// TODO: add external
 	})
 	// or write the bundle to disk
-	await bundle.write(
+	// 
+	
+	const outputOptions = [
 		{
 			exports: 'named',
 			format: 'cjs',
 			name: camelCase(name),
 			file: path.resolve(distPath, name + '.common.js'),
 			sourcemap: true
-		}
-	);
-
-	await bundle.write(
+		},
 		{
 			exports: 'named',
 			format: 'umd',
 			name: camelCase(name),
 			file: path.resolve(distPath, name + '.js'),
 			sourcemap: true
+		},
+		{
+			exports: 'named',
+			format: 'es',
+			name: camelCase(name),
+			file: path.resolve(distPath, name + '.esm.js'),
+			sourcemap: true
 		}
-	);
+	]
+
+	for (let opts of outputOptions) {
+		await bundle.write(opts);
+	}
+
 }
 
 async function main() {
