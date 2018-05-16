@@ -37,6 +37,7 @@ async function build() {
 	// or write the bundle to disk
 	await bundle.write(
 		{
+			exports: 'named',
 			format: 'cjs',
 			name: camelCase(name),
 			file: path.resolve(distPath, name + '.common.js'),
@@ -46,6 +47,7 @@ async function build() {
 
 	await bundle.write(
 		{
+			exports: 'named',
 			format: 'umd',
 			name: camelCase(name),
 			file: path.resolve(distPath, name + '.js'),
