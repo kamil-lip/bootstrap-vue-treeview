@@ -1,67 +1,17 @@
 const fs = require('fs');
 const del = require('del');
-const path = require('path');
-
-const basePath = path.resolve(__dirname, '..');
-const distPath = path.resolve(basePath, 'dist');
-
-const { camelCase } = require('lodash')
 const rollup = require('rollup')
-const babel = require('rollup-plugin-babel')
-const resolve = require('rollup-plugin-node-resolve')
-const commonjs = require('rollup-plugin-commonjs')
-const css = require('rollup-plugin-css-porter')
-const entryPointPath = path.resolve(basePath, 'src/index')
-const { name, dependencies } = require('../package.json')
 
-const VuePlugin = require('rollup-plugin-vue').default;
+const options = require('./build-config.js')
 
 async function build() {
-	if (fs.existsSync(distPath)) {
-		await del([distPath])
+	if (fs.existsSync(options.distPath)) {
+		await del([options.distPath])
 	}
-	
-	const bundle = await rollup.rollup({
-		input: entryPointPath,
-		plugins: [
-			VuePlugin(),
-		    css(),
-		    resolve({ external: ['vue'] }),
-		    commonjs(),
-		    babel({
-		      plugins: ['external-helpers']
-		    })
-		]
-		// TODO: add external
-	})
-	// or write the bundle to disk
-	// 
-	
-	const outputOptions = [
-		{
-			exports: 'named',
-			format: 'cjs',
-			name: camelCase(name),
-			file: path.resolve(distPath, name + '.common.js'),
-			sourcemap: true
-		},
-		{
-			exports: 'named',
-			format: 'umd',
-			name: camelCase(name),
-			file: path.resolve(distPath, name + '.js'),
-			sourcemap: true
-		},
-		{
-			exports: 'named',
-			format: 'es',
-			name: camelCase(name),
-			file: path.resolve(distPath, name + '.esm.js'),
-			sourcemap: true
-		}
-	]
 
-	for (let opts of outputOptions) {
+	const bundle = await rollup.rollup(options.input);
+
+	for (let opts of Object.values(options.output)) {
 		await bundle.write(opts);
 	}
 
