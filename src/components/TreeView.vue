@@ -1,13 +1,25 @@
 <template> 
 
-<div>Hello from TreeView</div>
+<div class="tree-view">
+	<tree-node v-for="nodeData in data" :data="nodeData"></tree-node>
+</div>
 
 </template>
 
 <script>
 
-export default {
+import TreeNode from './TreeNode.vue'
 
+export default {
+	props: {
+		data: {
+			type: Array,
+			required: true
+		}
+	},
+	components: {
+		TreeNode
+	}
 }
 
 

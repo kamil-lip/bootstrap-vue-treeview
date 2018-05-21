@@ -2,5 +2,35 @@
 Vue.use(bootstrap4VueTreeview['default']);
 
 var app = new Vue({
-  el: '#app'
+	template: `
+	<div class="row">
+		<div class="col-md-4">
+			<div class="card">
+				<div class="card-body">
+					<b-tree-view :data="treeData"></b-tree-view>
+				</div>
+			</div>
+		</div>
+	</div>`,
+	el: '#app',
+	data() {
+		return {
+			treeData: [
+				{
+					"name": "Astro"
+				},
+				{
+					"name": "Venus" ,
+					"children": [
+						{
+							"name": "Pluto"
+						},
+						{
+							"name": "Stratus"
+						}
+					]
+				}
+			]
+		}
+	}
 })
