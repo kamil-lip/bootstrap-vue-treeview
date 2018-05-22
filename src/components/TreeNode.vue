@@ -33,7 +33,7 @@ export default {
 
 <style>
 
-.tree-node {
+.tree-node-children {
 	margin-left: 10px;
 }
 
