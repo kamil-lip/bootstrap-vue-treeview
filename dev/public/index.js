@@ -17,15 +17,19 @@ var app = new Vue({
 		return {
 			treeData: [
 				{
+					"id": 1,
 					"name": "Astro"
 				},
 				{
+					"id": 2,
 					"name": "Venus" ,
 					"children": [
 						{
+							"id": 3,
 							"name": "Pluto"
 						},
 						{
+							"id": 4,
 							"name": "Stratus"
 						}
 					]

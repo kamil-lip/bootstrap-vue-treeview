@@ -1,7 +1,7 @@
 <template> 
 
 <div class="tree-view">
-	<tree-node v-for="nodeData in data" :data="nodeData"></tree-node>
+	<tree-node v-for="nodeData in data" :data="nodeData" :key="nodeData.id"></tree-node>
 </div>
 
 </template>
