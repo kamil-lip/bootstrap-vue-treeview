@@ -4,6 +4,9 @@ const serve = require('rollup-plugin-serve')
 const path = require('path');
 const rollup = require('rollup')
 
+let host = 'localhost'
+let port = 10001;
+
 function runDevServer() {
   serve({
     // Launch in browser (default: false)
@@ -19,8 +22,8 @@ function runDevServer() {
     historyApiFallback: false,
 
     // Options used in setting up server
-    host: 'localhost',
-    port: 10001,
+    host,
+    port,
 
     //set headers
     headers: {
@@ -52,7 +55,7 @@ async function main() {
   try {
     runDevServer();
     await watch();
-    console.log('Started watching for file changes.')
+    console.log(`Started watching for file changes. Dev server started at ${host}:${port}`)
   } catch(e) {
     console.error(e);
     process.exit(1);
