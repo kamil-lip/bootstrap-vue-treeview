@@ -2,7 +2,7 @@
 
 	<div class="tree-node">
 		<transition name="rotateArrow">
-			<svg width="12" height="12" @click.prevent="toggle" class="tree-node-icon">
+			<svg width="12" height="12" @click.prevent="toggle" class="tree-node-icon" :class="{ 'tree-node-expanded': expanded }">
 				<path
 				d="M2 1 L10 6 L2 11 Z"
 				style="opacity:1;fill:currentColor;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
@@ -49,6 +49,12 @@ export default {
 
 .tree-node-icon {
 	cursor: pointer;
+	transition: transform 0.3s;
+}
+
+.tree-node-icon.tree-node-expanded {
+	transform: rotate(90deg);
+	transition: transform 0.3s;
 }
 
 .tree-node-children {
