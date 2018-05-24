@@ -1,5 +1,4 @@
 <template> 
-
 	<div class="tree-node">
 		<transition name="rotateArrow">
 			<svg width="12" height="12" @click.prevent="toggle" class="tree-node-icon" :class="{ 'tree-node-expanded': expanded }">
@@ -10,7 +9,7 @@
 		</transition>
 		<span>{{ data.name }}</span>
 		<div class="tree-node-children" v-if="expanded && data.children && Array.isArray(data.children)">
-			<tree-node v-for="nodeData in data.children" :data="nodeData" :key="nodeData.id"></tree-node>
+			<tree-node v-for="nodeData in data.children" :data="nodeData" :key="nodeData[keyPropName]"></tree-node>
 		</div>
 	</div>
 
@@ -26,6 +25,10 @@ export default {
 		data: {
 			type: Object,
 			required: true
+		},
+		keyPropName: {
+			type: String,
+			default: 'id'
 		}
 	},
 	data() {
