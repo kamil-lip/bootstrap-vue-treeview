@@ -15,6 +15,10 @@ export default {
 		data: {
 			type: Array,
 			required: true
+		},
+		allowMultiple: {
+			type: Boolean,
+			default: false
 		}
 	},
 	components: {

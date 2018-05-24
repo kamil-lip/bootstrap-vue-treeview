@@ -1,5 +1,5 @@
 <template> 
-	<div class="tree-node">
+	<div class="tree-node" :class="{ selected: selected }">
 		<transition name="rotateArrow">
 			<svg width="12" height="12" @click.prevent="toggle" class="tree-node-icon" :class="{ 'tree-node-expanded': expanded }">
 				<path
@@ -7,9 +7,14 @@
 				style="opacity:1;fill:currentColor;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
 			</svg>
 		</transition>
-		<span>{{ data.name }}</span>
+		<span class="tree-node-label" @click="toggleSelection">{{ data.name }}</span>
 		<div class="tree-node-children" v-if="expanded && data.children && Array.isArray(data.children)">
-			<tree-node v-for="nodeData in data.children" :data="nodeData" :key="nodeData[keyPropName]"></tree-node>
+			<tree-node
+				v-for="nodeData in data.children"
+				:data="nodeData" :key="nodeData[keyPropName]"
+				@nodeSelected="childNodeSelected"
+				@nodeDeselected="childNodeDeselected">	
+			</tree-node>
 		</div>
 	</div>
 
@@ -33,14 +38,37 @@ export default {
 	},
 	data() {
 		return {
-			expanded: false
+			expanded: false,
+			selected: false
 		}
 	},
+	watch: {
+		selected() {
+			this.$emit(this.selected ? 'nodeSelected' : 'nodeDeselected', this)
+		}
+	}
 	methods: {
 		toggle() {
 			if(this.data.children && Array.isArray(this.data.children) && this.data.children.length > 0) {
 				this.expanded = !this.expanded
 			}
+		},
+		toggleSelection() {
+			this.selected = !this.selected
+		},
+		select() {
+			this.selected = true
+		},
+		deselect() {
+			this.selected = false
+		},
+		childNodeSelected(selectedNode) {
+			// forward event to the parent node
+			this.$emit('nodeSelected', selectedNode)
+		},
+		childNodeDeselected(deselectedNode) {
+			// forward event to the parent node
+			this.$emit('nodeDeselected', deselectedNode)
 		}
 	}
 }
@@ -49,6 +77,16 @@ export default {
 </script>
 
 <style>
+
+.tree-node-label {
+	cursor: pointer;
+	padding: 2px 4px;
+	border-radius: 3px;
+}
+
+.tree-node-label:hover {
+	background-color: #EBECEE;
+}
 
 .tree-node-icon {
 	cursor: pointer;
@@ -62,6 +100,11 @@ export default {
 
 .tree-node-children {
 	margin-left: 16px;
+}
+
+.tree-node.selected > .tree-node-label {
+	background-color: #007bff;
+	color: #fff;
 }
 
 .tree-node svg {
