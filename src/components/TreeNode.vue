@@ -46,7 +46,7 @@ export default {
 		selected() {
 			this.$emit(this.selected ? 'nodeSelected' : 'nodeDeselected', this)
 		}
-	}
+	},
 	methods: {
 		toggle() {
 			if(this.data.children && Array.isArray(this.data.children) && this.data.children.length > 0) {
