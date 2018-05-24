@@ -35,7 +35,7 @@ export default {
 	},
 	methods: {
 		toggle() {
-			if(!this.children || !Array.isArray(this.children) || this.children.length === 0) {
+			if(this.data.children && Array.isArray(this.data.children) && this.data.children.length > 0) {
 				this.expanded = !this.expanded
 			}
 		}
