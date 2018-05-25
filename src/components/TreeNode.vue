@@ -8,10 +8,11 @@
 			</svg>
 		</transition>
 		<span class="tree-node-label" @click="toggleSelection">{{ data.name }}</span>
-		<div class="tree-node-children" v-if="expanded && data.children && Array.isArray(data.children)">
+		<div class="tree-node-children" v-show="expanded && data.children && Array.isArray(data.children)">
 			<tree-node
 				v-for="nodeData in data.children"
 				:data="nodeData" :key="nodeData[keyPropName]"
+				ref="childNodes"
 				@nodeSelected="childNodeSelected"
 				@nodeDeselected="childNodeDeselected">	
 			</tree-node>
@@ -69,6 +70,9 @@ export default {
 		childNodeDeselected(deselectedNode) {
 			// forward event to the parent node
 			this.$emit('nodeDeselected', deselectedNode)
+		},
+		getChildNodes() {
+			return this.$refs.childNodes || [];
 		}
 	}
 }

@@ -21,7 +21,12 @@ const input = {
 	    resolve({ external: ['vue'] }),
 	    commonjs(),
 	    babel({
-	      plugins: ['external-helpers']
+	      plugins: [
+	      	'external-helpers',
+	      	'transform-runtime'
+	      	],
+	      runtimeHelpers: true,
+	      exclude: 'node_modules/**'
 	    })
 	]
 	// TODO: add external

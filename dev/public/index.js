@@ -18,7 +18,7 @@ var app = new Vue({
 			treeData: [
 				{
 					"id": 1,
-					"name": "Astro"
+					"name": "Mercury"
 				},
 				{
 					"id": 2,
@@ -26,11 +26,17 @@ var app = new Vue({
 					"children": [
 						{
 							"id": 3,
-							"name": "Pluto"
+							"name": "Neptune"
 						},
 						{
 							"id": 4,
-							"name": "Stratus"
+							"name": "Stratus",
+							"children": [
+								{
+									"id": 5,
+									"name": "Mars"
+								}
+							]
 						}
 					]
 				}
