@@ -1,7 +1,7 @@
 <template> 
 
 <div class="tree-view">
-	<tree-node v-for="nodeData in data" :data="nodeData" :key="nodeData.id" ref="childNodes"></tree-node>
+	<tree-node v-for="nodeData in data" :data="nodeData" :key="nodeData[keyPropName]" ref="rootNodes"></tree-node>
 </div>
 
 </template>
@@ -19,6 +19,10 @@ export default {
 		allowMultiple: {
 			type: Boolean,
 			default: false
+		},
+		keyPropName: {
+			type: String,
+			default: 'id'
 		}
 	},
 	components: {
@@ -29,14 +33,20 @@ export default {
 			if(this.nodeMap === undefined) {
 				let nodeMap = this.nodeMap = new Map()
 
-				let nodes = this.$refs.childNodes.slice();
+				let nodes = this.$refs.rootNodes.slice();
 
-				for(let tmpNode of nodes) {
+				for(let i=0; i<nodes.length; i++) {
+					let tmpNode = nodes[i]
 					nodes.push(...tmpNode.getChildNodes())
 				}
 
-				console.log(nodes)
+				for(let tmpNode of nodes) {
+					nodeMap.set(tmpNode.data[this.keyPropName], tmpNode) // TODO: change to getter
+				}
 			}
+		},
+		getNodeByKey(key) {
+			return this.nodeMap.get(key);
 		}
 	},
 	created() {

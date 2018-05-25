@@ -7,7 +7,7 @@ var app = new Vue({
 		<div class="col-md-4">
 			<div class="card">
 				<div class="card-body">
-					<b-tree-view :data="treeData"></b-tree-view>
+					<b-tree-view :data="treeData" ref="tree"></b-tree-view>
 				</div>
 			</div>
 		</div>
@@ -44,3 +44,9 @@ var app = new Vue({
 		}
 	}
 })
+
+
+// add "tree is ready" event
+setTimeout( () => {
+	console.log(app.$refs.tree.getNodeByKey(5).data.id) // TO DO: remove it, only for temporary testing, add professional tests
+}, 1000)
