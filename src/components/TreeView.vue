@@ -1,7 +1,14 @@
 <template> 
 
 <div class="tree-view">
-	<tree-node v-for="nodeData in data" :data="nodeData" :key="nodeData[keyPropName]" ref="rootNodes"></tree-node>
+	<tree-node
+		v-for="nodeData in data"
+		:data="nodeData"
+		:key="nodeData[keyPropName]"
+		ref="rootNodes"
+		@nodeSelected="nodeSelected"
+		@nodeDeselected="nodeDeselected">
+	</tree-node>
 </div>
 
 </template>
@@ -46,10 +53,22 @@ export default {
 			}
 		},
 		getNodeByKey(key) {
-			return this.nodeMap.get(key);
+			return this.nodeMap.get(key)
+		},
+		nodeSelected(node) {
+			if(this.selectedNode !== null) {
+				this.selectedNode.deselect();
+			}
+			this.selectedNode = node;
+		},
+		nodeDeselected(node) {
+			if(node === this.selectedNode) {
+				this.selectedNode = null
+			}
 		}
 	},
 	created() {
+		this.selectedNode = null
 		this.$nextTick(() => {
 			this.createNodeMap()
   		})

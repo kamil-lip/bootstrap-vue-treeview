@@ -86,6 +86,8 @@ export default {
 	cursor: pointer;
 	padding: 2px 4px;
 	border-radius: 3px;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 .tree-node-label:hover {
