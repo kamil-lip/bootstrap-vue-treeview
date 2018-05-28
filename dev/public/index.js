@@ -7,7 +7,7 @@ var app = new Vue({
 		<div class="col-md-4">
 			<div class="card">
 				<div class="card-body">
-					<b-tree-view :data="treeData" ref="tree"></b-tree-view>
+					<b-tree-view :data="treeData" ref="tree" :draggableNodes="true"></b-tree-view>
 				</div>
 			</div>
 		</div>

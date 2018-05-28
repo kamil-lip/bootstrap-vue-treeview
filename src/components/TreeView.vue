@@ -5,9 +5,11 @@
 		v-for="nodeData in data"
 		:data="nodeData"
 		:key="nodeData[keyPropName]"
+		:draggable="draggableNodes"
 		ref="rootNodes"
 		@nodeSelected="nodeSelected"
-		@nodeDeselected="nodeDeselected">
+		@nodeDeselected="nodeDeselected"
+		@deleteMe="deleteNode">
 	</tree-node>
 </div>
 
@@ -30,6 +32,10 @@ export default {
 		keyPropName: {
 			type: String,
 			default: 'id'
+		},
+		draggableNodes: {
+			type: Boolean,
+			default: false
 		}
 	},
 	components: {
@@ -65,6 +71,10 @@ export default {
 			if(node === this.selectedNode) {
 				this.selectedNode = null
 			}
+		},
+		deleteNode(node) {
+			var index = this.data.indexOf(node.data);
+			this.data.splice(index, 1);
 		}
 	},
 	created() {
