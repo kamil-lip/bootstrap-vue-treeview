@@ -157,7 +157,7 @@ export default {
 	margin-left: 16px;
 }
 
-.tree-branch.selected > div > .tree-branch-label {
+.tree-branch.selected > .tree-node > .tree-node-label {
 	background-color: #007bff;
 	color: #fff;
 }
