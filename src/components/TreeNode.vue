@@ -1,6 +1,6 @@
-<template> 
-	<div class="tree-node" :class="{ selected: selected }">
-		<div @drop.prevent="drop" @dragover.prevent="dragover" :draggable="draggable" @dragstart.stop="dragstart" @dragend.prevent="dragend" @dragenter.prevent="dragenter">
+<template>
+	<div class="tree-branch" :class="{ selected: selected }">
+		<div class="tree-node" @drop.prevent="drop" @dragover.prevent="dragover" :draggable="draggable" @dragstart.stop="dragstart" @dragend="dragend" @dragenter.prevent="dragenter">
 			<transition name="rotateArrow">
 				<svg width="12" height="12" @click.prevent="toggle" class="tree-node-icon" :class="{ 'tree-node-expanded': expanded }">
 					<path
@@ -20,7 +20,7 @@
 				@nodeDeselected="childNodeDeselected"
 				@nodeDragged="childNodeDragged"
 				@nodeDropped="childNodeDropped"
-				@nodeMoved="childNodeMoved">	
+				@nodeMoved="childNodeMoved">
 			</tree-node>
 		</div>
 	</div>
@@ -193,12 +193,12 @@ export default {
 	margin-left: 16px;
 }
 
-.tree-node.selected > .tree-node-label {
+.tree-branch.selected > .tree-node > .tree-node-label {
 	background-color: #007bff;
 	color: #fff;
 }
 
-.tree-node svg {
+.tree-node > svg {
 	display: inline-block;
 	-ms-user-select: none;
 	user-select: none;
