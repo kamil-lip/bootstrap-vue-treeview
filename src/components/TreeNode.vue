@@ -29,6 +29,9 @@
 				@nodeMoved="childNodeMoved">
 			</tree-node>
 		</div>
+		<div class="drop-after-dropzone">
+
+		</div>
 	</div>
 
 </template>
@@ -216,6 +219,10 @@ export default {
 	margin-left: 16px;
 }
 
+.tree-branch {
+	position: relative;
+}
+
 .tree-branch.selected > .tree-node > .tree-node-label {
 	background-color: #007bff;
 	color: #fff;
@@ -245,6 +252,16 @@ export default {
 
 .tree-node.tree-node-expanded > svg > path {
 	fill: none;
+}
+
+.drop-after-dropzone {
+	position: absolute;
+	bottom: -2px;
+	height: 5px;
+	width: 100%;
+	background-color: yellow;
+	border: 1px dashed #D2D2D2;
+	display: none;
 }
 
 </style>
