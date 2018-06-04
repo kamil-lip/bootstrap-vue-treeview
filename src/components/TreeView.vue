@@ -5,11 +5,11 @@
 		v-for="nodeData in data"
 		:data="nodeData"
 		:key="nodeData[keyPropName]"
-		:draggable="draggableNodes"
+		:draggable="nodesDraggable"
 		ref="rootNodes"
 		@nodeSelected="nodeSelected"
 		@nodeDeselected="nodeDeselected"
-		@deleteMe="deleteNode">
+		@nodeMoved="nodeMoved">
 	</tree-node>
 </div>
 
@@ -33,7 +33,7 @@ export default {
 			type: String,
 			default: 'id'
 		},
-		draggableNodes: {
+		nodesDraggable: {
 			type: Boolean,
 			default: false
 		}
@@ -72,9 +72,11 @@ export default {
 				this.selectedNode = null
 			}
 		},
-		deleteNode(node) {
-			var index = this.data.indexOf(node.data);
-			this.data.splice(index, 1);
+		nodeMoved(nodeData) {
+			let idx = this.data.indexOf(nodeData)
+			this.data.splice(idx, 1)
+			delete window._bTreeView.draggedNodeKey
+			delete window._bTreeView.draggedNodeData
 		}
 	},
 	created() {

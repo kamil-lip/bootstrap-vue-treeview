@@ -1,4 +1,4 @@
-<template> 
+<template>
 	<div class="tree-branch" :class="{ selected: selected }">
 		<div class="tree-node" :class="{ 'has-child-nodes': hasChildren, 'tree-node-expanded': expanded }" @drop.prevent="drop" @dragover.prevent="dragover" :draggable="draggable" @dragstart.stop="dragstart" @dragend="dragend">
 			<transition name="rotateArrow">
@@ -18,7 +18,8 @@
 				@nodeSelected="childNodeSelected"
 				@nodeDeselected="childNodeDeselected"
 				@nodeDragged="childNodeDragged"
-				@deleteMe="deleteChildNode">	
+				@nodeDropped="childNodeDropped"
+				@nodeMoved="childNodeMoved">
 			</tree-node>
 		</div>
 	</div>
@@ -55,8 +56,10 @@ export default {
 		selected() {
 			this.$emit(this.selected ? 'nodeSelected' : 'nodeDeselected', this)
 		},
-		'data.children': function() {
-			this.expanded = this.data.children === undefined || this.data.children.length === 0 ? false : true
+		"data.children"(children) {
+			if(children.length === 0 && this.expanded) {
+				this.expanded = false
+			}
 		}
 	},
 	computed: {
@@ -91,20 +94,41 @@ export default {
 			// forward event to the parent node
 			this.$emit('nodeDragged', draggedNode)
 		},
+		childNodeDropped(targetNode) {
+			// forward event to the parent node
+			this.$emit('nodeDropped', targetNode)
+		},
 		getChildNodes() {
 			return this.$refs.childNodes || [];
 		},
+		childNodeMoved(childNodeData) {
+			let idx = this.data.children.indexOf(childNodeData)
+			this.data.children.splice(idx, 1)
+			delete window._bTreeView.draggedNodeKey
+			delete window._bTreeView.draggedNodeData
+		},
 		dragstart(ev) {
-			ev.dataTransfer.dropEffect = "none";
+			ev.dataTransfer.dropEffect = "none"
 			this.$emit('nodeDragged', this)
-			ev.dataTransfer.setData('Text', this.data.name);
-			let data = JSON.stringify(this.data)
-			ev.dataTransfer.setData('btreenodedata/json', data)
+			// didn't use dataTransfer it's not fully supported by ie
+			// and beacuse it's not available in the dragover event handler
+			if(window._bTreeView === undefined) {
+				window._bTreeView = {}	
+			}
+			_bTreeView['draggedNodeData'] = this.data
+			_bTreeView['draggedNodeKey'] = this.data[this.keyPropName]
 		},
 		drop(ev) {
-			let data = JSON.parse(ev.dataTransfer.getData("btreenodedata/json"))
-			if(this.data.children === undefined) {
-				Vue.set(this.data, 'children', [])
+			if(window._bTreeView !== undefined
+				&& window._bTreeView.draggedNodeData !== undefined) {
+				if(this.data.children === undefined) {
+					Vue.set(this.data, "children", [])
+				}
+				this.data.children.push(window._bTreeView.draggedNodeData)
+				if(!this.expanded) {
+					this.expanded = true
+				}
+				this.$emit('nodeDropped', this)
 			}
 			let dataKey = data[this.keyPropName]
 			if(this.data.children.findIndex(c => c[this.keyPropName] === dataKey) > -1) {
@@ -117,21 +141,36 @@ export default {
 			ev.dataTransfer.dropEffect = "move"
 		},
 		dragend(ev) {
-			console.log(ev.dataTransfer.dropEffect)
 			if(ev.dataTransfer.dropEffect === 'move') {
-				this.$emit('deleteMe', this)
+				this.$emit('nodeMoved', this.data)
 			}
 		},
-		appendChild(node) {
-			if(this === node || this.data.children === undefined || this.data.children.indexOf(node.data) >= 0) return
-			if(typeof this.data.children === 'undefined') {
-				Vue.set(this.data, 'children', [])
-			}
-			this.data.children.push(node.data)
+		dragenter(ev) {
+			this.dropEffect = ev.dataTransfer.dropEffect = window._bTreeView !== undefined
+				&& window._bTreeView.draggedNodeKey !== undefined
+				&& this.data[this.keyPropName] !== window._bTreeView.draggedNodeKey
+				&& (this.data.children === undefined
+					|| this.data.children.indexOf(window._bTreeView.draggedNodeData) < 0)
+				&& !this.isDescendantOf(window._bTreeView.draggedNodeData)
+				? "move" : "none"
 		},
-		deleteChildNode(node) {
-			let index = this.data.children.indexOf(node.data);
-			this.data.children.splice(index, 1);
+		dragover(ev) {
+			ev.dataTransfer.dropEffect = this.dropEffect || "none"
+		},
+		isDescendantOf(nodeData) {
+			if(nodeData.children === undefined) return false;
+			let nodes = [nodeData]
+			for(let i=0; i<nodes.length; i++) {
+				let tmpNode = nodes[i]
+				if(tmpNode.children !== undefined) {
+					for(let child of tmpNode.children) {
+						if(child === this.data) {
+							return true
+						}
+					}
+					nodes.push(...tmpNode.children)
+				}
+			}
 		}
 	}
 }
