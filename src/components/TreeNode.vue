@@ -1,6 +1,13 @@
 <template>
 	<div class="tree-branch" :class="{ selected: selected }">
-		<div class="tree-node" :class="{ 'has-child-nodes': hasChildren, 'tree-node-expanded': expanded }" @drop.prevent="drop" @dragover.prevent="dragover" :draggable="draggable" @dragstart.stop="dragstart" @dragend="dragend">
+		<div class="tree-node"
+			:class="{ 'has-child-nodes': hasChildren, 'tree-node-expanded': expanded }"
+			@drop.prevent="drop"
+			@dragover.prevent="dragover"
+			:draggable="draggable"
+			@dragstart.stop="dragstart"
+			@dragend="dragend"
+			@dragenter="dragenter">
 			<transition name="rotateArrow">
 				<svg width="12" height="12" @click.prevent="toggle" class="tree-node-icon">
 					<path
