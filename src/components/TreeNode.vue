@@ -154,8 +154,11 @@ export default {
 }
 
 .tree-node-icon {
-	cursor: pointer;
 	transition: transform 0.3s;
+}
+
+.tree-node.has-child-nodes .tree-node-icon {
+	cursor: pointer;
 }
 
 .tree-node-expanded .tree-node-icon {
