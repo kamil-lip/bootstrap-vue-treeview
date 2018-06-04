@@ -1,11 +1,10 @@
 <template> 
 	<div class="tree-branch" :class="{ selected: selected }">
-		<div class="tree-node" @drop.prevent="drop" @dragover.prevent="dragover" :draggable="draggable" @dragstart.stop="dragstart" @dragend="dragend">
+		<div class="tree-node" :class="{ 'has-child-nodes': hasChildren, 'tree-node-expanded': expanded }" @drop.prevent="drop" @dragover.prevent="dragover" :draggable="draggable" @dragstart.stop="dragstart" @dragend="dragend">
 			<transition name="rotateArrow">
-				<svg width="12" height="12" @click.prevent="toggle" class="tree-node-icon" :class="{ 'tree-node-expanded': expanded }">
+				<svg width="12" height="12" @click.prevent="toggle" class="tree-node-icon">
 					<path
-					d="M2 1 L10 6 L2 11 Z"
-					style="opacity:1;fill:currentColor;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+					d="M2 1 L10 6 L2 11 Z" />
 				</svg>
 			</transition>
 			<span class="tree-node-label" @click="toggleSelection">{{ data.name }}</span>
@@ -60,6 +59,11 @@ export default {
 			this.expanded = this.data.children === undefined || this.data.children.length === 0 ? false : true
 		}
 	},
+	computed: {
+		hasChildren() {
+			return this.data.children !== undefined && this.data.children.length > 0
+		}
+	},
 	methods: {
 		toggle() {
 			if(this.data.children && Array.isArray(this.data.children) && this.data.children.length > 0) {
@@ -102,12 +106,18 @@ export default {
 			if(this.data.children === undefined) {
 				Vue.set(this.data, 'children', [])
 			}
-			this.data.children.push(data)
+			let dataKey = data[this.keyPropName]
+			if(this.data.children.findIndex(c => c[this.keyPropName] === dataKey) > -1) {
+				ev.dataTransfer.dropEffect = "none"
+			} else {
+				this.data.children.push(data)
+			}
 		},
 		dragover(ev) {
 			ev.dataTransfer.dropEffect = "move"
 		},
 		dragend(ev) {
+			console.log(ev.dataTransfer.dropEffect)
 			if(ev.dataTransfer.dropEffect === 'move') {
 				this.$emit('deleteMe', this)
 			}
@@ -148,7 +158,7 @@ export default {
 	transition: transform 0.3s;
 }
 
-.tree-node-icon.tree-node-expanded {
+.tree-node-expanded .tree-node-icon {
 	transform: rotate(90deg);
 	transition: transform 0.3s;
 }
@@ -166,6 +176,26 @@ export default {
 	display: inline-block;
 	-ms-user-select: none;
 	user-select: none;
+}
+
+.tree-node svg > path {
+	fill: none;
+	opacity:1;
+	stroke:currentColor;
+	stroke-width: 1.5;
+	stroke-linecap:round;
+	stroke-linejoin:round;
+	stroke-miterlimit:4;
+	stroke-dasharray:none;
+	stroke-opacity:1
+}
+
+.tree-node.has-child-nodes > svg > path {
+	fill: currentColor;
+}
+
+.tree-node.tree-node-expanded > svg > path {
+	fill: none;
 }
 
 </style>
