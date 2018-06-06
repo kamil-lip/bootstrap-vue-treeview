@@ -29,7 +29,7 @@
 				@nodeMoved="childNodeMoved">
 			</tree-node>
 		</div>
-		<div class="drop-after-dropzone">
+		<div class="drop-after-dropzone" v-if="draggedNode">
 
 		</div>
 	</div>
@@ -38,7 +38,7 @@
 
 <script>
 
-// import TreeNode from './TreeNode.vue'
+import EventBus from '../EventBus'
 
 export default {
 	name: 'tree-node',
@@ -59,7 +59,8 @@ export default {
 	data() {
 		return {
 			expanded: false,
-			selected: false
+			selected: false,
+			draggedNode: null
 		}
 	},
 	watch: {
@@ -120,6 +121,7 @@ export default {
 		dragstart(ev) {
 			ev.dataTransfer.dropEffect = "none"
 			this.$emit('nodeDragged', this)
+			EventBus.$emit('nodeDragged', this)
 			// didn't use dataTransfer it's not fully supported by ie
 			// and beacuse it's not available in the dragover event handler
 			if(window._bTreeView === undefined) {
@@ -154,6 +156,7 @@ export default {
 			if(ev.dataTransfer.dropEffect === 'move') {
 				this.$emit('nodeMoved', this.data)
 			}
+			EventBus.$emit('nodeDragEnd')
 		},
 		dragenter(ev) {
 			this.dropEffect = ev.dataTransfer.dropEffect = window._bTreeView !== undefined
@@ -181,7 +184,17 @@ export default {
 					nodes.push(...tmpNode.children)
 				}
 			}
+		},
+		nodeDragged(draggedNode) {
+			this.draggedNode = draggedNode
+		},
+		nodeDragEnd() {
+			this.draggedNode = null
 		}
+	},
+	created() {
+		EventBus.$on('nodeDragged', this.nodeDragged);
+		EventBus.$on('nodeDragEnd', this.nodeDragEnd);
 	}
 }
 
@@ -261,7 +274,6 @@ export default {
 	width: 100%;
 	background-color: yellow;
 	border: 1px dashed #D2D2D2;
-	display: none;
 }
 
 </style>
