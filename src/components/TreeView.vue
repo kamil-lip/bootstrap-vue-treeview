@@ -9,7 +9,8 @@
 		ref="rootNodes"
 		@nodeSelected="nodeSelected"
 		@nodeDeselected="nodeDeselected"
-		@nodeMoved="nodeMoved">
+		@nodeMoved="nodeMoved"
+		@dropAfter="dropAfter">
 	</tree-node>
 </div>
 
@@ -77,7 +78,11 @@ export default {
 			this.data.splice(idx, 1)
 			delete window._bTreeView.draggedNodeKey
 			delete window._bTreeView.draggedNodeData
-		}
+		},
+	    dropAfter(afterData) {
+	    	let dropIdx = this.data.indexOf(afterData) + 1
+	    	this.data.splice(dropIdx, 0, window._bTreeView.draggedNodeData)
+	    }
 	},
 	created() {
 		this.selectedNode = null
