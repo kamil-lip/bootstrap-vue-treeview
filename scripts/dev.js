@@ -49,13 +49,28 @@ async function watch() {
 
   const watcher = rollup.watch(watchOptions);
 
+  watcher.on('event', event => {
+    switch(event.code) {
+      case 'FATAL':
+        console.error(event.error)
+        watcher.close();
+        process.exit(1);
+        break;
+      case 'ERROR':
+        console.error(event.error)
+        break;
+      case 'BUNDLE_END':
+        console.log('Finished building')
+        break;
+    }
+  });
 }
 
 async function main() {
   try {
     runDevServer();
     await watch();
-    console.log(`Started watching for file changes. Dev server started at ${host}:${port}`)
+    console.log(`Started watching for file changes. Dev server started at http://${host}:${port}`)
   } catch(e) {
     console.error(e);
     process.exit(1);
