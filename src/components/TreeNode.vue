@@ -71,7 +71,8 @@ export default {
       selected: false,
       draggedNode: null,
       dzActive: false,
-      dzAfterActive: false
+      dzAfterActive: false,
+      enterLeaveCounter: 0
     }
   },
   watch: {
@@ -160,7 +161,7 @@ export default {
       delete window._bTreeView.draggedNodeData
     },
     dragEnter(ev) {
-    	console.log('dragenter')
+      this.enterLeaveCounter++;
       this.dropEffect = ev.dataTransfer.dropEffect = window._bTreeView !== undefined
       && window._bTreeView.draggedNodeKey !== undefined
       && this.data[this.keyPropName] !== window._bTreeView.draggedNodeKey
@@ -168,16 +169,15 @@ export default {
       || this.data.children.indexOf(window._bTreeView.draggedNodeData) < 0)
       && !this.isDescendantOf(window._bTreeView.draggedNodeData)
         ? 'move' : 'none'
-        console.log(this.dropEffect)
-      if (this.dropEffect === 'move') {
-      	console.log('active')
+      if (this.dropEffect === 'move' && this.enterLeaveCounter === 1) {
       	this.dzActive = true
-      } else {
-      	console.log('not active')
       }
     },
     dragLeave() {
-    	this.dzActive = false
+      this.enterLeaveCounter--;
+      if(this.enterLeaveCounter !== 1) {
+        this.dzActive = false
+      }
     },
     dragend(ev) {
       EventBus.$emit('draggingEnded')
@@ -206,6 +206,7 @@ export default {
     },
     draggingStarted(draggedNode) {
       this.draggedNode = draggedNode
+      this.enterLeaveCounter = 0;
       // let's listen for the drag end event
       EventBus.$on('draggingEnded', this.draggingEnded)
     },
@@ -302,12 +303,15 @@ export default {
 }
 
 .drop-after-dropzone {
-  height: 6px;
+  height: 4px;
   width: 100%;
   z-index: 1;
 }
 
 .drop-after-dropzone.drop-active {
+  position: static;
+  top: 0;
   border: 1px dashed #D2D2D2;
+  height: 24px;
 }
 </style>
