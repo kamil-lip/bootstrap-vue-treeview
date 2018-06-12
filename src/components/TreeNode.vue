@@ -23,6 +23,14 @@
   </div>
   <div class="tree-node-children"
        v-show="expanded && data.children && Array.isArray(data.children)">
+    <div class="before-after-dropzone"
+         :class="{ 'drop-active': dzPrependActive }"
+         v-if="draggedNode"
+         @drop.prevent="prependDrop"
+         @dragover.prevent="dragoverBeforeAfter"
+         @dragenter.prevent.stop="dzPrependActive = true"
+         @dragleave.prevent.stop="dzPrependActive = false">
+    </div>
     <tree-node v-for="nodeData in data.children"
                :data="nodeData"
                :key="nodeData[keyPropName]"
@@ -31,14 +39,14 @@
                @nodeSelected="childNodeSelected"
                @nodeDeselected="childNodeDeselected"
                @draggingStarted="listenForDropOKEvent"
-               @dropAfter="dropAfterChild">
+               @insertAfter="insertChildAfter">
     </tree-node>
   </div>
-  <div class="drop-after-dropzone"
+  <div class="before-after-dropzone"
        :class="{ 'drop-active': dzAfterActive }"
        v-if="draggedNode"
        @drop.prevent="dropAfter"
-       @dragover.prevent="dragoverAfter"
+       @dragover.prevent="dragoverBeforeAfter"
        @dragenter.prevent.stop="dzAfterActive = true"
        @dragleave.prevent.stop="dzAfterActive = false">
   </div>
@@ -71,6 +79,8 @@ export default {
       selected: false,
       draggedNode: null,
       dzActive: false,
+      dzAfterBefore: false,
+      dzPrependActive: false,
       dzAfterActive: false,
       enterLeaveCounter: 0
     }
@@ -146,12 +156,12 @@ export default {
         }
         // let's listen for the cutOK event, which means data has been successfully cut,
         // so we can paste it (append data to the 'children' array)
-        EventBus.$on('cutOK', this.appendNodeData)
+        EventBus.$on('cutOK', this.appendChild)
         EventBus.$emit('dropOK')
         this.dzActive = false;
       }
     },
-    appendNodeData() {
+    appendChild() {
       EventBus.$off('cutOK')
       this.data.children.push(window._bTreeView.draggedNodeData)
       if (!this.expanded) {
@@ -215,15 +225,40 @@ export default {
       EventBus.$off('draggingEnded', this.draggingEnded)
       this.draggedNode = null
     },
-    dropAfter() {
-      this.$emit('dropAfter', this.data)
+    prependDrop() {
+      if (window._bTreeView !== undefined
+        && window._bTreeView.draggedNodeData !== undefined) {
+        EventBus.$on('cutOK', this.prependNode)
+        EventBus.$emit('dropOK')
+      }
+      this.dzAfterActive = false
     },
-    dragoverAfter(ev) {
+    prependNode() {
+      EventBus.$on('cutOK', this.prependNode)
+      this.data.children.splice(0, 0, window._bTreeView.draggedNodeData)
+      delete window._bTreeView.draggedNodeKey
+      delete window._bTreeView.draggedNodeData
+    },
+    dropAfter() {
+      if (window._bTreeView !== undefined
+        && window._bTreeView.draggedNodeData !== undefined) {
+        EventBus.$on('cutOK', this.paste)
+        EventBus.$emit('dropOK')
+      }
+      this.dzAfterActive = false
+    },
+    paste() {
+      EventBus.$off('cutOK', this.paste)
+      this.$emit('insertAfter', this.data)
+    },
+    dragoverBeforeAfter(ev) {
       ev.dataTransfer.dropEffect = 'move'
     },
-    dropAfterChild(afterData) {
+    insertChildAfter(afterData) {
       let dropIdx = this.data.children.indexOf(afterData) + 1
       this.data.children.splice(dropIdx, 0, window._bTreeView.draggedNodeData)
+      delete window._bTreeView.draggedNodeKey
+      delete window._bTreeView.draggedNodeData
     }
   },
   created() {
@@ -302,13 +337,13 @@ export default {
   fill: none;
 }
 
-.drop-after-dropzone {
+.before-after-dropzone {
   height: 4px;
   width: 100%;
   z-index: 1;
 }
 
-.drop-after-dropzone.drop-active {
+.before-after-dropzone.drop-active {
   position: static;
   top: 0;
   border: 1px dashed #D2D2D2;
