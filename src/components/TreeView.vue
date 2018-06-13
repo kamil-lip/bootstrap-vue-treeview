@@ -6,8 +6,10 @@
   </drop-between-zone>
   <template v-for="(nodeData, index) in data">
     <tree-node
+             :key="nodeData[nodeKeyProp]"
+             :keyProp="nodeKeyProp"
+             :childrenProp="nodeChildrenProp"
              :data="nodeData"
-             :key="nodeData[keyPropName]"
              :draggable="nodesDraggable"
              ref="rootNodes"
              @nodeSelected="nodeSelected"
@@ -38,9 +40,13 @@ export default {
       type: Boolean,
       default: false
     },
-    keyPropName: {
+    nodeKeyProp: {
       type: String,
       default: 'id'
+    },
+    nodeChildrenProp: {
+      type: String,
+      default: 'children'
     },
     nodesDraggable: {
       type: Boolean,
@@ -69,7 +75,7 @@ export default {
         }
 
         for (let tmpNode of nodes) {
-          nodeMap.set(tmpNode.data[this.keyPropName], tmpNode) // TODO: change to getter
+          nodeMap.set(tmpNode.data[this.nodeKeyProp], tmpNode) // TODO: change to getter
         }
       }
     },
