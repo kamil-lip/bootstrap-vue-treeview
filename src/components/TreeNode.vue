@@ -9,7 +9,8 @@
        @dragstart.stop="dragstart"
        @dragend="dragend"
        @dragenter.prevent.stop="dragEnter"
-       @dragleave.prevent.stop="dragLeave">
+       @dragleave.prevent.stop="dragLeave"
+       @contextmenu.prevent="contextMenu">
     <transition name="rotateArrow">
       <svg width="12"
            height="12"
@@ -33,7 +34,8 @@
        :draggable="draggable"
        @nodeSelected="childNodeSelected"
        @nodeDeselected="childNodeDeselected"
-       @nodeDragStart="nodeDragStart">
+       @nodeDragStart="nodeDragStart"
+       @deleteNode="deleteChildNode">
     </tree-node>
     <drop-between-zone
       @nodeDrop="dropNodeAtPosition(index + 1)">
@@ -227,10 +229,24 @@ export default {
         EventBus.$off('cutOK')
       })
       EventBus.$emit('dropOK')
+    },
+    contextMenu() {
+      this.select()
+      EventBus.$emit('openNodeContextMenu', this.data[this.keyProp])
+    },
+    delete(key) {
+      if(key !== this.data[this.keyProp]) return
+      this.$emit('deleteNode', this.data)
+    },
+    deleteChildNode(childNodeData) {
+      let children = this.data[this.childrenProp]
+      let idx = children.indexOf(childNodeData)
+      children.splice(idx, 1)
     }
   },
   created() {
     EventBus.$on('nodeDragStart', this.draggingStarted)
+    EventBus.$on('deleteNode', this.delete)
     this.$watch(`data.${this.childrenProp}`, function (children) {
       if (children.length === 0 && this.expanded) {
         this.expanded = false

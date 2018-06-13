@@ -1,6 +1,9 @@
 <template>
 
 <div class="tree-view">
+
+  <context-menu v-if="contextMenu !== false"></context-menu>
+
   <drop-between-zone
     @nodeDrop="dropNodeAtPosition(0)">
   </drop-between-zone>
@@ -14,12 +17,14 @@
              ref="rootNodes"
              @nodeSelected="nodeSelected"
              @nodeDeselected="nodeDeselected"
-             @nodeDragStart="nodeDragStart">
+             @nodeDragStart="nodeDragStart"
+             @deleteNode="deleteNode">
     </tree-node>
     <drop-between-zone
       @nodeDrop="dropNodeAtPosition(index + 1)">
     </drop-between-zone>
   </template>
+
 </div>
 
 </template>
@@ -29,6 +34,7 @@
 import TreeNode from './TreeNode.vue';
 import EventBus from '../EventBus.js';
 import DropBetweenZone from './DropBetweenZone.vue'
+import ContextMenu from './ContextMenu.vue'
 
 export default {
   props: {
@@ -51,6 +57,9 @@ export default {
     nodesDraggable: {
       type: Boolean,
       default: false
+    },
+    contextMenu: {
+      default: true
     }
   },
   data() {
@@ -60,7 +69,8 @@ export default {
   },
   components: {
     TreeNode,
-    DropBetweenZone
+    DropBetweenZone,
+    ContextMenu
   },
   methods: {
     createNodeMap() {
@@ -125,6 +135,11 @@ export default {
         EventBus.$off('cutOK');
       })
       EventBus.$emit('dropOK')
+    },
+    deleteNode(nodeData) {
+      let nodes = this.data
+      let idx = nodes.indexOf(nodeData)
+      nodes.splice(idx, 1)
     }
   },
   created() {
