@@ -141,26 +141,11 @@ export default {
       _bTreeView.draggedNodeKey = this.data[this.keyProp]
     },
     drop(ev) {
-      if (window._bTreeView !== undefined
-        && window._bTreeView.draggedNodeData !== undefined) {
-        if (this.data[this.childrenProp] === undefined) {
-          Vue.set(this.data, 'children', [])
-        }
-        // let's listen for the cutOK event, which means data has been successfully cut,
-        // so we can paste it (append data to the 'children' array)
-        EventBus.$on('cutOK', this.appendChild)
-        EventBus.$emit('dropOK')
-        this.nodeDragOver = false
+      if(this.data[this.childrenProp] === undefined) {
+        Vue.set(this.data, this.childrenProp, [])
       }
-    },
-    appendChild() {
-      EventBus.$off('cutOK')
-      this.data[this.childrenProp].push(window._bTreeView.draggedNodeData)
-      if (!this.expanded) {
-        this.expanded = true
-      }
-      delete window._bTreeView.draggedNodeKey
-      delete window._bTreeView.draggedNodeData
+      this.dropNodeAtPosition(this.data[this.childrenProp].length)
+      this.nodeDragOver = false
     },
     dragEnter(ev) {
       this.enterLeaveCounter++
