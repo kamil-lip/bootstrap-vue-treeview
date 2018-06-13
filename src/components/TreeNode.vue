@@ -2,7 +2,7 @@
 <div class="tree-branch"
      :class="{ selected: selected }">
   <div class="tree-node"
-       :class="{ 'has-child-nodes': hasChildren, 'tree-node-expanded': expanded, 'drop-active': dzActive }"
+       :class="{ 'has-child-nodes': hasChildren, 'tree-node-expanded': expanded, 'drop-active': nodeDragOver }"
        @drop.prevent="drop"
        @dragover.prevent="dragover"
        :draggable="draggable"
@@ -23,32 +23,22 @@
   </div>
   <div class="tree-node-children"
        v-show="expanded && data.children && Array.isArray(data.children)">
-    <div class="before-after-dropzone"
-         :class="{ 'drop-active': dzPrependActive }"
-         v-if="draggedNode"
-         @drop.prevent="prependDrop"
-         @dragover.prevent="dragoverBeforeAfter"
-         @dragenter.prevent.stop="dzPrependActive = true"
-         @dragleave.prevent.stop="dzPrependActive = false">
-    </div>
-    <tree-node v-for="nodeData in data.children"
-               :data="nodeData"
-               :key="nodeData[keyPropName]"
-               ref="childNodes"
-               :draggable="draggable"
-               @nodeSelected="childNodeSelected"
-               @nodeDeselected="childNodeDeselected"
-               @draggingStarted="listenForDropOKEvent"
-               @insertAfter="insertChildAfter">
+    <drop-between-zone @nodeDrop="dropNodeAtPosition(0)">
+    </drop-between-zone>
+  <template v-for="(nodeData, index) in data.children">
+    <tree-node
+       :data="nodeData"
+       :key="nodeData[keyPropName]"
+       ref="childNodes"
+       :draggable="draggable"
+       @nodeSelected="childNodeSelected"
+       @nodeDeselected="childNodeDeselected"
+       @nodeDragStart="nodeDragStart">
     </tree-node>
-  </div>
-  <div class="before-after-dropzone"
-       :class="{ 'drop-active': dzAfterActive }"
-       v-if="draggedNode"
-       @drop.prevent="dropAfter"
-       @dragover.prevent="dragoverBeforeAfter"
-       @dragenter.prevent.stop="dzAfterActive = true"
-       @dragleave.prevent.stop="dzAfterActive = false">
+    <drop-between-zone
+      @nodeDrop="dropNodeAtPosition(index + 1)">
+    </drop-between-zone>
+  </template>
   </div>
 </div>
 
@@ -56,9 +46,13 @@
 
 <script>
 import EventBus from '../EventBus';
+import DropBetweenZone from './DropBetweenZone.vue';
 
 export default {
   name: 'tree-node',
+  components: {
+    DropBetweenZone
+  },
   props: {
     data: {
       type: Object,
@@ -77,12 +71,9 @@ export default {
     return {
       expanded: false,
       selected: false,
-      draggedNode: null,
-      dzActive: false,
-      dzAfterBefore: false,
-      dzPrependActive: false,
-      dzAfterActive: false,
-      enterLeaveCounter: 0
+      nodeDragOver: false,
+      enterLeaveCounter: 0,
+      draggedNode: null
     }
   },
   watch: {
@@ -123,10 +114,10 @@ export default {
       // forward event to the parent node
       this.$emit('nodeDeselected', deselectedNode)
     },
-    listenForDropOKEvent() {
-      EventBus.$on('dropOK', this.cutNodeData)
+    nodeDragStart() {
+      EventBus.$on('dropOK', this.cutNode)
     },
-    cutNodeData() {
+    cutNode() {
       EventBus.$off('dropOK')
       let idx = this.data.children.indexOf(window._bTreeView.draggedNodeData)
       this.data.children.splice(idx, 1)
@@ -138,8 +129,8 @@ export default {
     },
     dragstart(ev) {
       ev.dataTransfer.dropEffect = 'none'
-      this.$emit('draggingStarted', this)
-      EventBus.$emit('draggingStarted', this)
+      this.$emit('nodeDragStart')
+      EventBus.$emit('nodeDragStart', this)
       // didn't use dataTransfer it's not fully supported by ie
       // and beacuse it's not available in the dragover event handler
       if (window._bTreeView === undefined) {
@@ -158,7 +149,7 @@ export default {
         // so we can paste it (append data to the 'children' array)
         EventBus.$on('cutOK', this.appendChild)
         EventBus.$emit('dropOK')
-        this.dzActive = false;
+        this.nodeDragOver = false
       }
     },
     appendChild() {
@@ -171,7 +162,7 @@ export default {
       delete window._bTreeView.draggedNodeData
     },
     dragEnter(ev) {
-      this.enterLeaveCounter++;
+      this.enterLeaveCounter++
       this.dropEffect = ev.dataTransfer.dropEffect = window._bTreeView !== undefined
       && window._bTreeView.draggedNodeKey !== undefined
       && this.data[this.keyPropName] !== window._bTreeView.draggedNodeKey
@@ -180,17 +171,17 @@ export default {
       && !this.isDescendantOf(window._bTreeView.draggedNodeData)
         ? 'move' : 'none'
       if (this.dropEffect === 'move' && this.enterLeaveCounter === 1) {
-      	this.dzActive = true
+        this.nodeDragOver = true
       }
     },
     dragLeave() {
-      this.enterLeaveCounter--;
-      if(this.enterLeaveCounter !== 1) {
-        this.dzActive = false
+      this.enterLeaveCounter--
+      if (this.enterLeaveCounter !== 1) {
+        this.nodeDragOver = false
       }
     },
     dragend(ev) {
-      EventBus.$emit('draggingEnded')
+      EventBus.$emit('nodeDragEnd')
     },
     dragover(ev) {
       ev.dataTransfer.dropEffect = this.dropEffect || 'none'
@@ -216,53 +207,31 @@ export default {
     },
     draggingStarted(draggedNode) {
       this.draggedNode = draggedNode
-      this.enterLeaveCounter = 0;
+      this.enterLeaveCounter = 0
       // let's listen for the drag end event
-      EventBus.$on('draggingEnded', this.draggingEnded)
+      EventBus.$on('nodeDragEnd', this.draggingEnded)
     },
     draggingEnded() {
       // stop listening for the dragging end event
-      EventBus.$off('draggingEnded', this.draggingEnded)
+      EventBus.$off('nodeDragEnd', this.draggingEnded)
       this.draggedNode = null
     },
-    prependDrop() {
-      if (window._bTreeView !== undefined
-        && window._bTreeView.draggedNodeData !== undefined) {
-        EventBus.$on('cutOK', this.prependNode)
-        EventBus.$emit('dropOK')
-      }
-      this.dzAfterActive = false
-    },
-    prependNode() {
-      EventBus.$on('cutOK', this.prependNode)
-      this.data.children.splice(0, 0, window._bTreeView.draggedNodeData)
-      delete window._bTreeView.draggedNodeKey
-      delete window._bTreeView.draggedNodeData
-    },
-    dropAfter() {
-      if (window._bTreeView !== undefined
-        && window._bTreeView.draggedNodeData !== undefined) {
-        EventBus.$on('cutOK', this.paste)
-        EventBus.$emit('dropOK')
-      }
-      this.dzAfterActive = false
-    },
-    paste() {
-      EventBus.$off('cutOK', this.paste)
-      this.$emit('insertAfter', this.data)
-    },
-    dragoverBeforeAfter(ev) {
-      ev.dataTransfer.dropEffect = 'move'
-    },
-    insertChildAfter(afterData) {
-      let dropIdx = this.data.children.indexOf(afterData) + 1
-      this.data.children.splice(dropIdx, 0, window._bTreeView.draggedNodeData)
-      delete window._bTreeView.draggedNodeKey
-      delete window._bTreeView.draggedNodeData
+    dropNodeAtPosition(pos) {
+      // position can change if we move node within the same parent node (same level)
+      // so it's better to remember node at previous position
+      let insertAfter = pos - 1 < 0 ? null : this.data.children[pos - 1]
+      EventBus.$on('cutOK', () => {
+        let pos = this.data.children.indexOf(insertAfter) + 1
+        this.data.children.splice(pos, 0, window._bTreeView.draggedNodeData)
+        delete window._bTreeView.draggedNodeKey
+        delete window._bTreeView.draggedNodeData
+        EventBus.$off('cutOK')
+      })
+      EventBus.$emit('dropOK')
     }
   },
   created() {
-    EventBus.$on('draggingStarted', this.draggingStarted)
+    EventBus.$on('nodeDragStart', this.draggingStarted)
   }
 }
 
@@ -335,18 +304,5 @@ export default {
 
 .tree-node.tree-node-expanded>svg>path {
   fill: none;
-}
-
-.before-after-dropzone {
-  height: 4px;
-  width: 100%;
-  z-index: 1;
-}
-
-.before-after-dropzone.drop-active {
-  position: static;
-  top: 0;
-  border: 1px dashed #D2D2D2;
-  height: 24px;
 }
 </style>
