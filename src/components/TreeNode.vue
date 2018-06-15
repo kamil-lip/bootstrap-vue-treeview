@@ -24,7 +24,7 @@
   </div>
   <div class="tree-node-children"
        v-show="expanded && data[childrenProp] && Array.isArray(data[childrenProp])">
-    <drop-between-zone @nodeDrop="dropNodeAtPosition(0)">
+    <drop-between-zone @nodeDrop="dropNodeAtPosition(0)" v-if="!dropDisabled">
     </drop-between-zone>
   <template v-for="(nodeData, index) in data[childrenProp]">
     <tree-node
@@ -38,7 +38,8 @@
        @deleteNode="deleteChildNode">
     </tree-node>
     <drop-between-zone
-      @nodeDrop="dropNodeAtPosition(index + 1)">
+      @nodeDrop="dropNodeAtPosition(index + 1)"
+      v-if="!dropDisabled && draggedNode && draggedNode.data !== nodeData">
     </drop-between-zone>
   </template>
   </div>
@@ -79,12 +80,16 @@ export default {
       selected: false,
       nodeDragOver: false,
       enterLeaveCounter: 0,
-      draggedNode: null
+      draggedNode: null,
+      dropDisabled: false
     }
   },
   watch: {
     selected() {
       this.$emit(this.selected ? 'nodeSelected' : 'nodeDeselected', this)
+    },
+    dropDisabled(disabled) {
+      this.$emit(disabled ? 'dropDisabled' : 'dropEnabled')
     }
   },
   computed: {
@@ -129,6 +134,7 @@ export default {
       return this.$refs.childNodes || []
     },
     dragstart(ev) {
+      this.dropDisabled = true
       ev.dataTransfer.dropEffect = 'none'
       this.$emit('nodeDragStart')
       EventBus.$emit('nodeDragStart', this)
@@ -144,13 +150,14 @@ export default {
       if(this.data[this.childrenProp] === undefined) {
         Vue.set(this.data, this.childrenProp, [])
       }
+      // append node
       this.dropNodeAtPosition(this.data[this.childrenProp].length)
       this.nodeDragOver = false
     },
     dragEnter(ev) {
       this.enterLeaveCounter++
-      this.dropEffect = ev.dataTransfer.dropEffect = window._bTreeView !== undefined
-      && window._bTreeView.draggedNodeKey !== undefined
+      this.dropEffect = ev.dataTransfer.dropEffect = !this.dropDisabled
+      && window._bTreeView !== undefined && window._bTreeView.draggedNodeKey !== undefined
       && this.data[this.keyProp] !== window._bTreeView.draggedNodeKey
       && (this.data[this.childrenProp] === undefined
       || this.data[this.childrenProp].indexOf(window._bTreeView.draggedNodeData) < 0)
@@ -167,6 +174,9 @@ export default {
       }
     },
     dragend(ev) {
+      EventBus.$off('dropOK')
+      EventBus.$off('cutOK')
+      this.dropDisabled = false
       EventBus.$emit('nodeDragEnd')
     },
     dragover(ev) {
@@ -237,6 +247,14 @@ export default {
         this.expanded = false
       }
     })
+    if(this.$parent) {
+      this.$parent.$on('dropDisabled', () => {
+        this.dropDisabled = true
+      })
+      this.$parent.$on('dropEnabled', () => {
+        this.dropDisabled = false
+      })
+    }
   }
 }
 
