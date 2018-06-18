@@ -25,7 +25,7 @@
   <div class="tree-node-children"
        v-show="expanded && data[childrenProp] && Array.isArray(data[childrenProp])">
     <drop-between-zone @nodeDrop="dropNodeAtPosition(0)"
-        v-if="!dropDisabled && draggedNode !== null && draggedNode.data !== data[childrenProp][0]">
+        v-if="!dropDisabled && draggedNode !== null && data[childrenProp] && draggedNode.data !== data[childrenProp][0]">
     </drop-between-zone>
   <template v-for="(nodeData, index) in data[childrenProp]">
     <tree-node
