@@ -14,9 +14,6 @@
 import EventBus from '../EventBus';
 
 export default {
-  props: {
-
-  },
   data() {
     return {
       nodeDragOver: false,

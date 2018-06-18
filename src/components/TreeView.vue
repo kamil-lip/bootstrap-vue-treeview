@@ -2,7 +2,7 @@
 
 <div class="tree-view">
 
-  <context-menu v-if="contextMenu !== false"></context-menu>
+  <context-menu v-if="contextMenu" :contextMenuItems="contextMenuItems"></context-menu>
 
   <drop-between-zone
     @nodeDrop="dropNodeAtPosition(0)"
@@ -60,7 +60,12 @@ export default {
       default: false
     },
     contextMenu: {
+      type: Boolean,
       default: true
+    },
+    contextMenuItems: {
+      type: Array,
+      default: [ { code: 'DELETE_NODE', label: 'Delete node' } ]
     }
   },
   data() {
@@ -142,11 +147,20 @@ export default {
       let nodes = this.data
       let idx = nodes.indexOf(nodeData)
       nodes.splice(idx, 1)
+    },
+    menuItemSelected(item, node) {
+      switch(item.code) {
+        case 'DELETE_NODE':
+          node.delete()
+        default:
+          this.$emit('contextMenuItemSelect', item, node)
+      }
     }
   },
   created() {
     this.selectedNode = null
     EventBus.$on('nodeDragStart', this.draggingStarted)
+    EventBus.$on('contextMenuItemSelect', this.menuItemSelected)
     this.$nextTick(() => {
       this.createNodeMap()
     })

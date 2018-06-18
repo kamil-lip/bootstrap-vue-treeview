@@ -1,7 +1,7 @@
 <template>
 
 <context-menu id="context-menu" ref="ctxMenu">
-  <li class="ctx-item" @click="deleteNode">Delete</li>
+  <li class="ctx-item" @click.stop.prevent="menuItemSelected(item)" v-for="item in contextMenuItems">{{ item.label }}</li>
 </context-menu>
 
 </template>
@@ -14,18 +14,23 @@ export default {
   components: {
     ContextMenu
   },
+  props: {
+    contextMenuItems: {
+      type: Array
+    }
+  },
   data() {
     return {
-      activeNodeKey: null
+      activeNode: null
     }
   },
   methods: {
-    deleteNode() {
-      EventBus.$emit('deleteNode', this.activeNodeKey)
-    },
-    open(nodeKey) {
-      this.activeNodeKey = nodeKey
+    open(node) {
+      this.activeNode = node
       this.$refs.ctxMenu.open()
+    },
+    menuItemSelected(item) {
+      EventBus.$emit('contextMenuItemSelect', item, this.activeNode)
     }
   },
   created() {

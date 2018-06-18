@@ -234,21 +234,26 @@ export default {
     },
     contextMenu() {
       this.select()
-      EventBus.$emit('openNodeContextMenu', this.data[this.keyProp])
+      EventBus.$emit('openNodeContextMenu', this)
     },
-    delete(key) {
-      if(key !== this.data[this.keyProp]) return
-      this.$emit('deleteNode', this.data)
+    delete() {
+      this.$emit('deleteNode', this)
     },
     deleteChildNode(childNodeData) {
       let children = this.data[this.childrenProp]
       let idx = children.indexOf(childNodeData)
       children.splice(idx, 1)
+    },
+    appendChild(childNodeData) {
+      if(this.data[this.childrenProp] === undefined) {
+        Vue.set(this.data, this.childrenProp, [])
+      }
+      this.data[this.childrenProp].push(childNodeData)
+      this.expanded = true
     }
   },
   created() {
     EventBus.$on('nodeDragStart', this.draggingStarted)
-    EventBus.$on('deleteNode', this.delete)
     this.$watch(`data.${this.childrenProp}`, function (children) {
       if (children.length === 0 && this.expanded) {
         this.expanded = false

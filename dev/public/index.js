@@ -1,6 +1,8 @@
 // This is not the best way to go with the tree component. I recommend you to use webpack with babel as described in the README file.
 Vue.use(bootstrap4VueTreeview['default']);
 
+let count = 100;
+
 var app = new Vue({
 	template: `
 	<div class="row">
@@ -11,6 +13,9 @@ var app = new Vue({
 						:data="treeData"
 						ref="tree"
 						:nodesDraggable="true"
+						:contextMenu="true"
+						:contextMenuItems="contextMenuItems"
+						@contextMenuItemSelect="menuItemSelected"
 						@nodeSelect="nodeSelect"></b-tree-view>
 				</div>
 			</div>
@@ -52,7 +57,8 @@ var app = new Vue({
 					]
 				}
 			],
-			selectedNode: null
+			selectedNode: null,
+			contextMenuItems: [ { code: 'DELETE_NODE', label: 'Delete node' }, { code: 'ADD_CHILD_NODE', label: 'Add child' } ]
 		}
 	},
 	methods: {
@@ -62,6 +68,14 @@ var app = new Vue({
 				this.selectedNode = node.data
 			} else if(node.data === this.selectedNode) {
 				this.selectedNode = null
+			}
+		},
+		menuItemSelected(item, node) {
+			if(item.code === 'ADD_CHILD_NODE') {
+				node.appendChild({
+					id: count++,
+					name: 'My new node'
+				})
 			}
 		}
 	}
