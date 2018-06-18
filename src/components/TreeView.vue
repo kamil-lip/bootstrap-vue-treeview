@@ -5,7 +5,8 @@
   <context-menu v-if="contextMenu !== false"></context-menu>
 
   <drop-between-zone
-    @nodeDrop="dropNodeAtPosition(0)">
+    @nodeDrop="dropNodeAtPosition(0)"
+    v-if="draggedNode !== null && draggedNode.data !== data[0]">
   </drop-between-zone>
   <template v-for="(nodeData, index) in data">
     <tree-node
@@ -21,7 +22,8 @@
              @deleteNode="deleteNode">
     </tree-node>
     <drop-between-zone
-      @nodeDrop="dropNodeAtPosition(index + 1)">
+      @nodeDrop="dropNodeAtPosition(index + 1)"
+      v-if="draggedNode !== null && draggedNode.data !== nodeData && (index + 1 >= data.length || draggedNode.data !== data[index + 1])">
     </drop-between-zone>
   </template>
 
