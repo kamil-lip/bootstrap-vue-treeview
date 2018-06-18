@@ -16,7 +16,8 @@
            height="12"
            @click.prevent="toggle"
            class="tree-node-icon">
-        <path d="M2 1 L10 6 L2 11 Z" />
+        <path d="M2 1 L10 6 L2 11 Z" class="svg-icon" v-if="hasChildren" />
+        <circle cx="6" cy="6" r="4.5" class="svg-icon" v-else />
       </svg>
     </transition>
     <span class="tree-node-label"
@@ -315,7 +316,7 @@ export default {
   user-select: none;
 }
 
-.tree-node svg>path {
+.tree-node svg > .svg-icon {
   fill: none;
   opacity: 1;
   stroke: currentColor;
@@ -327,11 +328,8 @@ export default {
   stroke-opacity: 1
 }
 
-.tree-node.has-child-nodes>svg>path {
-  fill: currentColor;
-}
-
-.tree-node.tree-node-expanded>svg>path {
+.tree-node.tree-node-expanded>svg>.svg-icon {
   fill: none;
 }
+
 </style>
