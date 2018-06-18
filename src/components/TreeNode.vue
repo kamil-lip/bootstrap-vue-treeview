@@ -91,6 +91,16 @@ export default {
     },
     dropDisabled(disabled) {
       this.$emit(disabled ? 'dropDisabled' : 'dropEnabled')
+    },
+    nodeDragOver(dragover) {
+      if(dragover) {
+        // check if node has any children, if yes then expand it after 1 sec
+        if(!this.expanded && Array.isArray(this.data[this.childrenProp]) && this.data[this.childrenProp].length > 0) {
+          this.expandNodeTimeout = setTimeout(this.toggle, 1000)
+        }
+      } else if(this.expandNodeTimeout) {
+        clearTimeout(this.expandNodeTimeout)
+      }
     }
   },
   computed: {
