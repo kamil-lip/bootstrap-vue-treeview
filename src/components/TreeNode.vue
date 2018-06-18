@@ -33,8 +33,7 @@
        :key="nodeData[keyProp]"
        ref="childNodes"
        :draggable="draggable"
-       @nodeSelected="childNodeSelected"
-       @nodeDeselected="childNodeDeselected"
+       @nodeSelect="childNodeSelect"
        @nodeDragStart="nodeDragStart"
        @deleteNode="deleteChildNode">
     </tree-node>
@@ -86,8 +85,8 @@ export default {
     }
   },
   watch: {
-    selected() {
-      this.$emit(this.selected ? 'nodeSelected' : 'nodeDeselected', this)
+    selected(selected) {
+      this.$emit('nodeSelect', this, selected)
     },
     dropDisabled(disabled) {
       this.$emit(disabled ? 'dropDisabled' : 'dropEnabled')
@@ -123,13 +122,9 @@ export default {
     deselect() {
       this.selected = false
     },
-    childNodeSelected(selectedNode) {
+    childNodeSelect(node, isSelected) {
       // forward event to the parent node
-      this.$emit('nodeSelected', selectedNode)
-    },
-    childNodeDeselected(deselectedNode) {
-      // forward event to the parent node
-      this.$emit('nodeDeselected', deselectedNode)
+      this.$emit('nodeSelect', node, isSelected)
     },
     nodeDragStart() {
       EventBus.$on('dropOK', this.cutNode)

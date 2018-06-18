@@ -16,8 +16,7 @@
              :data="nodeData"
              :draggable="nodesDraggable"
              ref="rootNodes"
-             @nodeSelected="nodeSelected"
-             @nodeDeselected="nodeDeselected"
+             @nodeSelect="nodeSelect"
              @nodeDragStart="nodeDragStart"
              @deleteNode="deleteNode">
     </tree-node>
@@ -94,14 +93,15 @@ export default {
     getNodeByKey(key) {
       return this.nodeMap.get(key)
     },
-    nodeSelected(node) {
-      if (this.selectedNode !== null) {
-        this.selectedNode.deselect()
-      }
-      this.selectedNode = node
-    },
-    nodeDeselected(node) {
-      if (node === this.selectedNode) {
+    // event bubbles up to the roots
+    nodeSelect(node, isSelected) {
+      this.$emit('nodeSelect', node, isSelected)
+      if(isSelected) {
+        if(this.selectedNode !== null) {
+          this.selectedNode.deselect()
+        }
+        this.selectedNode = node
+      } else if(node === this.selectedNode) {
         this.selectedNode = null
       }
     },

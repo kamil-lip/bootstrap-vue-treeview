@@ -7,7 +7,18 @@ var app = new Vue({
 		<div class="col-md-4">
 			<div class="card">
 				<div class="card-body">
-					<b-tree-view :data="treeData" ref="tree" :nodesDraggable="true"></b-tree-view>
+					<b-tree-view
+						:data="treeData"
+						ref="tree"
+						:nodesDraggable="true"
+						@nodeSelect="nodeSelect"></b-tree-view>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-8" v-if="selectedNode">
+			<div class="card">
+				<div class="card-body">
+					Node {{ selectedNode.name }} is selected
 				</div>
 			</div>
 		</div>
@@ -40,7 +51,18 @@ var app = new Vue({
 						}
 					]
 				}
-			]
+			],
+			selectedNode: null
+		}
+	},
+	methods: {
+		nodeSelect(node, isSelected) {
+			console.log('Node ' + node.data.name + ' has been ' + (isSelected ? 'selected' : 'deselected'))
+			if(isSelected) {
+				this.selectedNode = node.data
+			} else if(node.data === this.selectedNode) {
+				this.selectedNode = null
+			}
 		}
 	}
 })
