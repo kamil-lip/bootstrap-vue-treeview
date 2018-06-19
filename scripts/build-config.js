@@ -16,8 +16,8 @@ const entryPointPath = path.resolve(basePath, 'src/index')
 const input = {
 	input: entryPointPath,
 	plugins: [
-		VuePlugin(),
-	    css(),
+		VuePlugin({ css: false }),
+	    css( { dest: 'dist/bootstrap4-vue-treeview.css' } ),
 	    resolve({ external: ['vue'] }),
 	    commonjs(),
 	    babel({
