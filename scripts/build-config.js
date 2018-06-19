@@ -28,8 +28,8 @@ const input = {
 	      runtimeHelpers: true,
 	      exclude: 'node_modules/**'
 	    })
-	]
-	// TODO: add external
+	],
+	external: Object.keys(dependencies)
 }
 
 //output options to export
