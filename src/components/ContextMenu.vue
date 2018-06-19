@@ -1,18 +1,19 @@
 <template>
 
-<context-menu id="context-menu" ref="ctxMenu">
+<vue-context-menu id="context-menu" ref="ctxMenu">
   <li class="ctx-item" @click.stop.prevent="menuItemSelected(item)" v-for="item in contextMenuItems">{{ item.label }}</li>
-</context-menu>
+</vue-context-menu>
 
 </template>
 
 <script>
+
 import EventBus from '../EventBus';
-import ContextMenu from 'vue-context-menu'
+import VueContextMenu from 'vue-context-menu'
 
 export default {
   components: {
-    ContextMenu
+    VueContextMenu
   },
   props: {
     contextMenuItems: {

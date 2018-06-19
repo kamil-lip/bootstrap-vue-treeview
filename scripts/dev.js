@@ -16,7 +16,7 @@ function runDevServer() {
     verbose: false,
 
     // Multiple folders to serve from
-    contentBase: ['dist', 'dev/public'],
+    contentBase: ['dist', 'dev/public', 'node_modules/vue-context-menu'],
 
     // Set to true to return index.html instead of 404
     historyApiFallback: false,

@@ -1,13 +1,11 @@
 const path = require('path');
 const VuePlugin = require('rollup-plugin-vue').default;
-const css = require('rollup-plugin-css-porter')
 const resolve = require('rollup-plugin-node-resolve')
 const commonjs = require('rollup-plugin-commonjs')
 const babel = require('rollup-plugin-babel')
 const { camelCase } = require('lodash')
 const { name, dependencies } = require('../package.json')
-
-
+const css = require('rollup-plugin-css-porter')
 const basePath = path.resolve(__dirname, '..');
 const distPath = path.resolve(basePath, 'dist');
 const entryPointPath = path.resolve(basePath, 'src/index')
@@ -16,8 +14,8 @@ const entryPointPath = path.resolve(basePath, 'src/index')
 const input = {
 	input: entryPointPath,
 	plugins: [
-		VuePlugin({ css: false }),
-	    css( { dest: 'dist/bootstrap4-vue-treeview.css' } ),
+		VuePlugin(),
+		css(),
 	    resolve({ external: ['vue'] }),
 	    commonjs(),
 	    babel({
