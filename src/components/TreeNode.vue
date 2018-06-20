@@ -21,7 +21,7 @@
       </svg>
     </transition>
     <span class="tree-node-label"
-          @click="toggleSelection">{{ data.name }}</span>
+          @click="toggleSelection">{{ data[labelProp] }}</span>
   </div>
   <div class="tree-node-children"
        v-show="expanded && data[childrenProp] && Array.isArray(data[childrenProp])">
@@ -65,6 +65,10 @@ export default {
     keyProp: {
       type: String,
       default: 'id'
+    },
+    labelProp: {
+      type: String,
+      default: 'name'
     },
     childrenProp: {
       type: String,

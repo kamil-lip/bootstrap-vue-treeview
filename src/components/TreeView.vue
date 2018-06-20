@@ -13,6 +13,7 @@
              :key="nodeData[nodeKeyProp]"
              :keyProp="nodeKeyProp"
              :childrenProp="nodeChildrenProp"
+             :labelProp="nodeLabelProp"
              :data="nodeData"
              :draggable="nodesDraggable"
              ref="rootNodes"
@@ -54,6 +55,10 @@ export default {
     nodeChildrenProp: {
       type: String,
       default: 'children'
+    },
+    nodeLabelProp: {
+      type: String,
+      default: 'name'
     },
     nodesDraggable: {
       type: Boolean,
