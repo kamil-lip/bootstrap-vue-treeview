@@ -127,6 +127,14 @@ export default {
     deselect() {
       this.selected = false
     },
+    expand() {
+      if (this.data[this.childrenProp] && Array.isArray(this.data[this.childrenProp]) && this.data[this.childrenProp].length > 0) {
+        this.expanded = true
+      }
+    },
+    collapse() {
+      this.expanded = false
+    },
     childNodeSelect(node, isSelected) {
       // forward event to the parent node
       this.$emit('nodeSelect', node, isSelected)
