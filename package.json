@@ -48,6 +48,7 @@
   },
   "dependencies": {
     "babel-runtime": "^6.26.0",
+    "vue": "^2.2.2",
     "vue-context-menu": "^2.0.6"
   }
 }
