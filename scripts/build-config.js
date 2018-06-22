@@ -37,21 +37,32 @@ const output = [
 		format: 'cjs',
 		name: camelCase(name),
 		file: path.resolve(distPath, name + '.common.js'),
-		sourcemap: true
+		sourcemap: true,
+		globals: {
+			"vue": "Vue",
+			"vue-context-menu": "VueContextMenu"
+		}
 	},
 	{
 		exports: 'named',
 		format: 'umd',
 		name: camelCase(name),
 		file: path.resolve(distPath, name + '.js'),
-		sourcemap: true
+		sourcemap: true,
+		globals: {
+			"vue": "Vue",
+			"vue-context-menu": "VueContextMenu"
+		}
 	},
 	{
 		exports: 'named',
 		format: 'es',
 		name: camelCase(name),
 		file: path.resolve(distPath, name + '.esm.js'),
-		sourcemap: true
+		sourcemap: true,
+		globals: {
+			"vue": "Vue"
+		}
 	}
 ]
 
