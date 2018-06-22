@@ -25,6 +25,10 @@
     "VueJS"
   ],
   "author": "Kamil Lipiński <kamil@appdiamond.pl>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kamil-lip/bootstrap-vue-treeview"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/kamil-lip/bootstrap-4-vue-treeview/issues"
