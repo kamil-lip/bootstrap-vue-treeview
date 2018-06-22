@@ -176,5 +176,8 @@ export default {
 
 <style>
 
+.tree-view {
+  text-align: left;
+}
 
 </style>
