@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kamil-lip/bootstrap-4-vue-treeview.git"
+    "url": "git+https://github.com/kamil-lip/bootstrap-vue-treeview.git"
   },
   "keywords": [
     "Bootstrap",
@@ -31,9 +31,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kamil-lip/bootstrap-4-vue-treeview/issues"
+    "url": "https://github.com/kamil-lip/bootstrap-vue-treeview/issues"
   },
-  "homepage": "https://github.com/kamil-lip/bootstrap-4-vue-treeview#readme",
+  "homepage": "https://github.com/kamil-lip/bootstrap-vue-treeview#readme",
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-plugin-external-helpers": "^6.22.0",
