@@ -31,7 +31,7 @@ Vue.use(BootstrapVueTreeview)
 
 Now you can you the treeview component in your code:
 ```html
-<b-tree-view data="treeData"></b-tree-view>
+<b-tree-view :data="treeData"></b-tree-view>
 ```
 ```javascript
 export default {
