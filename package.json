@@ -1,6 +1,6 @@
 {
   "name": "bootstrap4-vue-treeview",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A tree view component for Bootstrap 4 and Vue.js 2.x.",
   "main": "dist/treeview.js",
   "module": "dist/bootstrap4-vue-treeview.esm.js",
@@ -24,7 +24,7 @@
     "component",
     "VueJS"
   ],
-  "author": "Kamil Lipiński",
+  "author": "Kamil Lipiński <kamil@appdiamond.pl>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/kamil-lip/bootstrap-4-vue-treeview/issues"
