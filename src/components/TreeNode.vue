@@ -33,7 +33,7 @@
            v-if="renaming"
            v-focus
            v-select-text
-           @blur="cancelRenaming"
+           @blur="endRenaming"
            v-on:keyup.esc.stop="cancelRenaming"
            v-on:keyup.enter.stop="endRenaming" />
     <span v-else
@@ -123,8 +123,10 @@ export default {
         el.focus()
       }
     },
-    selectText(el) {
-      el.select()
+    selectText: {
+      inserted(el) {
+        el.select()
+      }
     }
   },
   watch: {
