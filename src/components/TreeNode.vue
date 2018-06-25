@@ -5,7 +5,7 @@
        :class="{ 'has-child-nodes': hasChildren, 'tree-node-expanded': expanded, 'drop-active': nodeDragOver }"
        @drop.prevent="drop"
        @dragover.prevent="dragover"
-       :draggable="draggable"
+       :draggable="draggable && !renaming"
        @dragstart.stop="dragstart"
        @dragend="dragend"
        @dragenter.prevent.stop="dragEnter"
@@ -16,23 +16,42 @@
            height="12"
            @click.prevent="toggle"
            class="tree-node-icon">
-        <path d="M2 1 L10 6 L2 11 Z" class="svg-icon" v-if="hasChildren" />
-        <circle cx="6" cy="6" r="4.5" class="svg-icon" v-else />
+        <path d="M2 1 L10 6 L2 11 Z"
+              class="svg-icon"
+              v-if="hasChildren" />
+        <circle cx="6"
+                cy="6"
+                r="4.5"
+                class="svg-icon"
+                v-else />
       </svg>
     </transition>
-    <span class="tree-node-label"
-          @click="toggleSelection">{{ data[labelProp] }}</span>
+    <input class="form-control form-control-sm input-rename"
+           ref="inputRename"
+           type="text"
+           v-model="renameNewLabel"
+           v-if="renaming"
+           v-focus
+           v-select-text
+           @blur="cancelRenaming"
+           v-on:keyup.esc.stop="cancelRenaming"
+           v-on:keyup.enter.stop="endRenaming" />
+    <span v-else
+          class="tree-node-label"
+          @click="toggleSelection"
+          @dblclick="if(renameOnDblClick) startRenaming()">{{ data[labelProp] }}</span>
   </div>
   <div class="tree-node-children"
        v-show="expanded && data[childrenProp] && Array.isArray(data[childrenProp])">
     <drop-between-zone @nodeDrop="dropNodeAtPosition(0)"
-        v-if="!dropDisabled && draggedNode !== null && data[childrenProp] && draggedNode.data !== data[childrenProp][0]">
+                       v-if="!dropDisabled && draggedNode !== null && data[childrenProp] && draggedNode.data !== data[childrenProp][0]">
     </drop-between-zone>
   <template v-for="(nodeData, index) in data[childrenProp]">
     <tree-node
        :data="nodeData"
        :key="nodeData[keyProp]"
        ref="childNodes"
+       :renameOnDblClick="renameOnDblClick"
        :draggable="draggable"
        @nodeSelect="childNodeSelect"
        @nodeDragStart="nodeDragStart"
@@ -45,7 +64,6 @@
   </template>
   </div>
 </div>
-
 </template>
 
 <script>
@@ -77,6 +95,10 @@ export default {
     draggable: {
       type: Boolean,
       default: false
+    },
+    renameOnDblClick: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -86,7 +108,20 @@ export default {
       nodeDragOver: false,
       enterLeaveCounter: 0,
       draggedNode: null,
-      dropDisabled: false
+      dropDisabled: false,
+      renaming: false,
+      renameNewLabel: this.data[this.labelProp]
+    }
+  },
+  directives: {
+    focus: {
+      // directive definition
+      inserted(el) {
+        el.focus()
+      }
+    },
+    selectText(el) {
+      el.select()
     }
   },
   watch: {
@@ -97,12 +132,12 @@ export default {
       this.$emit(disabled ? 'dropDisabled' : 'dropEnabled')
     },
     nodeDragOver(dragover) {
-      if(dragover) {
+      if (dragover) {
         // check if node has any children, if yes then expand it after 1 sec
-        if(!this.expanded && Array.isArray(this.data[this.childrenProp]) && this.data[this.childrenProp].length > 0) {
+        if (!this.expanded && Array.isArray(this.data[this.childrenProp]) && this.data[this.childrenProp].length > 0) {
           this.expandNodeTimeout = setTimeout(this.toggle, 1000)
         }
-      } else if(this.expandNodeTimeout) {
+      } else if (this.expandNodeTimeout) {
         clearTimeout(this.expandNodeTimeout)
       }
     }
@@ -166,7 +201,7 @@ export default {
       _bTreeView.draggedNodeKey = this.data[this.keyProp]
     },
     drop(ev) {
-      if(this.data[this.childrenProp] === undefined) {
+      if (this.data[this.childrenProp] === undefined) {
         Vue.set(this.data, this.childrenProp, [])
       }
       // append node
@@ -245,6 +280,9 @@ export default {
       EventBus.$emit('dropOK')
     },
     contextMenu() {
+      if(this.renaming) {
+        this.cancelRenaming()
+      }
       this.select()
       EventBus.$emit('openNodeContextMenu', this)
     },
@@ -257,21 +295,33 @@ export default {
       children.splice(idx, 1)
     },
     appendChild(childNodeData) {
-      if(this.data[this.childrenProp] === undefined) {
+      if (this.data[this.childrenProp] === undefined) {
         Vue.set(this.data, this.childrenProp, [])
       }
       this.data[this.childrenProp].push(childNodeData)
       this.expanded = true
+    },
+    startRenaming() {
+      this.renameNewLabel = this.data[this.labelProp]
+      this.renaming = true
+    },
+    cancelRenaming() {
+      this.renameNewLabel = this.data[this.labelProp]
+      this.renaming = false
+    },
+    endRenaming() {
+      this.data[this.labelProp] = this.renameNewLabel
+      this.renaming = false
     }
   },
   created() {
     EventBus.$on('nodeDragStart', this.draggingStarted)
-    this.$watch(`data.${this.childrenProp}`, function (children) {
+    this.$watch(`data.${this.childrenProp}`, function(children) {
       if (children.length === 0 && this.expanded) {
         this.expanded = false
       }
     })
-    if(this.$parent) {
+    if (this.$parent) {
       this.$parent.$on('dropDisabled', () => {
         this.dropDisabled = true
       })
@@ -333,7 +383,17 @@ export default {
   user-select: none;
 }
 
-.tree-node svg > .svg-icon {
+.tree-node .input-rename {
+  display: inline-block;
+  width: auto;
+  font-weight: 400;
+  line-height: 1;
+  font-size: 1rem;
+  padding: 2px 4px;
+  box-sizing: border-box;
+}
+
+.tree-node svg>.svg-icon {
   fill: none;
   opacity: 1;
   stroke: currentColor;
@@ -348,5 +408,4 @@ export default {
 .tree-node.tree-node-expanded>svg>.svg-icon {
   fill: none;
 }
-
 </style>

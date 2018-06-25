@@ -56,7 +56,8 @@ export default {
 | nodeLabelProp    | String        | Name of the property containing node label | "name" | No
 | nodesDraggable   | Boolean       | Enable/disable drag & drop feature | false | No
 | contextMenu      | Boolean       | Enable/disable context menu | true | No
-| contextMenuItems | Array of menu items         | Context menu items | [ { code: 'DELETE_NODE', label: 'Delete node' } ] | No
+| renameNodeOnDblClick | Boolean   | Enable/disable double click to rename feature | true | No
+| contextMenuItems | Array of menu items         | Context menu items | [ { code: 'DELETE_NODE', label: 'Delete node' }, { code: 'RENAME_NODE', label: 'Rename node' } ] | No
 
 #### 2. Events
 

@@ -12,6 +12,7 @@
     <tree-node
              :key="nodeData[nodeKeyProp]"
              :keyProp="nodeKeyProp"
+             :renameOnDblClick="renameNodeOnDblClick"
              :childrenProp="nodeChildrenProp"
              :labelProp="nodeLabelProp"
              :data="nodeData"
@@ -70,7 +71,11 @@ export default {
     },
     contextMenuItems: {
       type: Array,
-      default: [ { code: 'DELETE_NODE', label: 'Delete node' } ]
+      default: [ { code: 'DELETE_NODE', label: 'Delete node' }, { code: 'RENAME_NODE', label: 'Rename node' } ]
+    },
+    renameNodeOnDblClick: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -157,6 +162,8 @@ export default {
       switch(item.code) {
         case 'DELETE_NODE':
           node.delete()
+        case 'RENAME_NODE':
+          node.startRenaming()
         default:
           this.$emit('contextMenuItemSelect', item, node)
       }

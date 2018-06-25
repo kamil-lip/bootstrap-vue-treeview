@@ -15,6 +15,7 @@ var app = new Vue({
 						:nodesDraggable="true"
 						:contextMenu="true"
 						:contextMenuItems="contextMenuItems"
+						:renameNodeOnDblClick="true"
 						@contextMenuItemSelect="menuItemSelected"
 						@nodeSelect="nodeSelect"></b-tree-view>
 				</div>
@@ -58,7 +59,7 @@ var app = new Vue({
 				}
 			],
 			selectedNode: null,
-			contextMenuItems: [ { code: 'DELETE_NODE', label: 'Delete node' }, { code: 'ADD_CHILD_NODE', label: 'Add child' } ]
+			contextMenuItems: [ { code: 'DELETE_NODE', label: 'Delete node' }, { code: 'ADD_CHILD_NODE', label: 'Add child' }, { code: 'RENAME_NODE', label: 'Rename' } ]
 		}
 	},
 	methods: {
