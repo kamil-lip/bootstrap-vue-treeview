@@ -53,7 +53,7 @@ export default {
 | data             | Array         | Tree data                      | - | Yes |
 | nodeKeyProp      | String        | Name of the property containing unique node key | "id" | No |
 | nodeChildrenProp | String        | Where to look for node children | "children" | No
-| nodeLabelProp    | String        | Name of the property containing node label | "children" | No
+| nodeLabelProp    | String        | Name of the property containing node label | "name" | No
 | nodesDraggable   | Boolean       | Enable/disable drag & drop feature | false | No
 | contextMenu      | Boolean       | Enable/disable context menu | true | No
 | contextMenuItems | Array of menu items         | Context menu items | [ { code: 'DELETE_NODE', label: 'Delete node' } ] | No
@@ -62,8 +62,8 @@ export default {
 
 | Event name            | Description                                                                                                                 | Parameters                                |
 |-----------------------|-----------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
-| nodeSelect            | Triggered every time a node is selected/deselected. Check second parameter to verify if the node was selected or deselected | BTreeNode object, isSelected              |
-| contextMenuItemSelect | Triggered every time a context menu item was clicked.                                                                       | BContextMenuItem object, BTreeNode object |
+| nodeSelect            | Triggered every time a node is selected/deselected. Check second parameter to verify if the node was selected or deselected | TreeNode object, isSelected              |
+| contextMenuItemSelect | Triggered every time a context menu item was clicked.                                                                       | Context menu item object (see below), TreeNode object |
 |                       |                                                                                                                             |                                           |
 
 ### TreeNode
@@ -76,7 +76,7 @@ Props and events of the tree node component are not intended to be used directly
 | deselect    | Deselect node                 | -          |
 | expand      | Expand node (show children)   | -          |
 | collapse    | Collapse node (hide children) | -          |
-| toggle      | Expand/collapse               |            |
+| toggle      | Expand/collapse               | -          |
 
 ### Menu item
 
