@@ -3,6 +3,10 @@
 > A treeview component for [Bootstrap](https://getbootstrap.com/) and [Vue.js 2.0+](https://vuejs.org/)
 
 ![Bootstrap-Vue-Treeview Screenshot](https://raw.githubusercontent.com/kamil-lip/bootstrap-4-vue-treeview/master/screenshot.png)
+
+## Online demo
+[https://bootstrap-vue-treeview.appdiamond.pl](https://bootstrap-vue-treeview.appdiamond.pl)
+
 ## Features
 - Drag & drop nodes
 - Context menu
