@@ -54,6 +54,11 @@ export default {
 | nodeKeyProp      | String        | Name of the property containing unique node key | "id" | No |
 | nodeChildrenProp | String        | Where to look for node children | "children" | No
 | nodeLabelProp    | String        | Name of the property containing node label | "name" | No
+| showIcons        | Boolean       | Show/hide icons        | false | No
+| showIcons        | Boolean       | Show/hide icons        | false | No
+| iconClassProp    | String        | Name of the property containing icon class | "icon" | No
+| defaultIconClass | String        | Icon class to apply if node has no icon class property | null | No
+| prependIconClass | String        | Class to apply to every icon (common to all icons) | null | No
 | nodesDraggable   | Boolean       | Enable/disable drag & drop feature | false | No
 | contextMenu      | Boolean       | Enable/disable context menu | true | No
 | renameNodeOnDblClick | Boolean   | Enable/disable double click to rename feature | true | No
