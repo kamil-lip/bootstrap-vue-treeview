@@ -18,9 +18,12 @@
                     :data="nodeData"
                     :draggable="nodesDraggable"
                     :defaultIconClass="defaultIconClass"
+                    :defaultLabelClass="defaultLabelClass"
                     :iconClassProp="iconClassProp"
+                    :labelClassProp="labelClassProp"
                     :showIcon="showIcons"
                     :prependIconClass="prependIconClass"
+                    :prependLabelClass="prependLabelClass"
                     :contextMenu="contextMenu"
                     ref="rootNodes"
                     @nodeSelect="nodeSelect"
@@ -92,8 +95,18 @@
                 type: String,
                 default: null
             },
+            // class added to every label no matter what
+            prependLabelClass: {
+                type: String,
+                default: null
+            },
             // default icon if node icon is not specified
             defaultIconClass: {
+                type: String,
+                default: null
+            },
+            // default label class if node label is not specified
+            defaultLabelClass: {
                 type: String,
                 default: null
             },
@@ -101,6 +114,11 @@
             iconClassProp: {
                 type: String,
                 default: "icon"
+            },
+            // where to search for node label class
+            labelClassProp: {
+                type: String,
+                default: "labelClass"
             },
             // show icons
             showIcons: {

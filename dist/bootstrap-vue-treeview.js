@@ -1402,8 +1402,18 @@
 	            type: String,
 	            default: null
 	        },
+	        // default label class if node label class is not specified
+	        defaultLabelClass: {
+	            type: String,
+	            default: null
+	        },
 	        // where to search for node icon
 	        iconClassProp: {
+	            type: String,
+	            default: null
+	        },
+	        // where to search for node label class
+	        labelClassProp: {
 	            type: String,
 	            default: null
 	        },
@@ -1414,6 +1424,11 @@
 	        },
 	        // class added to every icon no matter what
 	        prependIconClass: {
+	            type: String,
+	            default: null
+	        },
+	        // class added to every label no matter what
+	        prependLabelClass: {
 	            type: String,
 	            default: null
 	        },
@@ -1472,6 +1487,9 @@
 	        },
 	        iconClass: function iconClass() {
 	            return this.iconClassProp && this.data[this.iconClassProp] !== undefined ? this.data[this.iconClassProp] : this.defaultIconClass;
+	        },
+	        labelClass: function labelClass() {
+	            return this.labelClassProp && this.data[this.labelClassProp] !== undefined ? this.data[this.labelClassProp] : this.defaultLabelClass;
 	        }
 	    },
 	    methods: {
@@ -1722,10 +1740,10 @@
 	        if ($event.target.composing) {
 	          return;
 	        }_vm.renameNewLabel = $event.target.value;
-	      } } }) : _c('span', [_vm._v(_vm._s(_vm.data[_vm.labelProp]))])])], 1), _vm._v(" "), _c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.expanded && _vm.data[_vm.childrenProp] && Array.isArray(_vm.data[_vm.childrenProp]), expression: "expanded && data[childrenProp] && Array.isArray(data[childrenProp])" }], staticClass: "tree-node-children" }, [!_vm.dropDisabled && _vm.draggedNode !== null && _vm.data[_vm.childrenProp] && _vm.draggedNode.data !== _vm.data[_vm.childrenProp][0] ? _c('drop-between-zone', { on: { "nodeDrop": function nodeDrop($event) {
+	      } } }) : _c('span', { class: ['node-label-text', _vm.prependLabelClass, _vm.labelClass] }, [_vm._v(_vm._s(_vm.data[_vm.labelProp]))])])], 1), _vm._v(" "), _c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.expanded && _vm.data[_vm.childrenProp] && Array.isArray(_vm.data[_vm.childrenProp]), expression: "expanded && data[childrenProp] && Array.isArray(data[childrenProp])" }], staticClass: "tree-node-children" }, [!_vm.dropDisabled && _vm.draggedNode !== null && _vm.data[_vm.childrenProp] && _vm.draggedNode.data !== _vm.data[_vm.childrenProp][0] ? _c('drop-between-zone', { on: { "nodeDrop": function nodeDrop($event) {
 	        _vm.dropNodeAtPosition(0);
 	      } } }) : _vm._e(), _vm._v(" "), _vm._l(_vm.data[_vm.childrenProp], function (nodeData, index) {
-	    return [_c('tree-node', { key: nodeData[_vm.keyProp], ref: "childNodes", refInFor: true, attrs: { "data": nodeData, "keyProp": _vm.keyProp, "labelProp": _vm.labelProp, "childrenProp": _vm.childrenProp, "renameOnDblClick": _vm.renameOnDblClick, "draggable": _vm.draggable, "defaultIconClass": _vm.defaultIconClass, "iconClassProp": _vm.iconClassProp, "showIcon": _vm.showIcon, "prependIconClass": _vm.prependIconClass, "contextMenu": _vm.contextMenu }, on: { "nodeSelect": _vm.childNodeSelect, "nodeDragStart": _vm.nodeDragStart, "deleteNode": _vm.deleteChildNode } }, [_vm.$slots['node-icon'] ? [_c('template', { slot: "node-icon" }, [_vm._t("node-icon")], 2)] : _vm._e()], 2), _vm._v(" "), !_vm.dropDisabled && _vm.draggedNode && _vm.draggedNode.data !== nodeData && (index + 1 >= _vm.data[_vm.childrenProp].length || _vm.draggedNode.data !== _vm.data[_vm.childrenProp][index + 1]) ? _c('drop-between-zone', { on: { "nodeDrop": function nodeDrop($event) {
+	    return [_c('tree-node', { key: nodeData[_vm.keyProp], ref: "childNodes", refInFor: true, attrs: { "data": nodeData, "keyProp": _vm.keyProp, "labelProp": _vm.labelProp, "childrenProp": _vm.childrenProp, "renameOnDblClick": _vm.renameOnDblClick, "draggable": _vm.draggable, "defaultIconClass": _vm.defaultIconClass, "defaultLabelClass": _vm.defaultLabelClass, "iconClassProp": _vm.iconClassProp, "labelClassProp": _vm.labelClassProp, "showIcon": _vm.showIcon, "prependIconClass": _vm.prependIconClass, "prependLabelClass": _vm.prependLabelClass, "contextMenu": _vm.contextMenu }, on: { "nodeSelect": _vm.childNodeSelect, "nodeDragStart": _vm.nodeDragStart, "deleteNode": _vm.deleteChildNode } }, [_vm.$slots['node-icon'] ? [_c('template', { slot: "node-icon" }, [_vm._t("node-icon")], 2)] : _vm._e()], 2), _vm._v(" "), !_vm.dropDisabled && _vm.draggedNode && _vm.draggedNode.data !== nodeData && (index + 1 >= _vm.data[_vm.childrenProp].length || _vm.draggedNode.data !== _vm.data[_vm.childrenProp][index + 1]) ? _c('drop-between-zone', { on: { "nodeDrop": function nodeDrop($event) {
 	          _vm.dropNodeAtPosition(index + 1);
 	        } } }) : _vm._e()];
 	  })], 2)]);
@@ -1736,7 +1754,7 @@
 	/* style */
 	var __vue_inject_styles__$1 = function (inject) {
 	  if (!inject) return;
-	  inject("data-v-65fb8642_0", { source: "\n.tree-node-label{cursor:pointer;padding:2px 4px;border-radius:3px;-ms-user-select:none;user-select:none\n}\n.tree-node-label:hover{background-color:#ebecee\n}\n.tree-node-icon-container{display:inline-block\n}\n.tree-node-icon-container .tree-node-icon{color:#464646;transition:transform .3s\n}\n.tree-node{margin-left:16px\n}\n.tree-node.has-child-nodes{margin-left:0\n}\n.tree-node.has-child-nodes .tree-node-icon-container{cursor:pointer\n}\n.tree-node-expanded .tree-node-icon-container .tree-node-icon{transform:rotate(90deg);transition:transform .3s\n}\n.tree-node-children{margin-left:22px\n}\n.tree-branch{position:relative\n}\n.tree-branch.selected>.tree-node>.tree-node-label{background-color:#007bff;color:#fff\n}\n.tree-node.drop-active{border:1px dashed #d2d2d2\n}\n.tree-node-label .label-icon{font-size:90%\n}\n.tree-node>svg{display:inline-block;-ms-user-select:none;user-select:none\n}\n.tree-node .input-rename{display:inline-block;width:auto;font-weight:400;line-height:1;font-size:1rem;padding:2px 4px;height:auto;box-sizing:border-box\n}\n.tree-node svg>.svg-icon{fill:none;opacity:1;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1\n}\n.tree-node.tree-node-expanded>svg>.svg-icon{fill:none\n}", map: undefined, media: undefined });
+	  inject("data-v-3e83b524_0", { source: "\n.tree-node-label{cursor:pointer;padding:2px 4px;border-radius:3px;-ms-user-select:none;user-select:none\n}\n.tree-node-label:hover{background-color:#ebecee\n}\n.tree-node-icon-container{display:inline-block\n}\n.tree-node-icon-container .tree-node-icon{color:#464646;transition:transform .3s\n}\n.tree-node{margin-left:16px\n}\n.tree-node.has-child-nodes{margin-left:0\n}\n.tree-node.has-child-nodes .tree-node-icon-container{cursor:pointer\n}\n.tree-node-expanded .tree-node-icon-container .tree-node-icon{transform:rotate(90deg);transition:transform .3s\n}\n.tree-node-children{margin-left:22px\n}\n.tree-branch{position:relative\n}\n.tree-branch.selected>.tree-node>.tree-node-label{background-color:#007bff;color:#fff\n}\n.tree-node.drop-active{border:1px dashed #d2d2d2\n}\n.tree-node-label .label-icon{font-size:90%\n}\n.tree-node>svg{display:inline-block;-ms-user-select:none;user-select:none\n}\n.tree-node .input-rename{display:inline-block;width:auto;font-weight:400;line-height:1;font-size:1rem;padding:2px 4px;height:auto;box-sizing:border-box\n}\n.tree-node svg>.svg-icon{fill:none;opacity:1;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1\n}\n.tree-node.tree-node-expanded>svg>.svg-icon{fill:none\n}", map: undefined, media: undefined });
 	};
 	/* scoped */
 	var __vue_scope_id__$1 = undefined;
@@ -2054,8 +2072,18 @@
 	            type: String,
 	            default: null
 	        },
+	        // class added to every label no matter what
+	        prependLabelClass: {
+	            type: String,
+	            default: null
+	        },
 	        // default icon if node icon is not specified
 	        defaultIconClass: {
+	            type: String,
+	            default: null
+	        },
+	        // default label class if node label is not specified
+	        defaultLabelClass: {
 	            type: String,
 	            default: null
 	        },
@@ -2063,6 +2091,11 @@
 	        iconClassProp: {
 	            type: String,
 	            default: "icon"
+	        },
+	        // where to search for node label class
+	        labelClassProp: {
+	            type: String,
+	            default: "labelClass"
 	        },
 	        // show icons
 	        showIcons: {
@@ -2205,7 +2238,7 @@
 	  var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "tree-view" }, [_vm.contextMenu ? _c('context-menu', { attrs: { "contextMenuItems": _vm.contextMenuItems } }) : _vm._e(), _vm._v(" "), _vm.draggedNode !== null && _vm.draggedNode.data !== _vm.data[0] ? _c('drop-between-zone', { on: { "nodeDrop": function nodeDrop($event) {
 	        _vm.dropNodeAtPosition(0);
 	      } } }) : _vm._e(), _vm._v(" "), _vm._l(_vm.data, function (nodeData, index) {
-	    return [_c('tree-node', { key: nodeData[_vm.nodeKeyProp], ref: "rootNodes", refInFor: true, attrs: { "keyProp": _vm.nodeKeyProp, "renameOnDblClick": _vm.renameNodeOnDblClick, "childrenProp": _vm.nodeChildrenProp, "labelProp": _vm.nodeLabelProp, "data": nodeData, "draggable": _vm.nodesDraggable, "defaultIconClass": _vm.defaultIconClass, "iconClassProp": _vm.iconClassProp, "showIcon": _vm.showIcons, "prependIconClass": _vm.prependIconClass, "contextMenu": _vm.contextMenu }, on: { "nodeSelect": _vm.nodeSelect, "nodeDragStart": _vm.nodeDragStart, "deleteNode": _vm.deleteNode } }, [_vm.$slots['node-icon'] ? [_c('template', { slot: "node-icon" }, [_vm._t("node-icon")], 2)] : _vm._e()], 2), _vm._v(" "), _vm.draggedNode !== null && _vm.draggedNode.data !== nodeData && (index + 1 >= _vm.data.length || _vm.draggedNode.data !== _vm.data[index + 1]) ? _c('drop-between-zone', { on: { "nodeDrop": function nodeDrop($event) {
+	    return [_c('tree-node', { key: nodeData[_vm.nodeKeyProp], ref: "rootNodes", refInFor: true, attrs: { "keyProp": _vm.nodeKeyProp, "renameOnDblClick": _vm.renameNodeOnDblClick, "childrenProp": _vm.nodeChildrenProp, "labelProp": _vm.nodeLabelProp, "data": nodeData, "draggable": _vm.nodesDraggable, "defaultIconClass": _vm.defaultIconClass, "defaultLabelClass": _vm.defaultLabelClass, "iconClassProp": _vm.iconClassProp, "labelClassProp": _vm.labelClassProp, "showIcon": _vm.showIcons, "prependIconClass": _vm.prependIconClass, "prependLabelClass": _vm.prependLabelClass, "contextMenu": _vm.contextMenu }, on: { "nodeSelect": _vm.nodeSelect, "nodeDragStart": _vm.nodeDragStart, "deleteNode": _vm.deleteNode } }, [_vm.$slots['node-icon'] ? [_c('template', { slot: "node-icon" }, [_vm._t("node-icon")], 2)] : _vm._e()], 2), _vm._v(" "), _vm.draggedNode !== null && _vm.draggedNode.data !== nodeData && (index + 1 >= _vm.data.length || _vm.draggedNode.data !== _vm.data[index + 1]) ? _c('drop-between-zone', { on: { "nodeDrop": function nodeDrop($event) {
 	          _vm.dropNodeAtPosition(index + 1);
 	        } } }) : _vm._e()];
 	  })], 2);
@@ -2216,7 +2249,7 @@
 	/* style */
 	var __vue_inject_styles__$3 = function (inject) {
 	  if (!inject) return;
-	  inject("data-v-07a1bf5f_0", { source: "\n.tree-view{text-align:left\n}", map: undefined, media: undefined });
+	  inject("data-v-0868ed68_0", { source: "\n.tree-view{text-align:left\n}", map: undefined, media: undefined });
 	};
 	/* scoped */
 	var __vue_scope_id__$3 = undefined;

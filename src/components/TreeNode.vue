@@ -43,7 +43,7 @@
                        @blur="endRenaming"
                        v-on:keyup.esc.stop="cancelRenaming"
                        v-on:keyup.enter.stop="endRenaming">
-                <span v-else>{{ data[labelProp] }}</span>
+                <span :class="['node-label-text', prependLabelClass, labelClass]" v-else>{{ data[labelProp] }}</span>
             </span>
         </div>
         <div class="tree-node-children"
@@ -62,9 +62,12 @@
                     :renameOnDblClick="renameOnDblClick"
                     :draggable="draggable"
                     :defaultIconClass="defaultIconClass"
+                    :defaultLabelClass="defaultLabelClass"
                     :iconClassProp="iconClassProp"
+                    :labelClassProp="labelClassProp"
                     :showIcon="showIcon"
                     :prependIconClass="prependIconClass"
+                    :prependLabelClass="prependLabelClass"
                     :contextMenu="contextMenu"
                     @nodeSelect="childNodeSelect"
                     @nodeDragStart="nodeDragStart"
@@ -123,8 +126,18 @@
                 type: String,
                 default: null
             },
+            // default label class if node label class is not specified
+            defaultLabelClass: {
+                type: String,
+                default: null
+            },
             // where to search for node icon
             iconClassProp: {
+                type: String,
+                default: null
+            },
+            // where to search for node label class
+            labelClassProp: {
                 type: String,
                 default: null
             },
@@ -135,6 +148,11 @@
             },
             // class added to every icon no matter what
             prependIconClass: {
+                type: String,
+                default: null
+            },
+            // class added to every label no matter what
+            prependLabelClass: {
                 type: String,
                 default: null
             },
@@ -193,6 +211,10 @@
             iconClass() {
                 return this.iconClassProp && this.data[this.iconClassProp] !== undefined
                     ? this.data[this.iconClassProp] : this.defaultIconClass;
+            },
+            labelClass() {
+                return this.labelClassProp && this.data[this.labelClassProp] !== undefined
+                    ? this.data[this.labelClassProp] : this.defaultLabelClass;
             }
         },
         methods: {

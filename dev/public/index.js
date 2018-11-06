@@ -60,6 +60,7 @@ var app = new Vue({
                         {
                             "id": 23,
                             "name": "Cars",
+                            "labelClass": "test",
                             "icon": "fa-car"
                         },
                         {
