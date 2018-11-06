@@ -26,16 +26,17 @@ export default {
     }
   },
   methods: {
-    open(node) {
+    open({ event, node }) {
       this.activeNode = node
-      this.$refs.ctxMenu.open()
+      this.$refs.ctxMenu.open(event)
+      EventBus.$emit('openNodeContextMenu', this)
     },
     menuItemSelected(item) {
       EventBus.$emit('contextMenuItemSelect', item, this.activeNode)
     }
   },
   created() {
-    EventBus.$on('openNodeContextMenu', this.open)
+    EventBus.$on('openNodeContextMenuInternal', this.open)
   }
 }
 

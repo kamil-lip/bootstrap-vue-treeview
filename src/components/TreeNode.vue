@@ -327,7 +327,7 @@
                 this.select()
                 if(this.contextMenu) {
                     event.preventDefault();
-                    EventBus.$emit('openNodeContextMenu', this)
+                    EventBus.$emit('openNodeContextMenuInternal', { event, node: this })
                 }
             },
             delete() {
