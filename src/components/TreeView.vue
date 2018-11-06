@@ -26,6 +26,11 @@
                     @nodeSelect="nodeSelect"
                     @nodeDragStart="nodeDragStart"
                     @deleteNode="deleteNode">
+                <template v-if="$slots['node-icon']">
+                    <template slot="node-icon">
+                        <slot name="node-icon" />
+                    </template>
+                </template>
             </tree-node>
             <drop-between-zone
                     @nodeDrop="dropNodeAtPosition(index + 1)"

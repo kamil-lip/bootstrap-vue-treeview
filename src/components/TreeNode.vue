@@ -12,14 +12,22 @@
              @dragleave.prevent.stop="dragLeave"
              @contextmenu="showContextMenu($event)">
             <transition name="rotateArrow">
-                <svg width="12"
-                     height="12"
-                     @click.prevent="toggle"
-                     class="tree-node-icon"
-                     v-if="hasChildren">
-                    <path d="M2 1 L10 6 L2 11 Z"
-                          class="svg-icon"/>
-                </svg>
+                <div v-if="hasChildren"
+                     class="tree-node-icon-container"
+                     @click.prevent="toggle">
+                    <template v-if="$slots['node-icon']">
+                        <div class="tree-node-icon">
+                            <slot name="node-icon" />
+                        </div>
+                    </template>
+                    <svg v-else="$slots['node-icon']"
+                         width="12"
+                         height="12"
+                         class="tree-node-icon">
+                        <path d="M2 1 L10 6 L2 11 Z"
+                              class="svg-icon"/>
+                    </svg>
+                </div>
             </transition>
             <span class="tree-node-label"
                   @click="toggleSelection"
@@ -45,22 +53,27 @@
             </drop-between-zone>
             <template v-for="(nodeData, index) in data[childrenProp]">
                 <tree-node
-                        :data="nodeData"
-                        :key="nodeData[keyProp]"
-                        ref="childNodes"
-                        :keyProp="keyProp"
-                        :labelProp="labelProp"
-                        :childrenProp="childrenProp"
-                        :renameOnDblClick="renameOnDblClick"
-                        :draggable="draggable"
-                        :defaultIconClass="defaultIconClass"
-                        :iconClassProp="iconClassProp"
-                        :showIcon="showIcon"
-                        :prependIconClass="prependIconClass"
-                        :contextMenu="contextMenu"
-                        @nodeSelect="childNodeSelect"
-                        @nodeDragStart="nodeDragStart"
-                        @deleteNode="deleteChildNode">
+                    :data="nodeData"
+                    :key="nodeData[keyProp]"
+                    ref="childNodes"
+                    :keyProp="keyProp"
+                    :labelProp="labelProp"
+                    :childrenProp="childrenProp"
+                    :renameOnDblClick="renameOnDblClick"
+                    :draggable="draggable"
+                    :defaultIconClass="defaultIconClass"
+                    :iconClassProp="iconClassProp"
+                    :showIcon="showIcon"
+                    :prependIconClass="prependIconClass"
+                    :contextMenu="contextMenu"
+                    @nodeSelect="childNodeSelect"
+                    @nodeDragStart="nodeDragStart"
+                    @deleteNode="deleteChildNode">
+                    <template v-if="$slots['node-icon']">
+                        <template slot="node-icon">
+                            <slot name="node-icon" />
+                        </template>
+                    </template>
                 </tree-node>
                 <drop-between-zone
                         @nodeDrop="dropNodeAtPosition(index + 1)"
@@ -397,7 +410,11 @@
         background-color: #EBECEE;
     }
 
-    .tree-node-icon {
+    .tree-node-icon-container {
+        display: inline-block;
+    }
+
+    .tree-node-icon-container .tree-node-icon {
         color: #464646;
         transition: transform 0.3s;
     }
@@ -410,11 +427,11 @@
         margin-left: 0;
     }
 
-    .tree-node.has-child-nodes .tree-node-icon {
+    .tree-node.has-child-nodes .tree-node-icon-container {
         cursor: pointer;
     }
 
-    .tree-node-expanded .tree-node-icon {
+    .tree-node-expanded .tree-node-icon-container .tree-node-icon {
         transform: rotate(90deg);
         transition: transform 0.3s;
     }

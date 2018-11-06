@@ -76,6 +76,13 @@ export default {
 | contextMenuItemSelect | Triggered every time a context menu item was clicked.                                                                       | Context menu item object (see below), TreeNode object |
 |                       |                                                                                                                             |                                           |
 
+#### 3. Vue slots
+
+| Slot name             | Description                                                                                                                 |
+|-----------------------|-----------------------------------------------------------------------------------------------------------------------------|
+| node-icon             | Custom icon of node                                                                                                         |
+|                       |                                                                                                                             |
+
 ### TreeNode
 
 Props and events of the tree node component are not intended to be used directly.
