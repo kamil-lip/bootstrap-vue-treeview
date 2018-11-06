@@ -20,7 +20,11 @@ var app = new Vue({
 						iconClassProp="icon"
 						prependIconClass="fas"
 						@contextMenuItemSelect="menuItemSelected"
-						@nodeSelect="nodeSelect"></b-tree-view>
+						@nodeSelect="nodeSelect">
+						<template slot="node-icon">
+						  >
+            </template>
+          </b-tree-view>
 				</div>
 			</div>
 		</div>
@@ -56,6 +60,7 @@ var app = new Vue({
                 {
                     "id": 5,
                     "name": "Vehicles",
+                    "expanded": true,
                     "children": [
                         {
                             "id": 23,
@@ -67,6 +72,7 @@ var app = new Vue({
                             "id": 34,
                             "name": "Trucks",
                             "icon": "fa-truck",
+                            "expanded": true,
                             "children": [
                                 {
                                     "id": 101,

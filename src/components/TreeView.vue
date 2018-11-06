@@ -10,39 +10,37 @@
         </drop-between-zone>
         <template v-for="(nodeData, index) in data">
             <tree-node
-                    :key="nodeData[nodeKeyProp]"
-                    :keyProp="nodeKeyProp"
-                    :renameOnDblClick="renameNodeOnDblClick"
-                    :childrenProp="nodeChildrenProp"
-                    :labelProp="nodeLabelProp"
-                    :data="nodeData"
-                    :draggable="nodesDraggable"
-                    :defaultIconClass="defaultIconClass"
-                    :defaultLabelClass="defaultLabelClass"
-                    :iconClassProp="iconClassProp"
-                    :labelClassProp="labelClassProp"
-                    :showIcon="showIcons"
-                    :prependIconClass="prependIconClass"
-                    :prependLabelClass="prependLabelClass"
-                    :contextMenu="contextMenu"
-                    ref="rootNodes"
-                    @nodeSelect="nodeSelect"
-                    @nodeDragStart="nodeDragStart"
-                    @deleteNode="deleteNode">
-                <template v-if="$slots['node-icon']">
-                    <template slot="node-icon">
-                        <slot name="node-icon" />
-                    </template>
-                </template>
+                :key="nodeData[nodeKeyProp]"
+                :keyProp="nodeKeyProp"
+                :renameOnDblClick="renameNodeOnDblClick"
+                :childrenProp="nodeChildrenProp"
+                :labelProp="nodeLabelProp"
+                :data="nodeData"
+                :draggable="nodesDraggable"
+                :defaultIconClass="defaultIconClass"
+                :defaultLabelClass="defaultLabelClass"
+                :iconClassProp="iconClassProp"
+                :labelClassProp="labelClassProp"
+                :expandedProp="expandedProp"
+                :showIcon="showIcons"
+                :prependIconClass="prependIconClass"
+                :prependLabelClass="prependLabelClass"
+                :contextMenu="contextMenu"
+                :nodeIconHtml="nodeIcon"
+                ref="rootNodes"
+                @nodeSelect="nodeSelect"
+                @nodeDragStart="nodeDragStart"
+                @deleteNode="deleteNode">
             </tree-node>
             <drop-between-zone
-                    @nodeDrop="dropNodeAtPosition(index + 1)"
-                    v-if="draggedNode !== null && draggedNode.data !== nodeData && (index + 1 >= data.length || draggedNode.data !== data[index + 1])">
+                @nodeDrop="dropNodeAtPosition(index + 1)"
+                v-if="draggedNode !== null && draggedNode.data !== nodeData && (index + 1 >= data.length || draggedNode.data !== data[index + 1])">
             </drop-between-zone>
         </template>
-
+        <div class="d-none" ref="nodeIcon">
+            <slot name="node-icon" />
+        </div>
     </div>
-
 </template>
 
 <script>
@@ -120,6 +118,11 @@
                 type: String,
                 default: "labelClass"
             },
+            // where to search for node expanded
+            expandedProp: {
+                type: String,
+                default: "expanded"
+            },
             // show icons
             showIcons: {
                 type: Boolean,
@@ -128,6 +131,7 @@
         },
         data() {
             return {
+                nodeIcon: '',
                 draggedNode: null
             }
         },
@@ -224,7 +228,12 @@
             this.$nextTick(() => {
                 this.createNodeMap()
             })
-        }
+        },
+        mounted() {
+            const iconRef = this.$refs.nodeIcon;
+            const element = iconRef.$el || iconRef;
+            this.nodeIcon = element.innerHTML;
+        },
     }
 
 </script>

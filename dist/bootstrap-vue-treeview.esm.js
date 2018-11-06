@@ -24,7 +24,7 @@ var stringify$1 = createCommonjsModule(function (module) {
 module.exports = { "default": stringify, __esModule: true };
 });
 
-var _JSON$stringify = unwrapExports(stringify$1);
+unwrapExports(stringify$1);
 
 var _iterStep = function (done, value) {
   return { value: value, done: !!done };
@@ -1233,23 +1233,43 @@ var __vue_script__ = script;
 
 /* template */
 var __vue_render__ = function __vue_render__() {
-  var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "drop-between-zone", class: { 'active': _vm.nodeDragOver }, on: { "drop": function drop($event) {
-        $event.preventDefault();$event.stopPropagation();return _vm.drop($event);
-      }, "dragover": function dragover($event) {
-        $event.preventDefault();return _vm.dragover($event);
-      }, "dragenter": function dragenter($event) {
-        $event.preventDefault();$event.stopPropagation();_vm.nodeDragOver = true;
-      }, "dragleave": function dragleave($event) {
-        $event.preventDefault();$event.stopPropagation();_vm.nodeDragOver = false;
-      } } });
+  var _vm = this;
+  var _h = _vm.$createElement;
+  var _c = _vm._self._c || _h;
+  return _c("div", {
+    staticClass: "drop-between-zone",
+    class: { active: _vm.nodeDragOver },
+    on: {
+      drop: function drop($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        return _vm.drop($event);
+      },
+      dragover: function dragover($event) {
+        $event.preventDefault();
+        return _vm.dragover($event);
+      },
+      dragenter: function dragenter($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        _vm.nodeDragOver = true;
+      },
+      dragleave: function dragleave($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        _vm.nodeDragOver = false;
+      }
+    }
+  });
 };
 var __vue_staticRenderFns__ = [];
+__vue_render__._withStripped = true;
 
 var __vue_template__ = typeof __vue_render__ !== 'undefined' ? { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ } : {};
 /* style */
 var __vue_inject_styles__ = function (inject) {
   if (!inject) return;
-  inject("data-v-1c447986_0", { source: "\n.drop-between-zone{height:4px;width:100%;z-index:1\n}\n.drop-between-zone.active{position:static;top:0;border:1px dashed #d2d2d2;height:24px\n}", map: undefined, media: undefined });
+  inject("data-v-a9d015e0_0", { source: "\n.drop-between-zone {\n  height: 4px;\n  width: 100%;\n  z-index: 1;\n}\n.drop-between-zone.active {\n  position: static;\n  top: 0;\n  border: 1px dashed #D2D2D2;\n  height: 24px;\n}\n\n", map: undefined, media: undefined });
 };
 /* scoped */
 var __vue_scope_id__ = undefined;
@@ -1260,6 +1280,10 @@ var __vue_is_functional_template__ = false;
 /* component normalizer */
 function __vue_normalize__(template, style, script$$1, scope, functional, moduleIdentifier, createInjector, createInjectorSSR) {
   var component = script$$1 || {};
+
+  {
+    component.__file = "/home/kamil/Projekty/bootstrap-vue-treeview/src/components/DropBetweenZone.vue";
+  }
 
   if (!component.render) {
     component.render = template.render;
@@ -1315,14 +1339,6 @@ function __vue_create_injector__() {
 
       style.ids.push(id);
 
-      if (css.map) {
-        // https://developer.chrome.com/devtools/docs/javascript-debugging
-        // this makes source maps inside style tags work properly in Chrome
-        code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
-        // http://stackoverflow.com/a/26603875
-        code += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(_JSON$stringify(css.map)))) + ' */';
-      }
-
       if (isOldIE) {
         style.element = style.element || document.querySelector('style[data-group=' + group + ']');
       }
@@ -1362,393 +1378,515 @@ function __vue_create_injector__() {
 var DropBetweenZone = __vue_normalize__(__vue_template__, __vue_inject_styles__, typeof __vue_script__ === 'undefined' ? {} : __vue_script__, __vue_scope_id__, __vue_is_functional_template__, __vue_module_identifier__, typeof __vue_create_injector__ !== 'undefined' ? __vue_create_injector__ : function () {}, typeof __vue_create_injector_ssr__ !== 'undefined' ? __vue_create_injector_ssr__ : function () {});
 
 var script$1 = {
-    name: 'tree-node',
-    components: {
-        DropBetweenZone: DropBetweenZone
+  name: 'tree-node',
+  components: {
+    DropBetweenZone: DropBetweenZone
+  },
+  props: {
+    data: {
+      type: Object,
+      required: true
     },
-    props: {
-        data: {
-            type: Object,
-            required: true
-        },
-        keyProp: {
-            type: String,
-            default: 'id'
-        },
-        labelProp: {
-            type: String,
-            default: 'name'
-        },
-        childrenProp: {
-            type: String,
-            default: 'children'
-        },
-        draggable: {
-            type: Boolean,
-            default: false
-        },
-        renameOnDblClick: {
-            type: Boolean,
-            default: false
-        },
-        // default icon if node icon is not specified
-        defaultIconClass: {
-            type: String,
-            default: null
-        },
-        // default label class if node label class is not specified
-        defaultLabelClass: {
-            type: String,
-            default: null
-        },
-        // where to search for node icon
-        iconClassProp: {
-            type: String,
-            default: null
-        },
-        // where to search for node label class
-        labelClassProp: {
-            type: String,
-            default: null
-        },
-        // show icon
-        showIcon: {
-            type: Boolean,
-            default: false
-        },
-        // class added to every icon no matter what
-        prependIconClass: {
-            type: String,
-            default: null
-        },
-        // class added to every label no matter what
-        prependLabelClass: {
-            type: String,
-            default: null
-        },
-        contextMenu: {
-            type: Boolean,
-            default: true
-        }
+    keyProp: {
+      type: String,
+      default: 'id'
     },
-    data: function data() {
-        return {
-            expanded: false,
-            selected: false,
-            nodeDragOver: false,
-            enterLeaveCounter: 0,
-            draggedNode: null,
-            dropDisabled: false,
-            renaming: false,
-            renameNewLabel: this.data[this.labelProp]
-        };
+    labelProp: {
+      type: String,
+      default: 'name'
     },
-
-    directives: {
-        focus: {
-            // directive definition
-            inserted: function inserted(el) {
-                el.focus();
-            }
-        },
-        selectText: {
-            inserted: function inserted(el) {
-                el.select();
-            }
-        }
+    childrenProp: {
+      type: String,
+      default: 'children'
     },
-    watch: {
-        selected: function selected(_selected) {
-            this.$emit('nodeSelect', this, _selected);
-        },
-        dropDisabled: function dropDisabled(disabled) {
-            this.$emit(disabled ? 'dropDisabled' : 'dropEnabled');
-        },
-        nodeDragOver: function nodeDragOver(dragover) {
-            if (dragover) {
-                // check if node has any children, if yes then expand it after 1 sec
-                if (!this.expanded && Array.isArray(this.data[this.childrenProp]) && this.data[this.childrenProp].length > 0) {
-                    this.expandNodeTimeout = setTimeout(this.toggle, 1000);
-                }
-            } else if (this.expandNodeTimeout) {
-                clearTimeout(this.expandNodeTimeout);
-            }
-        }
+    draggable: {
+      type: Boolean,
+      default: false
     },
-    computed: {
-        hasChildren: function hasChildren() {
-            return this.data[this.childrenProp] !== undefined && this.data[this.childrenProp].length > 0;
-        },
-        iconClass: function iconClass() {
-            return this.iconClassProp && this.data[this.iconClassProp] !== undefined ? this.data[this.iconClassProp] : this.defaultIconClass;
-        },
-        labelClass: function labelClass() {
-            return this.labelClassProp && this.data[this.labelClassProp] !== undefined ? this.data[this.labelClassProp] : this.defaultLabelClass;
-        }
+    renameOnDblClick: {
+      type: Boolean,
+      default: false
     },
-    methods: {
-        toggle: function toggle() {
-            if (this.data[this.childrenProp] && Array.isArray(this.data[this.childrenProp]) && this.data[this.childrenProp].length > 0) {
-                this.expanded = !this.expanded;
-            }
-        },
-        toggleSelection: function toggleSelection() {
-            if (!this.renaming) {
-                this.selected = !this.selected;
-            }
-        },
-        select: function select() {
-            if (!this.renaming) {
-                this.selected = true;
-            }
-        },
-        deselect: function deselect() {
-            if (!this.renaming) {
-                this.selected = false;
-            }
-        },
-        expand: function expand() {
-            if (this.data[this.childrenProp] && Array.isArray(this.data[this.childrenProp]) && this.data[this.childrenProp].length > 0) {
-                this.expanded = true;
-            }
-        },
-        collapse: function collapse() {
-            this.expanded = false;
-        },
-        childNodeSelect: function childNodeSelect(node, isSelected) {
-            // forward event to the parent node
-            this.$emit('nodeSelect', node, isSelected);
-        },
-        nodeDragStart: function nodeDragStart() {
-            EventBus.$on('dropOK', this.cutNode);
-        },
-        cutNode: function cutNode() {
-            EventBus.$off('dropOK');
-            var idx = this.data[this.childrenProp].indexOf(window._bTreeView.draggedNodeData);
-            this.data[this.childrenProp].splice(idx, 1);
-            // let's notify that node data was successfully cut (removed from array)
-            EventBus.$emit('cutOK');
-        },
-        getChildNodes: function getChildNodes() {
-            return this.$refs.childNodes || [];
-        },
-        dragstart: function dragstart(ev) {
-            this.dropDisabled = true;
-            ev.dataTransfer.dropEffect = 'none';
-            this.$emit('nodeDragStart');
-            EventBus.$emit('nodeDragStart', this);
-            // didn't use dataTransfer it's not fully supported by ie
-            // and beacuse it's not available in the dragover event handler
-            if (window._bTreeView === undefined) {
-                window._bTreeView = {};
-            }
-            _bTreeView.draggedNodeData = this.data;
-            _bTreeView.draggedNodeKey = this.data[this.keyProp];
-        },
-        drop: function drop(ev) {
-            if (this.data[this.childrenProp] === undefined) {
-                Vue.set(this.data, this.childrenProp, []);
-            }
-            // append node
-            this.dropNodeAtPosition(this.data[this.childrenProp].length);
-            this.nodeDragOver = false;
-        },
-        dragEnter: function dragEnter(ev) {
-            this.enterLeaveCounter++;
-            this.dropEffect = ev.dataTransfer.dropEffect = !this.dropDisabled && window._bTreeView !== undefined && window._bTreeView.draggedNodeKey !== undefined && this.data[this.keyProp] !== window._bTreeView.draggedNodeKey && (this.data[this.childrenProp] === undefined || this.data[this.childrenProp].indexOf(window._bTreeView.draggedNodeData) < 0) && !this.isDescendantOf(window._bTreeView.draggedNodeData) ? 'move' : 'none';
-            if (this.dropEffect === 'move' && this.enterLeaveCounter === 1) {
-                this.nodeDragOver = true;
-            }
-        },
-        dragLeave: function dragLeave() {
-            this.enterLeaveCounter--;
-            if (this.enterLeaveCounter !== 1) {
-                this.nodeDragOver = false;
-            }
-        },
-        dragend: function dragend(ev) {
-            EventBus.$off('dropOK');
-            EventBus.$off('cutOK');
-            this.dropDisabled = false;
-            EventBus.$emit('nodeDragEnd');
-        },
-        dragover: function dragover(ev) {
-            ev.dataTransfer.dropEffect = this.dropEffect || 'none';
-        },
-        isDescendantOf: function isDescendantOf(nodeData) {
-            if (nodeData[this.childrenProp] === undefined) {
-                return false;
-            }
-            var nodes = [nodeData];
-            for (var i = 0; i < nodes.length; i++) {
-                var tmpNode = nodes[i];
-                if (tmpNode[this.childrenProp] !== undefined) {
-                    var _iteratorNormalCompletion = true;
-                    var _didIteratorError = false;
-                    var _iteratorError = undefined;
-
-                    try {
-                        for (var _iterator = _getIterator(tmpNode[this.childrenProp]), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                            var child = _step.value;
-
-                            if (child === this.data) {
-                                return true;
-                            }
-                        }
-                    } catch (err) {
-                        _didIteratorError = true;
-                        _iteratorError = err;
-                    } finally {
-                        try {
-                            if (!_iteratorNormalCompletion && _iterator.return) {
-                                _iterator.return();
-                            }
-                        } finally {
-                            if (_didIteratorError) {
-                                throw _iteratorError;
-                            }
-                        }
-                    }
-
-                    nodes.push.apply(nodes, _toConsumableArray(tmpNode[this.childrenProp]));
-                }
-            }
-        },
-        draggingStarted: function draggingStarted(draggedNode) {
-            this.draggedNode = draggedNode;
-            this.enterLeaveCounter = 0;
-            // let's listen for the drag end event
-            EventBus.$on('nodeDragEnd', this.draggingEnded);
-        },
-        draggingEnded: function draggingEnded() {
-            // stop listening for the dragging end event
-            EventBus.$off('nodeDragEnd', this.draggingEnded);
-            this.draggedNode = null;
-        },
-        dropNodeAtPosition: function dropNodeAtPosition(pos) {
-            var _this = this;
-
-            // position can change if we move node within the same parent node (same level)
-            // so it's better to remember node at previous position
-            var insertAfter = pos - 1 < 0 ? null : this.data[this.childrenProp][pos - 1];
-            EventBus.$on('cutOK', function () {
-                var pos = _this.data[_this.childrenProp].indexOf(insertAfter) + 1;
-                _this.data[_this.childrenProp].splice(pos, 0, window._bTreeView.draggedNodeData);
-                delete window._bTreeView.draggedNodeKey;
-                delete window._bTreeView.draggedNodeData;
-                EventBus.$off('cutOK');
-            });
-            EventBus.$emit('dropOK');
-        },
-        showContextMenu: function showContextMenu(event) {
-            if (this.renaming) {
-                this.cancelRenaming();
-            }
-            this.select();
-            if (this.contextMenu) {
-                event.preventDefault();
-                EventBus.$emit('openNodeContextMenuInternal', { event: event, node: this });
-            }
-        },
-        delete: function _delete() {
-            this.$emit('deleteNode', this);
-        },
-        deleteChildNode: function deleteChildNode(childNodeData) {
-            var children = this.data[this.childrenProp];
-            var idx = children.indexOf(childNodeData);
-            children.splice(idx, 1);
-        },
-        appendChild: function appendChild(childNodeData) {
-            if (this.data[this.childrenProp] === undefined) {
-                Vue.set(this.data, this.childrenProp, []);
-            }
-            this.data[this.childrenProp].push(childNodeData);
-            this.expanded = true;
-        },
-        startRenaming: function startRenaming() {
-            this.deselect();
-            this.renameNewLabel = this.data[this.labelProp];
-            this.renaming = true;
-        },
-        cancelRenaming: function cancelRenaming() {
-            this.renameNewLabel = this.data[this.labelProp];
-            this.renaming = false;
-        },
-        endRenaming: function endRenaming() {
-            this.data[this.labelProp] = this.renameNewLabel;
-            this.renaming = false;
-        },
-        dblClickLabel: function dblClickLabel() {
-            if (this.renameOnDblClick) {
-                this.startRenaming();
-            }
-        }
+    // default icon if node icon is not specified
+    defaultIconClass: {
+      type: String,
+      default: null
     },
-    created: function created() {
-        var _this2 = this;
-
-        EventBus.$on('nodeDragStart', this.draggingStarted);
-        this.$watch('data.' + this.childrenProp, function (children) {
-            if (children.length === 0 && this.expanded) {
-                this.expanded = false;
-            }
-        });
-        if (this.$parent) {
-            this.$parent.$on('dropDisabled', function () {
-                _this2.dropDisabled = true;
-            });
-            this.$parent.$on('dropEnabled', function () {
-                _this2.dropDisabled = false;
-            });
-        }
+    // default label class if node label class is not specified
+    defaultLabelClass: {
+      type: String,
+      default: null
+    },
+    // where to search for node icon
+    iconClassProp: {
+      type: String,
+      default: null
+    },
+    // where to search for node label class
+    labelClassProp: {
+      type: String,
+      default: null
+    },
+    // where to search for node expanded
+    expandedProp: {
+      type: String,
+      default: null
+    },
+    // show icon
+    showIcon: {
+      type: Boolean,
+      default: false
+    },
+    // class added to every icon no matter what
+    prependIconClass: {
+      type: String,
+      default: null
+    },
+    // class added to every label no matter what
+    prependLabelClass: {
+      type: String,
+      default: null
+    },
+    contextMenu: {
+      type: Boolean,
+      default: true
+    },
+    nodeIconHtml: {
+      type: String,
+      default: true
     }
+  },
+  data: function data() {
+    return {
+      expanded: this.data[this.expandedProp] || false,
+      selected: false,
+      nodeDragOver: false,
+      enterLeaveCounter: 0,
+      draggedNode: null,
+      dropDisabled: false,
+      renaming: false,
+      renameNewLabel: this.data[this.labelProp]
+    };
+  },
+
+  directives: {
+    focus: {
+      // directive definition
+      inserted: function inserted(el) {
+        el.focus();
+      }
+    },
+    selectText: {
+      inserted: function inserted(el) {
+        el.select();
+      }
+    }
+  },
+  watch: {
+    selected: function selected(_selected) {
+      this.$emit('nodeSelect', this, _selected);
+    },
+    dropDisabled: function dropDisabled(disabled) {
+      this.$emit(disabled ? 'dropDisabled' : 'dropEnabled');
+    },
+    nodeDragOver: function nodeDragOver(dragover) {
+      if (dragover) {
+        // check if node has any children, if yes then expand it after 1 sec
+        if (!this.expanded && Array.isArray(this.data[this.childrenProp]) && this.data[this.childrenProp].length > 0) {
+          this.expandNodeTimeout = setTimeout(this.toggle, 1000);
+        }
+      } else if (this.expandNodeTimeout) {
+        clearTimeout(this.expandNodeTimeout);
+      }
+    }
+  },
+  computed: {
+    hasChildren: function hasChildren() {
+      return this.data[this.childrenProp] !== undefined && this.data[this.childrenProp].length > 0;
+    },
+    iconClass: function iconClass() {
+      return this.iconClassProp && this.data[this.iconClassProp] !== undefined ? this.data[this.iconClassProp] : this.defaultIconClass;
+    },
+    labelClass: function labelClass() {
+      return this.labelClassProp && this.data[this.labelClassProp] !== undefined ? this.data[this.labelClassProp] : this.defaultLabelClass;
+    }
+  },
+  methods: {
+    toggle: function toggle() {
+      if (this.data[this.childrenProp] && Array.isArray(this.data[this.childrenProp]) && this.data[this.childrenProp].length > 0) {
+        this.expanded = !this.expanded;
+      }
+    },
+    toggleSelection: function toggleSelection() {
+      if (!this.renaming) {
+        this.selected = !this.selected;
+      }
+    },
+    select: function select() {
+      if (!this.renaming) {
+        this.selected = true;
+      }
+    },
+    deselect: function deselect() {
+      if (!this.renaming) {
+        this.selected = false;
+      }
+    },
+    expand: function expand() {
+      if (this.data[this.childrenProp] && Array.isArray(this.data[this.childrenProp]) && this.data[this.childrenProp].length > 0) {
+        this.expanded = true;
+      }
+    },
+    collapse: function collapse() {
+      this.expanded = false;
+    },
+    childNodeSelect: function childNodeSelect(node, isSelected) {
+      // forward event to the parent node
+      this.$emit('nodeSelect', node, isSelected);
+    },
+    nodeDragStart: function nodeDragStart() {
+      EventBus.$on('dropOK', this.cutNode);
+    },
+    cutNode: function cutNode() {
+      EventBus.$off('dropOK');
+      var idx = this.data[this.childrenProp].indexOf(window._bTreeView.draggedNodeData);
+      this.data[this.childrenProp].splice(idx, 1);
+      // let's notify that node data was successfully cut (removed from array)
+      EventBus.$emit('cutOK');
+    },
+    getChildNodes: function getChildNodes() {
+      return this.$refs.childNodes || [];
+    },
+    dragstart: function dragstart(ev) {
+      this.dropDisabled = true;
+      ev.dataTransfer.dropEffect = 'none';
+      this.$emit('nodeDragStart');
+      EventBus.$emit('nodeDragStart', this);
+      // didn't use dataTransfer it's not fully supported by ie
+      // and beacuse it's not available in the dragover event handler
+      if (window._bTreeView === undefined) {
+        window._bTreeView = {};
+      }
+      _bTreeView.draggedNodeData = this.data;
+      _bTreeView.draggedNodeKey = this.data[this.keyProp];
+    },
+    drop: function drop(ev) {
+      if (this.data[this.childrenProp] === undefined) {
+        Vue.set(this.data, this.childrenProp, []);
+      }
+      // append node
+      this.dropNodeAtPosition(this.data[this.childrenProp].length);
+      this.nodeDragOver = false;
+    },
+    dragEnter: function dragEnter(ev) {
+      this.enterLeaveCounter++;
+      this.dropEffect = ev.dataTransfer.dropEffect = !this.dropDisabled && window._bTreeView !== undefined && window._bTreeView.draggedNodeKey !== undefined && this.data[this.keyProp] !== window._bTreeView.draggedNodeKey && (this.data[this.childrenProp] === undefined || this.data[this.childrenProp].indexOf(window._bTreeView.draggedNodeData) < 0) && !this.isDescendantOf(window._bTreeView.draggedNodeData) ? 'move' : 'none';
+      if (this.dropEffect === 'move' && this.enterLeaveCounter === 1) {
+        this.nodeDragOver = true;
+      }
+    },
+    dragLeave: function dragLeave() {
+      this.enterLeaveCounter--;
+      if (this.enterLeaveCounter !== 1) {
+        this.nodeDragOver = false;
+      }
+    },
+    dragend: function dragend(ev) {
+      EventBus.$off('dropOK');
+      EventBus.$off('cutOK');
+      this.dropDisabled = false;
+      EventBus.$emit('nodeDragEnd');
+    },
+    dragover: function dragover(ev) {
+      ev.dataTransfer.dropEffect = this.dropEffect || 'none';
+    },
+    isDescendantOf: function isDescendantOf(nodeData) {
+      if (nodeData[this.childrenProp] === undefined) {
+        return false;
+      }
+      var nodes = [nodeData];
+      for (var i = 0; i < nodes.length; i++) {
+        var tmpNode = nodes[i];
+        if (tmpNode[this.childrenProp] !== undefined) {
+          var _iteratorNormalCompletion = true;
+          var _didIteratorError = false;
+          var _iteratorError = undefined;
+
+          try {
+            for (var _iterator = _getIterator(tmpNode[this.childrenProp]), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+              var child = _step.value;
+
+              if (child === this.data) {
+                return true;
+              }
+            }
+          } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion && _iterator.return) {
+                _iterator.return();
+              }
+            } finally {
+              if (_didIteratorError) {
+                throw _iteratorError;
+              }
+            }
+          }
+
+          nodes.push.apply(nodes, _toConsumableArray(tmpNode[this.childrenProp]));
+        }
+      }
+    },
+    draggingStarted: function draggingStarted(draggedNode) {
+      this.draggedNode = draggedNode;
+      this.enterLeaveCounter = 0;
+      // let's listen for the drag end event
+      EventBus.$on('nodeDragEnd', this.draggingEnded);
+    },
+    draggingEnded: function draggingEnded() {
+      // stop listening for the dragging end event
+      EventBus.$off('nodeDragEnd', this.draggingEnded);
+      this.draggedNode = null;
+    },
+    dropNodeAtPosition: function dropNodeAtPosition(pos) {
+      var _this = this;
+
+      // position can change if we move node within the same parent node (same level)
+      // so it's better to remember node at previous position
+      var insertAfter = pos - 1 < 0 ? null : this.data[this.childrenProp][pos - 1];
+      EventBus.$on('cutOK', function () {
+        var pos = _this.data[_this.childrenProp].indexOf(insertAfter) + 1;
+        _this.data[_this.childrenProp].splice(pos, 0, window._bTreeView.draggedNodeData);
+        delete window._bTreeView.draggedNodeKey;
+        delete window._bTreeView.draggedNodeData;
+        EventBus.$off('cutOK');
+      });
+      EventBus.$emit('dropOK');
+    },
+    showContextMenu: function showContextMenu(event) {
+      if (this.renaming) {
+        this.cancelRenaming();
+      }
+      this.select();
+      if (this.contextMenu) {
+        event.preventDefault();
+        EventBus.$emit('openNodeContextMenuInternal', { event: event, node: this });
+      }
+    },
+    delete: function _delete() {
+      this.$emit('deleteNode', this);
+    },
+    deleteChildNode: function deleteChildNode(childNodeData) {
+      var children = this.data[this.childrenProp];
+      var idx = children.indexOf(childNodeData);
+      children.splice(idx, 1);
+    },
+    appendChild: function appendChild(childNodeData) {
+      if (this.data[this.childrenProp] === undefined) {
+        Vue.set(this.data, this.childrenProp, []);
+      }
+      this.data[this.childrenProp].push(childNodeData);
+      this.expanded = true;
+    },
+    startRenaming: function startRenaming() {
+      this.deselect();
+      this.renameNewLabel = this.data[this.labelProp];
+      this.renaming = true;
+    },
+    cancelRenaming: function cancelRenaming() {
+      this.renameNewLabel = this.data[this.labelProp];
+      this.renaming = false;
+    },
+    endRenaming: function endRenaming() {
+      this.data[this.labelProp] = this.renameNewLabel;
+      this.renaming = false;
+    },
+    dblClickLabel: function dblClickLabel() {
+      if (this.renameOnDblClick) {
+        this.startRenaming();
+      }
+    }
+  },
+  created: function created() {
+    var _this2 = this;
+
+    EventBus.$on('nodeDragStart', this.draggingStarted);
+    this.$watch('data.' + this.childrenProp, function (children) {
+      if (children.length === 0 && this.expanded) {
+        this.expanded = this.data[this.expandedProp] || false;
+      }
+    });
+    if (this.$parent) {
+      this.$parent.$on('dropDisabled', function () {
+        _this2.dropDisabled = true;
+      });
+      this.$parent.$on('dropEnabled', function () {
+        _this2.dropDisabled = false;
+      });
+    }
+  }
 };
 
 var __vue_script__$1 = script$1;
 
 /* template */
 var __vue_render__$1 = function __vue_render__() {
-  var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "tree-branch", class: { selected: _vm.selected } }, [_c('div', { staticClass: "tree-node", class: { 'has-child-nodes': _vm.hasChildren, 'tree-node-expanded': _vm.expanded, 'drop-active': _vm.nodeDragOver }, attrs: { "draggable": _vm.draggable && !_vm.renaming }, on: { "drop": function drop($event) {
-        $event.preventDefault();return _vm.drop($event);
-      }, "dragover": function dragover($event) {
-        $event.preventDefault();return _vm.dragover($event);
-      }, "dragstart": function dragstart($event) {
-        $event.stopPropagation();return _vm.dragstart($event);
-      }, "dragend": _vm.dragend, "dragenter": function dragenter($event) {
-        $event.preventDefault();$event.stopPropagation();return _vm.dragEnter($event);
-      }, "dragleave": function dragleave($event) {
-        $event.preventDefault();$event.stopPropagation();return _vm.dragLeave($event);
-      }, "contextmenu": function contextmenu($event) {
+  var _vm = this;
+  var _h = _vm.$createElement;
+  var _c = _vm._self._c || _h;
+  return _c("div", { staticClass: "tree-branch", class: { selected: _vm.selected } }, [_c("div", {
+    staticClass: "tree-node",
+    class: {
+      "has-child-nodes": _vm.hasChildren,
+      "tree-node-expanded": _vm.expanded,
+      "drop-active": _vm.nodeDragOver
+    },
+    attrs: { draggable: _vm.draggable && !_vm.renaming },
+    on: {
+      drop: function drop($event) {
+        $event.preventDefault();
+        return _vm.drop($event);
+      },
+      dragover: function dragover($event) {
+        $event.preventDefault();
+        return _vm.dragover($event);
+      },
+      dragstart: function dragstart($event) {
+        $event.stopPropagation();
+        return _vm.dragstart($event);
+      },
+      dragend: _vm.dragend,
+      dragenter: function dragenter($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        return _vm.dragEnter($event);
+      },
+      dragleave: function dragleave($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        return _vm.dragLeave($event);
+      },
+      contextmenu: function contextmenu($event) {
         _vm.showContextMenu($event);
-      } } }, [_c('transition', { attrs: { "name": "rotateArrow" } }, [_vm.hasChildren ? _c('div', { staticClass: "tree-node-icon-container", on: { "click": function click($event) {
-        $event.preventDefault();return _vm.toggle($event);
-      } } }, [_vm.$slots['node-icon'] ? [_c('div', { staticClass: "tree-node-icon" }, [_vm._t("node-icon")], 2)] : _c('svg', { staticClass: "tree-node-icon", attrs: { "width": "12", "height": "12" } }, [_c('path', { staticClass: "svg-icon", attrs: { "d": "M2 1 L10 6 L2 11 Z" } })])], 2) : _vm._e()]), _vm._v(" "), _c('span', { staticClass: "tree-node-label", on: { "click": _vm.toggleSelection, "dblclick": _vm.dblClickLabel } }, [_vm.showIcon && _vm.iconClass !== null ? _c('i', { class: ['label-icon', _vm.prependIconClass, _vm.iconClass] }) : _vm._e(), _vm._v(" "), _vm.renaming ? _c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.renameNewLabel, expression: "renameNewLabel" }, { name: "focus", rawName: "v-focus" }, { name: "select-text", rawName: "v-select-text" }], ref: "inputRename", staticClass: "form-control form-control-sm input-rename", attrs: { "type": "text" }, domProps: { "value": _vm.renameNewLabel }, on: { "blur": _vm.endRenaming, "keyup": [function ($event) {
-        if (!('button' in $event) && _vm._k($event.keyCode, "esc", 27, $event.key, "Escape")) {
+      }
+    }
+  }, [_c("transition", { attrs: { name: "rotateArrow" } }, [_vm.hasChildren ? _c("div", {
+    staticClass: "tree-node-icon-container",
+    on: {
+      click: function click($event) {
+        $event.preventDefault();
+        return _vm.toggle($event);
+      }
+    }
+  }, [_vm.nodeIconHtml ? [_c("div", { staticClass: "tree-node-icon" }, [_c("div", {
+    domProps: { innerHTML: _vm._s(_vm.nodeIconHtml) }
+  })])] : _c("svg", {
+    staticClass: "tree-node-icon",
+    attrs: { width: "12", height: "12" }
+  }, [_c("path", {
+    staticClass: "svg-icon",
+    attrs: { d: "M2 1 L10 6 L2 11 Z" }
+  })])], 2) : _vm._e()]), _vm._v(" "), _c("span", {
+    staticClass: "tree-node-label",
+    on: { click: _vm.toggleSelection, dblclick: _vm.dblClickLabel }
+  }, [_vm.showIcon && _vm.iconClass !== null ? _c("i", {
+    class: ["label-icon", _vm.prependIconClass, _vm.iconClass]
+  }) : _vm._e(), _vm._v(" "), _vm.renaming ? _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.renameNewLabel,
+      expression: "renameNewLabel"
+    }, { name: "focus", rawName: "v-focus" }, { name: "select-text", rawName: "v-select-text" }],
+    ref: "inputRename",
+    staticClass: "form-control form-control-sm input-rename",
+    attrs: { type: "text" },
+    domProps: { value: _vm.renameNewLabel },
+    on: {
+      blur: _vm.endRenaming,
+      keyup: [function ($event) {
+        if (!("button" in $event) && _vm._k($event.keyCode, "esc", 27, $event.key, "Escape")) {
           return null;
-        }$event.stopPropagation();return _vm.cancelRenaming($event);
+        }
+        $event.stopPropagation();
+        return _vm.cancelRenaming($event);
       }, function ($event) {
-        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")) {
+        if (!("button" in $event) && _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")) {
           return null;
-        }$event.stopPropagation();return _vm.endRenaming($event);
-      }], "input": function input($event) {
+        }
+        $event.stopPropagation();
+        return _vm.endRenaming($event);
+      }],
+      input: function input($event) {
         if ($event.target.composing) {
           return;
-        }_vm.renameNewLabel = $event.target.value;
-      } } }) : _c('span', { class: ['node-label-text', _vm.prependLabelClass, _vm.labelClass] }, [_vm._v(_vm._s(_vm.data[_vm.labelProp]))])])], 1), _vm._v(" "), _c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.expanded && _vm.data[_vm.childrenProp] && Array.isArray(_vm.data[_vm.childrenProp]), expression: "expanded && data[childrenProp] && Array.isArray(data[childrenProp])" }], staticClass: "tree-node-children" }, [!_vm.dropDisabled && _vm.draggedNode !== null && _vm.data[_vm.childrenProp] && _vm.draggedNode.data !== _vm.data[_vm.childrenProp][0] ? _c('drop-between-zone', { on: { "nodeDrop": function nodeDrop($event) {
+        }
+        _vm.renameNewLabel = $event.target.value;
+      }
+    }
+  }) : _c("span", {
+    class: ["node-label-text", _vm.prependLabelClass, _vm.labelClass]
+  }, [_vm._v(_vm._s(_vm.data[_vm.labelProp]))])])], 1), _vm._v(" "), _c("div", {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: _vm.expanded && _vm.data[_vm.childrenProp] && Array.isArray(_vm.data[_vm.childrenProp]),
+      expression: "expanded && data[childrenProp] && Array.isArray(data[childrenProp])"
+    }],
+    staticClass: "tree-node-children"
+  }, [!_vm.dropDisabled && _vm.draggedNode !== null && _vm.data[_vm.childrenProp] && _vm.draggedNode.data !== _vm.data[_vm.childrenProp][0] ? _c("drop-between-zone", {
+    on: {
+      nodeDrop: function nodeDrop($event) {
         _vm.dropNodeAtPosition(0);
-      } } }) : _vm._e(), _vm._v(" "), _vm._l(_vm.data[_vm.childrenProp], function (nodeData, index) {
-    return [_c('tree-node', { key: nodeData[_vm.keyProp], ref: "childNodes", refInFor: true, attrs: { "data": nodeData, "keyProp": _vm.keyProp, "labelProp": _vm.labelProp, "childrenProp": _vm.childrenProp, "renameOnDblClick": _vm.renameOnDblClick, "draggable": _vm.draggable, "defaultIconClass": _vm.defaultIconClass, "defaultLabelClass": _vm.defaultLabelClass, "iconClassProp": _vm.iconClassProp, "labelClassProp": _vm.labelClassProp, "showIcon": _vm.showIcon, "prependIconClass": _vm.prependIconClass, "prependLabelClass": _vm.prependLabelClass, "contextMenu": _vm.contextMenu }, on: { "nodeSelect": _vm.childNodeSelect, "nodeDragStart": _vm.nodeDragStart, "deleteNode": _vm.deleteChildNode } }, [_vm.$slots['node-icon'] ? [_c('template', { slot: "node-icon" }, [_vm._t("node-icon")], 2)] : _vm._e()], 2), _vm._v(" "), !_vm.dropDisabled && _vm.draggedNode && _vm.draggedNode.data !== nodeData && (index + 1 >= _vm.data[_vm.childrenProp].length || _vm.draggedNode.data !== _vm.data[_vm.childrenProp][index + 1]) ? _c('drop-between-zone', { on: { "nodeDrop": function nodeDrop($event) {
+      }
+    }
+  }) : _vm._e(), _vm._v(" "), _vm._l(_vm.data[_vm.childrenProp], function (nodeData, index) {
+    return [_c("tree-node", {
+      key: nodeData[_vm.keyProp],
+      ref: "childNodes",
+      refInFor: true,
+      attrs: {
+        data: nodeData,
+        keyProp: _vm.keyProp,
+        labelProp: _vm.labelProp,
+        childrenProp: _vm.childrenProp,
+        renameOnDblClick: _vm.renameOnDblClick,
+        draggable: _vm.draggable,
+        defaultIconClass: _vm.defaultIconClass,
+        defaultLabelClass: _vm.defaultLabelClass,
+        iconClassProp: _vm.iconClassProp,
+        labelClassProp: _vm.labelClassProp,
+        expandedProp: _vm.expandedProp,
+        showIcon: _vm.showIcon,
+        prependIconClass: _vm.prependIconClass,
+        prependLabelClass: _vm.prependLabelClass,
+        contextMenu: _vm.contextMenu,
+        nodeIconHtml: _vm.nodeIconHtml
+      },
+      on: {
+        nodeSelect: _vm.childNodeSelect,
+        nodeDragStart: _vm.nodeDragStart,
+        deleteNode: _vm.deleteChildNode
+      }
+    }), _vm._v(" "), !_vm.dropDisabled && _vm.draggedNode && _vm.draggedNode.data !== nodeData && (index + 1 >= _vm.data[_vm.childrenProp].length || _vm.draggedNode.data !== _vm.data[_vm.childrenProp][index + 1]) ? _c("drop-between-zone", {
+      on: {
+        nodeDrop: function nodeDrop($event) {
           _vm.dropNodeAtPosition(index + 1);
-        } } }) : _vm._e()];
+        }
+      }
+    }) : _vm._e()];
   })], 2)]);
 };
 var __vue_staticRenderFns__$1 = [];
+__vue_render__$1._withStripped = true;
 
 var __vue_template__$1 = typeof __vue_render__$1 !== 'undefined' ? { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 } : {};
 /* style */
 var __vue_inject_styles__$1 = function (inject) {
   if (!inject) return;
-  inject("data-v-3e83b524_0", { source: "\n.tree-node-label{cursor:pointer;padding:2px 4px;border-radius:3px;-ms-user-select:none;user-select:none\n}\n.tree-node-label:hover{background-color:#ebecee\n}\n.tree-node-icon-container{display:inline-block\n}\n.tree-node-icon-container .tree-node-icon{color:#464646;transition:transform .3s\n}\n.tree-node{margin-left:16px\n}\n.tree-node.has-child-nodes{margin-left:0\n}\n.tree-node.has-child-nodes .tree-node-icon-container{cursor:pointer\n}\n.tree-node-expanded .tree-node-icon-container .tree-node-icon{transform:rotate(90deg);transition:transform .3s\n}\n.tree-node-children{margin-left:22px\n}\n.tree-branch{position:relative\n}\n.tree-branch.selected>.tree-node>.tree-node-label{background-color:#007bff;color:#fff\n}\n.tree-node.drop-active{border:1px dashed #d2d2d2\n}\n.tree-node-label .label-icon{font-size:90%\n}\n.tree-node>svg{display:inline-block;-ms-user-select:none;user-select:none\n}\n.tree-node .input-rename{display:inline-block;width:auto;font-weight:400;line-height:1;font-size:1rem;padding:2px 4px;height:auto;box-sizing:border-box\n}\n.tree-node svg>.svg-icon{fill:none;opacity:1;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1\n}\n.tree-node.tree-node-expanded>svg>.svg-icon{fill:none\n}", map: undefined, media: undefined });
+  inject("data-v-03329d91_0", { source: "\n.tree-node-label {\n    cursor: pointer;\n    padding: 2px 4px;\n    border-radius: 3px;\n    -ms-user-select: none;\n    user-select: none;\n}\n.tree-node-label:hover {\n    background-color: #EBECEE;\n}\n.tree-node-icon-container {\n    display: inline-block;\n}\n.tree-node-icon-container .tree-node-icon {\n    color: #464646;\n    transition: transform 0.3s;\n}\n.tree-node {\n    margin-left: 16px;\n}\n.tree-node.has-child-nodes {\n    margin-left: 0;\n}\n.tree-node.has-child-nodes .tree-node-icon-container {\n    cursor: pointer;\n}\n.tree-node-expanded .tree-node-icon-container .tree-node-icon {\n    transform: rotate(90deg);\n    transition: transform 0.3s;\n}\n.tree-node-children {\n    margin-left: 22px;\n}\n.tree-branch {\n    position: relative;\n}\n.tree-branch.selected > .tree-node > .tree-node-label {\n    background-color: #007bff;\n    color: #fff;\n}\n.tree-node.drop-active {\n    border: 1px dashed #D2D2D2;\n}\n.tree-node-label .label-icon {\n    font-size: 90%;\n}\n.tree-node > svg {\n    display: inline-block;\n    -ms-user-select: none;\n    user-select: none;\n}\n.tree-node .input-rename {\n    display: inline-block;\n    width: auto;\n    font-weight: 400;\n    line-height: 1;\n    font-size: 1rem;\n    padding: 2px 4px;\n    height: auto;\n    box-sizing: border-box;\n}\n.tree-node svg > .svg-icon {\n    fill: none;\n    opacity: 1;\n    stroke: currentColor;\n    stroke-width: 1.5;\n    stroke-linecap: round;\n    stroke-linejoin: round;\n    stroke-miterlimit: 4;\n    stroke-dasharray: none;\n    stroke-opacity: 1\n}\n.tree-node.tree-node-expanded > svg > .svg-icon {\n    fill: none;\n}\n", map: undefined, media: undefined });
 };
 /* scoped */
 var __vue_scope_id__$1 = undefined;
@@ -1759,6 +1897,10 @@ var __vue_is_functional_template__$1 = false;
 /* component normalizer */
 function __vue_normalize__$1(template, style, script, scope, functional, moduleIdentifier, createInjector, createInjectorSSR) {
   var component = script || {};
+
+  {
+    component.__file = "/home/kamil/Projekty/bootstrap-vue-treeview/src/components/TreeNode.vue";
+  }
 
   if (!component.render) {
     component.render = template.render;
@@ -1813,14 +1955,6 @@ function __vue_create_injector__$1() {
       var index = style.ids.length;
 
       style.ids.push(id);
-
-      if (css.map) {
-        // https://developer.chrome.com/devtools/docs/javascript-debugging
-        // this makes source maps inside style tags work properly in Chrome
-        code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
-        // http://stackoverflow.com/a/26603875
-        code += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(_JSON$stringify(css.map)))) + ' */';
-      }
 
       if (isOldIE) {
         style.element = style.element || document.querySelector('style[data-group=' + group + ']');
@@ -1899,19 +2033,30 @@ var __vue_script__$2 = script$2;
 
 /* template */
 var __vue_render__$2 = function __vue_render__() {
-  var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('vue-context-menu', { ref: "ctxMenu", attrs: { "id": "context-menu" } }, _vm._l(_vm.contextMenuItems, function (item) {
-    return _c('li', { staticClass: "ctx-item", on: { "click": function click($event) {
-          $event.stopPropagation();$event.preventDefault();_vm.menuItemSelected(item);
-        } } }, [_vm._v(_vm._s(item.label))]);
+  var _vm = this;
+  var _h = _vm.$createElement;
+  var _c = _vm._self._c || _h;
+  return _c("vue-context-menu", { ref: "ctxMenu", attrs: { id: "context-menu" } }, _vm._l(_vm.contextMenuItems, function (item) {
+    return _c("li", {
+      staticClass: "ctx-item",
+      on: {
+        click: function click($event) {
+          $event.stopPropagation();
+          $event.preventDefault();
+          _vm.menuItemSelected(item);
+        }
+      }
+    }, [_vm._v(_vm._s(item.label))]);
   }));
 };
 var __vue_staticRenderFns__$2 = [];
+__vue_render__$2._withStripped = true;
 
 var __vue_template__$2 = typeof __vue_render__$2 !== 'undefined' ? { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 } : {};
 /* style */
 var __vue_inject_styles__$2 = function (inject) {
   if (!inject) return;
-  inject("data-v-290bdce4_0", { source: "\n.ctx-item{cursor:pointer;user-select:none\n}", map: undefined, media: undefined });
+  inject("data-v-9fbe569e_0", { source: "\n.ctx-item {\n  cursor: pointer;\n  user-select: none;\n}\n\n", map: undefined, media: undefined });
 };
 /* scoped */
 var __vue_scope_id__$2 = undefined;
@@ -1922,6 +2067,10 @@ var __vue_is_functional_template__$2 = false;
 /* component normalizer */
 function __vue_normalize__$2(template, style, script, scope, functional, moduleIdentifier, createInjector, createInjectorSSR) {
   var component = script || {};
+
+  {
+    component.__file = "/home/kamil/Projekty/bootstrap-vue-treeview/src/components/ContextMenu.vue";
+  }
 
   if (!component.render) {
     component.render = template.render;
@@ -1976,14 +2125,6 @@ function __vue_create_injector__$2() {
       var index = style.ids.length;
 
       style.ids.push(id);
-
-      if (css.map) {
-        // https://developer.chrome.com/devtools/docs/javascript-debugging
-        // this makes source maps inside style tags work properly in Chrome
-        code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
-        // http://stackoverflow.com/a/26603875
-        code += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(_JSON$stringify(css.map)))) + ' */';
-      }
 
       if (isOldIE) {
         style.element = style.element || document.querySelector('style[data-group=' + group + ']');
@@ -2091,6 +2232,11 @@ var script$3 = {
             type: String,
             default: "labelClass"
         },
+        // where to search for node expanded
+        expandedProp: {
+            type: String,
+            default: "expanded"
+        },
         // show icons
         showIcons: {
             type: Boolean,
@@ -2099,6 +2245,7 @@ var script$3 = {
     },
     data: function data() {
         return {
+            nodeIcon: '',
             draggedNode: null
         };
     },
@@ -2222,6 +2369,11 @@ var script$3 = {
         this.$nextTick(function () {
             _this2.createNodeMap();
         });
+    },
+    mounted: function mounted() {
+        var iconRef = this.$refs.nodeIcon;
+        var element = iconRef.$el || iconRef;
+        this.nodeIcon = element.innerHTML;
     }
 };
 
@@ -2229,21 +2381,62 @@ var __vue_script__$3 = script$3;
 
 /* template */
 var __vue_render__$3 = function __vue_render__() {
-  var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "tree-view" }, [_vm.contextMenu ? _c('context-menu', { attrs: { "contextMenuItems": _vm.contextMenuItems } }) : _vm._e(), _vm._v(" "), _vm.draggedNode !== null && _vm.draggedNode.data !== _vm.data[0] ? _c('drop-between-zone', { on: { "nodeDrop": function nodeDrop($event) {
+  var _vm = this;
+  var _h = _vm.$createElement;
+  var _c = _vm._self._c || _h;
+  return _c("div", { staticClass: "tree-view" }, [_vm.contextMenu ? _c("context-menu", {
+    attrs: { contextMenuItems: _vm.contextMenuItems }
+  }) : _vm._e(), _vm._v(" "), _vm.draggedNode !== null && _vm.draggedNode.data !== _vm.data[0] ? _c("drop-between-zone", {
+    on: {
+      nodeDrop: function nodeDrop($event) {
         _vm.dropNodeAtPosition(0);
-      } } }) : _vm._e(), _vm._v(" "), _vm._l(_vm.data, function (nodeData, index) {
-    return [_c('tree-node', { key: nodeData[_vm.nodeKeyProp], ref: "rootNodes", refInFor: true, attrs: { "keyProp": _vm.nodeKeyProp, "renameOnDblClick": _vm.renameNodeOnDblClick, "childrenProp": _vm.nodeChildrenProp, "labelProp": _vm.nodeLabelProp, "data": nodeData, "draggable": _vm.nodesDraggable, "defaultIconClass": _vm.defaultIconClass, "defaultLabelClass": _vm.defaultLabelClass, "iconClassProp": _vm.iconClassProp, "labelClassProp": _vm.labelClassProp, "showIcon": _vm.showIcons, "prependIconClass": _vm.prependIconClass, "prependLabelClass": _vm.prependLabelClass, "contextMenu": _vm.contextMenu }, on: { "nodeSelect": _vm.nodeSelect, "nodeDragStart": _vm.nodeDragStart, "deleteNode": _vm.deleteNode } }, [_vm.$slots['node-icon'] ? [_c('template', { slot: "node-icon" }, [_vm._t("node-icon")], 2)] : _vm._e()], 2), _vm._v(" "), _vm.draggedNode !== null && _vm.draggedNode.data !== nodeData && (index + 1 >= _vm.data.length || _vm.draggedNode.data !== _vm.data[index + 1]) ? _c('drop-between-zone', { on: { "nodeDrop": function nodeDrop($event) {
+      }
+    }
+  }) : _vm._e(), _vm._v(" "), _vm._l(_vm.data, function (nodeData, index) {
+    return [_c("tree-node", {
+      key: nodeData[_vm.nodeKeyProp],
+      ref: "rootNodes",
+      refInFor: true,
+      attrs: {
+        keyProp: _vm.nodeKeyProp,
+        renameOnDblClick: _vm.renameNodeOnDblClick,
+        childrenProp: _vm.nodeChildrenProp,
+        labelProp: _vm.nodeLabelProp,
+        data: nodeData,
+        draggable: _vm.nodesDraggable,
+        defaultIconClass: _vm.defaultIconClass,
+        defaultLabelClass: _vm.defaultLabelClass,
+        iconClassProp: _vm.iconClassProp,
+        labelClassProp: _vm.labelClassProp,
+        expandedProp: _vm.expandedProp,
+        showIcon: _vm.showIcons,
+        prependIconClass: _vm.prependIconClass,
+        prependLabelClass: _vm.prependLabelClass,
+        contextMenu: _vm.contextMenu,
+        nodeIconHtml: _vm.nodeIcon
+      },
+      on: {
+        nodeSelect: _vm.nodeSelect,
+        nodeDragStart: _vm.nodeDragStart,
+        deleteNode: _vm.deleteNode
+      }
+    }), _vm._v(" "), _vm.draggedNode !== null && _vm.draggedNode.data !== nodeData && (index + 1 >= _vm.data.length || _vm.draggedNode.data !== _vm.data[index + 1]) ? _c("drop-between-zone", {
+      on: {
+        nodeDrop: function nodeDrop($event) {
           _vm.dropNodeAtPosition(index + 1);
-        } } }) : _vm._e()];
-  })], 2);
+        }
+      }
+    }) : _vm._e()];
+  }), _vm._v(" "), _c("div", { ref: "nodeIcon", staticClass: "d-none" }, [_vm._t("node-icon")], 2)], 2);
 };
 var __vue_staticRenderFns__$3 = [];
+__vue_render__$3._withStripped = true;
 
 var __vue_template__$3 = typeof __vue_render__$3 !== 'undefined' ? { render: __vue_render__$3, staticRenderFns: __vue_staticRenderFns__$3 } : {};
 /* style */
 var __vue_inject_styles__$3 = function (inject) {
   if (!inject) return;
-  inject("data-v-0868ed68_0", { source: "\n.tree-view{text-align:left\n}", map: undefined, media: undefined });
+  inject("data-v-3f426780_0", { source: "\n.tree-view {\n    text-align: left;\n}\n\n", map: undefined, media: undefined });
 };
 /* scoped */
 var __vue_scope_id__$3 = undefined;
@@ -2254,6 +2447,10 @@ var __vue_is_functional_template__$3 = false;
 /* component normalizer */
 function __vue_normalize__$3(template, style, script, scope, functional, moduleIdentifier, createInjector, createInjectorSSR) {
   var component = script || {};
+
+  {
+    component.__file = "/home/kamil/Projekty/bootstrap-vue-treeview/src/components/TreeView.vue";
+  }
 
   if (!component.render) {
     component.render = template.render;
@@ -2308,14 +2505,6 @@ function __vue_create_injector__$3() {
       var index = style.ids.length;
 
       style.ids.push(id);
-
-      if (css.map) {
-        // https://developer.chrome.com/devtools/docs/javascript-debugging
-        // this makes source maps inside style tags work properly in Chrome
-        code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
-        // http://stackoverflow.com/a/26603875
-        code += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(_JSON$stringify(css.map)))) + ' */';
-      }
 
       if (isOldIE) {
         style.element = style.element || document.querySelector('style[data-group=' + group + ']');

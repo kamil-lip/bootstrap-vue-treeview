@@ -62,6 +62,7 @@ export default {
 | showIcons        | Boolean       | Show/hide icons        | false | No
 | iconClassProp    | String        | Name of the property containing icon class | "icon" | No
 | labelClassProp   | String        | Name of the property containing node label class | "labelClass" | No
+| expandedProp     | String        | Name of the property containing node expanded | "expanded" | No
 | defaultIconClass | String        | Icon class to apply if node has no icon class property | null | No
 | defaultLabelClass| String        | Label class to apply if node has no label class property | null | No
 | prependIconClass | String        | Class to apply to every icon (common to all icons) | null | No
