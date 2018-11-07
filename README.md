@@ -77,6 +77,7 @@ export default {
 | Event name            | Description                                                                                                                 | Parameters                                |
 |-----------------------|-----------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
 | nodeSelect            | Triggered every time a node is selected/deselected. Check second parameter to verify if the node was selected or deselected | TreeNode object, isSelected              |
+| nodeToggle            | Triggered every time a node is toggled | { data: [TreeNode data object], expanded: Boolean }              |
 | contextMenuItemSelect | Triggered every time a context menu item was clicked.                                                                       | Context menu item object (see below), TreeNode object |
 |                       |                                                                                                                             |                                           |
 

@@ -30,7 +30,7 @@
 	module.exports = { "default": stringify, __esModule: true };
 	});
 
-	unwrapExports(stringify$1);
+	var _JSON$stringify = unwrapExports(stringify$1);
 
 	var _iterStep = function (done, value) {
 	  return { value: value, done: !!done };
@@ -1239,43 +1239,23 @@
 
 	/* template */
 	var __vue_render__ = function __vue_render__() {
-	  var _vm = this;
-	  var _h = _vm.$createElement;
-	  var _c = _vm._self._c || _h;
-	  return _c("div", {
-	    staticClass: "drop-between-zone",
-	    class: { active: _vm.nodeDragOver },
-	    on: {
-	      drop: function drop($event) {
-	        $event.preventDefault();
-	        $event.stopPropagation();
-	        return _vm.drop($event);
-	      },
-	      dragover: function dragover($event) {
-	        $event.preventDefault();
-	        return _vm.dragover($event);
-	      },
-	      dragenter: function dragenter($event) {
-	        $event.preventDefault();
-	        $event.stopPropagation();
-	        _vm.nodeDragOver = true;
-	      },
-	      dragleave: function dragleave($event) {
-	        $event.preventDefault();
-	        $event.stopPropagation();
-	        _vm.nodeDragOver = false;
-	      }
-	    }
-	  });
+	  var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "drop-between-zone", class: { 'active': _vm.nodeDragOver }, on: { "drop": function drop($event) {
+	        $event.preventDefault();$event.stopPropagation();return _vm.drop($event);
+	      }, "dragover": function dragover($event) {
+	        $event.preventDefault();return _vm.dragover($event);
+	      }, "dragenter": function dragenter($event) {
+	        $event.preventDefault();$event.stopPropagation();_vm.nodeDragOver = true;
+	      }, "dragleave": function dragleave($event) {
+	        $event.preventDefault();$event.stopPropagation();_vm.nodeDragOver = false;
+	      } } });
 	};
 	var __vue_staticRenderFns__ = [];
-	__vue_render__._withStripped = true;
 
 	var __vue_template__ = typeof __vue_render__ !== 'undefined' ? { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ } : {};
 	/* style */
 	var __vue_inject_styles__ = function (inject) {
 	  if (!inject) return;
-	  inject("data-v-a9d015e0_0", { source: "\n.drop-between-zone {\n  height: 4px;\n  width: 100%;\n  z-index: 1;\n}\n.drop-between-zone.active {\n  position: static;\n  top: 0;\n  border: 1px dashed #D2D2D2;\n  height: 24px;\n}\n\n", map: undefined, media: undefined });
+	  inject("data-v-1c447986_0", { source: "\n.drop-between-zone{height:4px;width:100%;z-index:1\n}\n.drop-between-zone.active{position:static;top:0;border:1px dashed #d2d2d2;height:24px\n}", map: undefined, media: undefined });
 	};
 	/* scoped */
 	var __vue_scope_id__ = undefined;
@@ -1286,10 +1266,6 @@
 	/* component normalizer */
 	function __vue_normalize__(template, style, script$$1, scope, functional, moduleIdentifier, createInjector, createInjectorSSR) {
 	  var component = script$$1 || {};
-
-	  {
-	    component.__file = "/home/kamil/Projekty/bootstrap-vue-treeview/src/components/DropBetweenZone.vue";
-	  }
 
 	  if (!component.render) {
 	    component.render = template.render;
@@ -1344,6 +1320,14 @@
 	      var index = style.ids.length;
 
 	      style.ids.push(id);
+
+	      if (css.map) {
+	        // https://developer.chrome.com/devtools/docs/javascript-debugging
+	        // this makes source maps inside style tags work properly in Chrome
+	        code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
+	        // http://stackoverflow.com/a/26603875
+	        code += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(_JSON$stringify(css.map)))) + ' */';
+	      }
 
 	      if (isOldIE) {
 	        style.element = style.element || document.querySelector('style[data-group=' + group + ']');
@@ -1518,9 +1502,16 @@
 	    }
 	  },
 	  methods: {
+	    nodeToggle: function nodeToggle(data) {
+	      this.$emit('nodeToggle', data);
+	    },
 	    toggle: function toggle() {
 	      if (this.data[this.childrenProp] && Array.isArray(this.data[this.childrenProp]) && this.data[this.childrenProp].length > 0) {
 	        this.expanded = !this.expanded;
+	        this.$emit('nodeToggle', {
+	          data: this.data,
+	          expanded: this.expanded
+	        });
 	      }
 	    },
 	    toggleSelection: function toggleSelection() {
@@ -1739,160 +1730,47 @@
 
 	/* template */
 	var __vue_render__$1 = function __vue_render__() {
-	  var _vm = this;
-	  var _h = _vm.$createElement;
-	  var _c = _vm._self._c || _h;
-	  return _c("div", { staticClass: "tree-branch", class: { selected: _vm.selected } }, [_c("div", {
-	    staticClass: "tree-node",
-	    class: {
-	      "has-child-nodes": _vm.hasChildren,
-	      "tree-node-expanded": _vm.expanded,
-	      "drop-active": _vm.nodeDragOver
-	    },
-	    attrs: { draggable: _vm.draggable && !_vm.renaming },
-	    on: {
-	      drop: function drop($event) {
-	        $event.preventDefault();
-	        return _vm.drop($event);
-	      },
-	      dragover: function dragover($event) {
-	        $event.preventDefault();
-	        return _vm.dragover($event);
-	      },
-	      dragstart: function dragstart($event) {
-	        $event.stopPropagation();
-	        return _vm.dragstart($event);
-	      },
-	      dragend: _vm.dragend,
-	      dragenter: function dragenter($event) {
-	        $event.preventDefault();
-	        $event.stopPropagation();
-	        return _vm.dragEnter($event);
-	      },
-	      dragleave: function dragleave($event) {
-	        $event.preventDefault();
-	        $event.stopPropagation();
-	        return _vm.dragLeave($event);
-	      },
-	      contextmenu: function contextmenu($event) {
+	  var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "tree-branch", class: { selected: _vm.selected } }, [_c('div', { staticClass: "tree-node", class: { 'has-child-nodes': _vm.hasChildren, 'tree-node-expanded': _vm.expanded, 'drop-active': _vm.nodeDragOver }, attrs: { "draggable": _vm.draggable && !_vm.renaming }, on: { "drop": function drop($event) {
+	        $event.preventDefault();return _vm.drop($event);
+	      }, "dragover": function dragover($event) {
+	        $event.preventDefault();return _vm.dragover($event);
+	      }, "dragstart": function dragstart($event) {
+	        $event.stopPropagation();return _vm.dragstart($event);
+	      }, "dragend": _vm.dragend, "dragenter": function dragenter($event) {
+	        $event.preventDefault();$event.stopPropagation();return _vm.dragEnter($event);
+	      }, "dragleave": function dragleave($event) {
+	        $event.preventDefault();$event.stopPropagation();return _vm.dragLeave($event);
+	      }, "contextmenu": function contextmenu($event) {
 	        _vm.showContextMenu($event);
-	      }
-	    }
-	  }, [_c("transition", { attrs: { name: "rotateArrow" } }, [_vm.hasChildren ? _c("div", {
-	    staticClass: "tree-node-icon-container",
-	    on: {
-	      click: function click($event) {
-	        $event.preventDefault();
-	        return _vm.toggle($event);
-	      }
-	    }
-	  }, [_vm.nodeIconHtml ? [_c("div", { staticClass: "tree-node-icon" }, [_c("div", {
-	    domProps: { innerHTML: _vm._s(_vm.nodeIconHtml) }
-	  })])] : _c("svg", {
-	    staticClass: "tree-node-icon",
-	    attrs: { width: "12", height: "12" }
-	  }, [_c("path", {
-	    staticClass: "svg-icon",
-	    attrs: { d: "M2 1 L10 6 L2 11 Z" }
-	  })])], 2) : _vm._e()]), _vm._v(" "), _c("span", {
-	    staticClass: "tree-node-label",
-	    on: { click: _vm.toggleSelection, dblclick: _vm.dblClickLabel }
-	  }, [_vm.showIcon && _vm.iconClass !== null ? _c("i", {
-	    class: ["label-icon", _vm.prependIconClass, _vm.iconClass]
-	  }) : _vm._e(), _vm._v(" "), _vm.renaming ? _c("input", {
-	    directives: [{
-	      name: "model",
-	      rawName: "v-model",
-	      value: _vm.renameNewLabel,
-	      expression: "renameNewLabel"
-	    }, { name: "focus", rawName: "v-focus" }, { name: "select-text", rawName: "v-select-text" }],
-	    ref: "inputRename",
-	    staticClass: "form-control form-control-sm input-rename",
-	    attrs: { type: "text" },
-	    domProps: { value: _vm.renameNewLabel },
-	    on: {
-	      blur: _vm.endRenaming,
-	      keyup: [function ($event) {
-	        if (!("button" in $event) && _vm._k($event.keyCode, "esc", 27, $event.key, "Escape")) {
+	      } } }, [_c('transition', { attrs: { "name": "rotateArrow" } }, [_vm.hasChildren ? _c('div', { staticClass: "tree-node-icon-container", on: { "click": function click($event) {
+	        $event.preventDefault();return _vm.toggle($event);
+	      } } }, [_vm.nodeIconHtml ? [_c('div', { staticClass: "tree-node-icon" }, [_c('div', { domProps: { "innerHTML": _vm._s(_vm.nodeIconHtml) } })])] : _c('svg', { staticClass: "tree-node-icon", attrs: { "width": "12", "height": "12" } }, [_c('path', { staticClass: "svg-icon", attrs: { "d": "M2 1 L10 6 L2 11 Z" } })])], 2) : _vm._e()]), _vm._v(" "), _c('span', { staticClass: "tree-node-label", on: { "click": _vm.toggleSelection, "dblclick": _vm.dblClickLabel } }, [_vm.showIcon && _vm.iconClass !== null ? _c('i', { class: ['label-icon', _vm.prependIconClass, _vm.iconClass] }) : _vm._e(), _vm._v(" "), _vm.renaming ? _c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.renameNewLabel, expression: "renameNewLabel" }, { name: "focus", rawName: "v-focus" }, { name: "select-text", rawName: "v-select-text" }], ref: "inputRename", staticClass: "form-control form-control-sm input-rename", attrs: { "type": "text" }, domProps: { "value": _vm.renameNewLabel }, on: { "blur": _vm.endRenaming, "keyup": [function ($event) {
+	        if (!('button' in $event) && _vm._k($event.keyCode, "esc", 27, $event.key, "Escape")) {
 	          return null;
-	        }
-	        $event.stopPropagation();
-	        return _vm.cancelRenaming($event);
+	        }$event.stopPropagation();return _vm.cancelRenaming($event);
 	      }, function ($event) {
-	        if (!("button" in $event) && _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")) {
+	        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")) {
 	          return null;
-	        }
-	        $event.stopPropagation();
-	        return _vm.endRenaming($event);
-	      }],
-	      input: function input($event) {
+	        }$event.stopPropagation();return _vm.endRenaming($event);
+	      }], "input": function input($event) {
 	        if ($event.target.composing) {
 	          return;
-	        }
-	        _vm.renameNewLabel = $event.target.value;
-	      }
-	    }
-	  }) : _c("span", {
-	    class: ["node-label-text", _vm.prependLabelClass, _vm.labelClass]
-	  }, [_vm._v(_vm._s(_vm.data[_vm.labelProp]))])])], 1), _vm._v(" "), _c("div", {
-	    directives: [{
-	      name: "show",
-	      rawName: "v-show",
-	      value: _vm.expanded && _vm.data[_vm.childrenProp] && Array.isArray(_vm.data[_vm.childrenProp]),
-	      expression: "expanded && data[childrenProp] && Array.isArray(data[childrenProp])"
-	    }],
-	    staticClass: "tree-node-children"
-	  }, [!_vm.dropDisabled && _vm.draggedNode !== null && _vm.data[_vm.childrenProp] && _vm.draggedNode.data !== _vm.data[_vm.childrenProp][0] ? _c("drop-between-zone", {
-	    on: {
-	      nodeDrop: function nodeDrop($event) {
+	        }_vm.renameNewLabel = $event.target.value;
+	      } } }) : _c('span', { class: ['node-label-text', _vm.prependLabelClass, _vm.labelClass] }, [_vm._v(_vm._s(_vm.data[_vm.labelProp]))])])], 1), _vm._v(" "), _c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.expanded && _vm.data[_vm.childrenProp] && Array.isArray(_vm.data[_vm.childrenProp]), expression: "expanded && data[childrenProp] && Array.isArray(data[childrenProp])" }], staticClass: "tree-node-children" }, [!_vm.dropDisabled && _vm.draggedNode !== null && _vm.data[_vm.childrenProp] && _vm.draggedNode.data !== _vm.data[_vm.childrenProp][0] ? _c('drop-between-zone', { on: { "nodeDrop": function nodeDrop($event) {
 	        _vm.dropNodeAtPosition(0);
-	      }
-	    }
-	  }) : _vm._e(), _vm._v(" "), _vm._l(_vm.data[_vm.childrenProp], function (nodeData, index) {
-	    return [_c("tree-node", {
-	      key: nodeData[_vm.keyProp],
-	      ref: "childNodes",
-	      refInFor: true,
-	      attrs: {
-	        data: nodeData,
-	        keyProp: _vm.keyProp,
-	        labelProp: _vm.labelProp,
-	        childrenProp: _vm.childrenProp,
-	        renameOnDblClick: _vm.renameOnDblClick,
-	        draggable: _vm.draggable,
-	        defaultIconClass: _vm.defaultIconClass,
-	        defaultLabelClass: _vm.defaultLabelClass,
-	        iconClassProp: _vm.iconClassProp,
-	        labelClassProp: _vm.labelClassProp,
-	        expandedProp: _vm.expandedProp,
-	        showIcon: _vm.showIcon,
-	        prependIconClass: _vm.prependIconClass,
-	        prependLabelClass: _vm.prependLabelClass,
-	        contextMenu: _vm.contextMenu,
-	        nodeIconHtml: _vm.nodeIconHtml
-	      },
-	      on: {
-	        nodeSelect: _vm.childNodeSelect,
-	        nodeDragStart: _vm.nodeDragStart,
-	        deleteNode: _vm.deleteChildNode
-	      }
-	    }), _vm._v(" "), !_vm.dropDisabled && _vm.draggedNode && _vm.draggedNode.data !== nodeData && (index + 1 >= _vm.data[_vm.childrenProp].length || _vm.draggedNode.data !== _vm.data[_vm.childrenProp][index + 1]) ? _c("drop-between-zone", {
-	      on: {
-	        nodeDrop: function nodeDrop($event) {
+	      } } }) : _vm._e(), _vm._v(" "), _vm._l(_vm.data[_vm.childrenProp], function (nodeData, index) {
+	    return [_c('tree-node', { key: nodeData[_vm.keyProp], ref: "childNodes", refInFor: true, attrs: { "data": nodeData, "keyProp": _vm.keyProp, "labelProp": _vm.labelProp, "childrenProp": _vm.childrenProp, "renameOnDblClick": _vm.renameOnDblClick, "draggable": _vm.draggable, "defaultIconClass": _vm.defaultIconClass, "defaultLabelClass": _vm.defaultLabelClass, "iconClassProp": _vm.iconClassProp, "labelClassProp": _vm.labelClassProp, "expandedProp": _vm.expandedProp, "showIcon": _vm.showIcon, "prependIconClass": _vm.prependIconClass, "prependLabelClass": _vm.prependLabelClass, "contextMenu": _vm.contextMenu, "nodeIconHtml": _vm.nodeIconHtml }, on: { "nodeSelect": _vm.childNodeSelect, "nodeDragStart": _vm.nodeDragStart, "deleteNode": _vm.deleteChildNode, "nodeToggle": _vm.nodeToggle } }), _vm._v(" "), !_vm.dropDisabled && _vm.draggedNode && _vm.draggedNode.data !== nodeData && (index + 1 >= _vm.data[_vm.childrenProp].length || _vm.draggedNode.data !== _vm.data[_vm.childrenProp][index + 1]) ? _c('drop-between-zone', { on: { "nodeDrop": function nodeDrop($event) {
 	          _vm.dropNodeAtPosition(index + 1);
-	        }
-	      }
-	    }) : _vm._e()];
+	        } } }) : _vm._e()];
 	  })], 2)]);
 	};
 	var __vue_staticRenderFns__$1 = [];
-	__vue_render__$1._withStripped = true;
 
 	var __vue_template__$1 = typeof __vue_render__$1 !== 'undefined' ? { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 } : {};
 	/* style */
 	var __vue_inject_styles__$1 = function (inject) {
 	  if (!inject) return;
-	  inject("data-v-03329d91_0", { source: "\n.tree-node-label {\n    cursor: pointer;\n    padding: 2px 4px;\n    border-radius: 3px;\n    -ms-user-select: none;\n    user-select: none;\n}\n.tree-node-label:hover {\n    background-color: #EBECEE;\n}\n.tree-node-icon-container {\n    display: inline-block;\n}\n.tree-node-icon-container .tree-node-icon {\n    color: #464646;\n    transition: transform 0.3s;\n}\n.tree-node {\n    margin-left: 16px;\n}\n.tree-node.has-child-nodes {\n    margin-left: 0;\n}\n.tree-node.has-child-nodes .tree-node-icon-container {\n    cursor: pointer;\n}\n.tree-node-expanded .tree-node-icon-container .tree-node-icon {\n    transform: rotate(90deg);\n    transition: transform 0.3s;\n}\n.tree-node-children {\n    margin-left: 22px;\n}\n.tree-branch {\n    position: relative;\n}\n.tree-branch.selected > .tree-node > .tree-node-label {\n    background-color: #007bff;\n    color: #fff;\n}\n.tree-node.drop-active {\n    border: 1px dashed #D2D2D2;\n}\n.tree-node-label .label-icon {\n    font-size: 90%;\n}\n.tree-node > svg {\n    display: inline-block;\n    -ms-user-select: none;\n    user-select: none;\n}\n.tree-node .input-rename {\n    display: inline-block;\n    width: auto;\n    font-weight: 400;\n    line-height: 1;\n    font-size: 1rem;\n    padding: 2px 4px;\n    height: auto;\n    box-sizing: border-box;\n}\n.tree-node svg > .svg-icon {\n    fill: none;\n    opacity: 1;\n    stroke: currentColor;\n    stroke-width: 1.5;\n    stroke-linecap: round;\n    stroke-linejoin: round;\n    stroke-miterlimit: 4;\n    stroke-dasharray: none;\n    stroke-opacity: 1\n}\n.tree-node.tree-node-expanded > svg > .svg-icon {\n    fill: none;\n}\n", map: undefined, media: undefined });
+	  inject("data-v-2c667d96_0", { source: "\n.tree-node-label{cursor:pointer;padding:2px 4px;border-radius:3px;-ms-user-select:none;user-select:none\n}\n.tree-node-label:hover{background-color:#ebecee\n}\n.tree-node-icon-container{display:inline-block\n}\n.tree-node-icon-container .tree-node-icon{color:#464646;transition:transform .3s\n}\n.tree-node{margin-left:16px\n}\n.tree-node.has-child-nodes{margin-left:0\n}\n.tree-node.has-child-nodes .tree-node-icon-container{cursor:pointer\n}\n.tree-node-expanded .tree-node-icon-container .tree-node-icon{transform:rotate(90deg);transition:transform .3s\n}\n.tree-node-children{margin-left:22px\n}\n.tree-branch{position:relative\n}\n.tree-branch.selected>.tree-node>.tree-node-label{background-color:#007bff;color:#fff\n}\n.tree-node.drop-active{border:1px dashed #d2d2d2\n}\n.tree-node-label .label-icon{font-size:90%\n}\n.tree-node>svg{display:inline-block;-ms-user-select:none;user-select:none\n}\n.tree-node .input-rename{display:inline-block;width:auto;font-weight:400;line-height:1;font-size:1rem;padding:2px 4px;height:auto;box-sizing:border-box\n}\n.tree-node svg>.svg-icon{fill:none;opacity:1;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1\n}\n.tree-node.tree-node-expanded>svg>.svg-icon{fill:none\n}", map: undefined, media: undefined });
 	};
 	/* scoped */
 	var __vue_scope_id__$1 = undefined;
@@ -1903,10 +1781,6 @@
 	/* component normalizer */
 	function __vue_normalize__$1(template, style, script, scope, functional, moduleIdentifier, createInjector, createInjectorSSR) {
 	  var component = script || {};
-
-	  {
-	    component.__file = "/home/kamil/Projekty/bootstrap-vue-treeview/src/components/TreeNode.vue";
-	  }
 
 	  if (!component.render) {
 	    component.render = template.render;
@@ -1961,6 +1835,14 @@
 	      var index = style.ids.length;
 
 	      style.ids.push(id);
+
+	      if (css.map) {
+	        // https://developer.chrome.com/devtools/docs/javascript-debugging
+	        // this makes source maps inside style tags work properly in Chrome
+	        code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
+	        // http://stackoverflow.com/a/26603875
+	        code += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(_JSON$stringify(css.map)))) + ' */';
+	      }
 
 	      if (isOldIE) {
 	        style.element = style.element || document.querySelector('style[data-group=' + group + ']');
@@ -2039,30 +1921,19 @@
 
 	/* template */
 	var __vue_render__$2 = function __vue_render__() {
-	  var _vm = this;
-	  var _h = _vm.$createElement;
-	  var _c = _vm._self._c || _h;
-	  return _c("vue-context-menu", { ref: "ctxMenu", attrs: { id: "context-menu" } }, _vm._l(_vm.contextMenuItems, function (item) {
-	    return _c("li", {
-	      staticClass: "ctx-item",
-	      on: {
-	        click: function click($event) {
-	          $event.stopPropagation();
-	          $event.preventDefault();
-	          _vm.menuItemSelected(item);
-	        }
-	      }
-	    }, [_vm._v(_vm._s(item.label))]);
+	  var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('vue-context-menu', { ref: "ctxMenu", attrs: { "id": "context-menu" } }, _vm._l(_vm.contextMenuItems, function (item) {
+	    return _c('li', { staticClass: "ctx-item", on: { "click": function click($event) {
+	          $event.stopPropagation();$event.preventDefault();_vm.menuItemSelected(item);
+	        } } }, [_vm._v(_vm._s(item.label))]);
 	  }));
 	};
 	var __vue_staticRenderFns__$2 = [];
-	__vue_render__$2._withStripped = true;
 
 	var __vue_template__$2 = typeof __vue_render__$2 !== 'undefined' ? { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 } : {};
 	/* style */
 	var __vue_inject_styles__$2 = function (inject) {
 	  if (!inject) return;
-	  inject("data-v-9fbe569e_0", { source: "\n.ctx-item {\n  cursor: pointer;\n  user-select: none;\n}\n\n", map: undefined, media: undefined });
+	  inject("data-v-290bdce4_0", { source: "\n.ctx-item{cursor:pointer;user-select:none\n}", map: undefined, media: undefined });
 	};
 	/* scoped */
 	var __vue_scope_id__$2 = undefined;
@@ -2073,10 +1944,6 @@
 	/* component normalizer */
 	function __vue_normalize__$2(template, style, script, scope, functional, moduleIdentifier, createInjector, createInjectorSSR) {
 	  var component = script || {};
-
-	  {
-	    component.__file = "/home/kamil/Projekty/bootstrap-vue-treeview/src/components/ContextMenu.vue";
-	  }
 
 	  if (!component.render) {
 	    component.render = template.render;
@@ -2131,6 +1998,14 @@
 	      var index = style.ids.length;
 
 	      style.ids.push(id);
+
+	      if (css.map) {
+	        // https://developer.chrome.com/devtools/docs/javascript-debugging
+	        // this makes source maps inside style tags work properly in Chrome
+	        code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
+	        // http://stackoverflow.com/a/26603875
+	        code += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(_JSON$stringify(css.map)))) + ' */';
+	      }
 
 	      if (isOldIE) {
 	        style.element = style.element || document.querySelector('style[data-group=' + group + ']');
@@ -2262,6 +2137,9 @@
 	        ContextMenu: ContextMenu
 	    },
 	    methods: {
+	        nodeToggle: function nodeToggle(data) {
+	            this.$emit('nodeToggle', data);
+	        },
 	        createNodeMap: function createNodeMap() {
 	            if (this.nodeMap === undefined) {
 	                var nodeMap = this.nodeMap = new _Map();
@@ -2387,62 +2265,21 @@
 
 	/* template */
 	var __vue_render__$3 = function __vue_render__() {
-	  var _vm = this;
-	  var _h = _vm.$createElement;
-	  var _c = _vm._self._c || _h;
-	  return _c("div", { staticClass: "tree-view" }, [_vm.contextMenu ? _c("context-menu", {
-	    attrs: { contextMenuItems: _vm.contextMenuItems }
-	  }) : _vm._e(), _vm._v(" "), _vm.draggedNode !== null && _vm.draggedNode.data !== _vm.data[0] ? _c("drop-between-zone", {
-	    on: {
-	      nodeDrop: function nodeDrop($event) {
+	  var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "tree-view" }, [_vm.contextMenu ? _c('context-menu', { attrs: { "contextMenuItems": _vm.contextMenuItems } }) : _vm._e(), _vm._v(" "), _vm.draggedNode !== null && _vm.draggedNode.data !== _vm.data[0] ? _c('drop-between-zone', { on: { "nodeDrop": function nodeDrop($event) {
 	        _vm.dropNodeAtPosition(0);
-	      }
-	    }
-	  }) : _vm._e(), _vm._v(" "), _vm._l(_vm.data, function (nodeData, index) {
-	    return [_c("tree-node", {
-	      key: nodeData[_vm.nodeKeyProp],
-	      ref: "rootNodes",
-	      refInFor: true,
-	      attrs: {
-	        keyProp: _vm.nodeKeyProp,
-	        renameOnDblClick: _vm.renameNodeOnDblClick,
-	        childrenProp: _vm.nodeChildrenProp,
-	        labelProp: _vm.nodeLabelProp,
-	        data: nodeData,
-	        draggable: _vm.nodesDraggable,
-	        defaultIconClass: _vm.defaultIconClass,
-	        defaultLabelClass: _vm.defaultLabelClass,
-	        iconClassProp: _vm.iconClassProp,
-	        labelClassProp: _vm.labelClassProp,
-	        expandedProp: _vm.expandedProp,
-	        showIcon: _vm.showIcons,
-	        prependIconClass: _vm.prependIconClass,
-	        prependLabelClass: _vm.prependLabelClass,
-	        contextMenu: _vm.contextMenu,
-	        nodeIconHtml: _vm.nodeIcon
-	      },
-	      on: {
-	        nodeSelect: _vm.nodeSelect,
-	        nodeDragStart: _vm.nodeDragStart,
-	        deleteNode: _vm.deleteNode
-	      }
-	    }), _vm._v(" "), _vm.draggedNode !== null && _vm.draggedNode.data !== nodeData && (index + 1 >= _vm.data.length || _vm.draggedNode.data !== _vm.data[index + 1]) ? _c("drop-between-zone", {
-	      on: {
-	        nodeDrop: function nodeDrop($event) {
+	      } } }) : _vm._e(), _vm._v(" "), _vm._l(_vm.data, function (nodeData, index) {
+	    return [_c('tree-node', { key: nodeData[_vm.nodeKeyProp], ref: "rootNodes", refInFor: true, attrs: { "keyProp": _vm.nodeKeyProp, "renameOnDblClick": _vm.renameNodeOnDblClick, "childrenProp": _vm.nodeChildrenProp, "labelProp": _vm.nodeLabelProp, "data": nodeData, "draggable": _vm.nodesDraggable, "defaultIconClass": _vm.defaultIconClass, "defaultLabelClass": _vm.defaultLabelClass, "iconClassProp": _vm.iconClassProp, "labelClassProp": _vm.labelClassProp, "expandedProp": _vm.expandedProp, "showIcon": _vm.showIcons, "prependIconClass": _vm.prependIconClass, "prependLabelClass": _vm.prependLabelClass, "contextMenu": _vm.contextMenu, "nodeIconHtml": _vm.nodeIcon }, on: { "nodeSelect": _vm.nodeSelect, "nodeDragStart": _vm.nodeDragStart, "deleteNode": _vm.deleteNode, "nodeToggle": _vm.nodeToggle } }), _vm._v(" "), _vm.draggedNode !== null && _vm.draggedNode.data !== nodeData && (index + 1 >= _vm.data.length || _vm.draggedNode.data !== _vm.data[index + 1]) ? _c('drop-between-zone', { on: { "nodeDrop": function nodeDrop($event) {
 	          _vm.dropNodeAtPosition(index + 1);
-	        }
-	      }
-	    }) : _vm._e()];
-	  }), _vm._v(" "), _c("div", { ref: "nodeIcon", staticClass: "d-none" }, [_vm._t("node-icon")], 2)], 2);
+	        } } }) : _vm._e()];
+	  }), _vm._v(" "), _c('div', { ref: "nodeIcon", staticClass: "d-none" }, [_vm._t("node-icon")], 2)], 2);
 	};
 	var __vue_staticRenderFns__$3 = [];
-	__vue_render__$3._withStripped = true;
 
 	var __vue_template__$3 = typeof __vue_render__$3 !== 'undefined' ? { render: __vue_render__$3, staticRenderFns: __vue_staticRenderFns__$3 } : {};
 	/* style */
 	var __vue_inject_styles__$3 = function (inject) {
 	  if (!inject) return;
-	  inject("data-v-3f426780_0", { source: "\n.tree-view {\n    text-align: left;\n}\n\n", map: undefined, media: undefined });
+	  inject("data-v-729969cc_0", { source: "\n.tree-view{text-align:left\n}", map: undefined, media: undefined });
 	};
 	/* scoped */
 	var __vue_scope_id__$3 = undefined;
@@ -2453,10 +2290,6 @@
 	/* component normalizer */
 	function __vue_normalize__$3(template, style, script, scope, functional, moduleIdentifier, createInjector, createInjectorSSR) {
 	  var component = script || {};
-
-	  {
-	    component.__file = "/home/kamil/Projekty/bootstrap-vue-treeview/src/components/TreeView.vue";
-	  }
 
 	  if (!component.render) {
 	    component.render = template.render;
@@ -2511,6 +2344,14 @@
 	      var index = style.ids.length;
 
 	      style.ids.push(id);
+
+	      if (css.map) {
+	        // https://developer.chrome.com/devtools/docs/javascript-debugging
+	        // this makes source maps inside style tags work properly in Chrome
+	        code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
+	        // http://stackoverflow.com/a/26603875
+	        code += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(_JSON$stringify(css.map)))) + ' */';
+	      }
 
 	      if (isOldIE) {
 	        style.element = style.element || document.querySelector('style[data-group=' + group + ']');

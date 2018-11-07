@@ -53,27 +53,28 @@
             </drop-between-zone>
             <template v-for="(nodeData, index) in data[childrenProp]">
                 <tree-node
-                        :data="nodeData"
-                        :key="nodeData[keyProp]"
-                        ref="childNodes"
-                        :keyProp="keyProp"
-                        :labelProp="labelProp"
-                        :childrenProp="childrenProp"
-                        :renameOnDblClick="renameOnDblClick"
-                        :draggable="draggable"
-                        :defaultIconClass="defaultIconClass"
-                        :defaultLabelClass="defaultLabelClass"
-                        :iconClassProp="iconClassProp"
-                        :labelClassProp="labelClassProp"
-                        :expandedProp="expandedProp"
-                        :showIcon="showIcon"
-                        :prependIconClass="prependIconClass"
-                        :prependLabelClass="prependLabelClass"
-                        :contextMenu="contextMenu"
-                        :nodeIconHtml="nodeIconHtml"
-                        @nodeSelect="childNodeSelect"
-                        @nodeDragStart="nodeDragStart"
-                        @deleteNode="deleteChildNode">
+                    :data="nodeData"
+                    :key="nodeData[keyProp]"
+                    ref="childNodes"
+                    :keyProp="keyProp"
+                    :labelProp="labelProp"
+                    :childrenProp="childrenProp"
+                    :renameOnDblClick="renameOnDblClick"
+                    :draggable="draggable"
+                    :defaultIconClass="defaultIconClass"
+                    :defaultLabelClass="defaultLabelClass"
+                    :iconClassProp="iconClassProp"
+                    :labelClassProp="labelClassProp"
+                    :expandedProp="expandedProp"
+                    :showIcon="showIcon"
+                    :prependIconClass="prependIconClass"
+                    :prependLabelClass="prependLabelClass"
+                    :contextMenu="contextMenu"
+                    :nodeIconHtml="nodeIconHtml"
+                    @nodeSelect="childNodeSelect"
+                    @nodeDragStart="nodeDragStart"
+                    @deleteNode="deleteChildNode"
+                    @nodeToggle="nodeToggle">
                 </tree-node>
                 <drop-between-zone
                         @nodeDrop="dropNodeAtPosition(index + 1)"
@@ -224,9 +225,16 @@
       }
     },
     methods: {
+      nodeToggle(data) {
+        this.$emit('nodeToggle', data);
+      },
       toggle() {
         if (this.data[this.childrenProp] && Array.isArray(this.data[this.childrenProp]) && this.data[this.childrenProp].length > 0) {
           this.expanded = !this.expanded
+          this.$emit('nodeToggle', {
+            data: this.data,
+            expanded: this.expanded,
+          });
         }
       },
       toggleSelection() {

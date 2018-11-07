@@ -30,7 +30,8 @@
                 ref="rootNodes"
                 @nodeSelect="nodeSelect"
                 @nodeDragStart="nodeDragStart"
-                @deleteNode="deleteNode">
+                @deleteNode="deleteNode"
+                @nodeToggle="nodeToggle">
             </tree-node>
             <drop-between-zone
                 @nodeDrop="dropNodeAtPosition(index + 1)"
@@ -141,6 +142,9 @@
             ContextMenu
         },
         methods: {
+            nodeToggle(data) {
+                this.$emit('nodeToggle', data);
+            },
             createNodeMap() {
                 if (this.nodeMap === undefined) {
                     let nodeMap = this.nodeMap = new Map()
