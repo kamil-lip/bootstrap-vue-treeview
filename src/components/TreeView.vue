@@ -82,7 +82,7 @@
                 default: true
             },
             contextMenuItems: {
-                type: Array,
+                type: [Array, Object],
                 default: [{code: 'DELETE_NODE', label: 'Delete node'}, {code: 'RENAME_NODE', label: 'Rename node'}]
             },
             renameNodeOnDblClick: {

@@ -14,7 +14,7 @@ var app = new Vue({
 						ref="tree"
 						:nodesDraggable="true"
 						:contextMenu="true"
-						:contextMenuItems="contextMenuItems"
+						:contextMenuItems="contextMenuItemsObj"
 						:renameNodeOnDblClick="true"
 						:showIcons="true"
 						iconClassProp="icon"
@@ -49,11 +49,13 @@ var app = new Vue({
                     "id": 2,
                     "name": "Books",
                     "icon": "fa-book",
+                    "type": "books",
                     "children": [
                         {
                             "id": 3,
                             "name": "Neptune",
-                            "icon": "fa-book"
+                            "icon": "fa-book",
+                            "type": "book"
                         }
                     ]
                 },
@@ -84,10 +86,25 @@ var app = new Vue({
                 }
             ],
             selectedNode: null,
-            contextMenuItems: [{code: 'DELETE_NODE', label: 'Delete node'}, {
-                code: 'ADD_CHILD_NODE',
-                label: 'Add child'
-            }, {code: 'RENAME_NODE', label: 'Rename'}]
+            contextMenuItems: [
+              { code: 'DELETE_NODE', label: 'Delete node'},
+              { code: 'ADD_CHILD_NODE', label: 'Add child' },
+              { code: 'RENAME_NODE', label: 'Rename' },
+            ],
+            contextMenuItemsObj: {
+              default: [
+                { code: 'DELETE_NODE', label: 'Delete node'},
+                { code: 'ADD_CHILD_NODE', label: 'Add child' },
+                { code: 'RENAME_NODE', label: 'Rename' },
+              ],
+              books: [
+                { code: 'DELETE_NODE', label: 'Delete group'},
+                { code: 'ADD_BOOK', label: 'Add book' },
+              ],
+              book: [
+                { code: 'DELETE_BOOK', label: 'Delete book' },
+              ]
+            },
         }
     },
     methods: {
@@ -100,11 +117,16 @@ var app = new Vue({
             }
         },
         menuItemSelected(item, node) {
-            if (item.code === 'ADD_CHILD_NODE') {
+            console.log('Menu item selected', item.code);
+            if (item.code === 'ADD_CHILD_NODE' || item.code === 'ADD_BOOK') {
                 node.appendChild({
                     id: count++,
                     name: 'My new node'
                 })
+            }
+
+            if (item.code === 'DELETE_BOOK') {
+                node.delete();
             }
         }
     }

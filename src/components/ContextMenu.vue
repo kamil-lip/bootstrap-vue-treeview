@@ -1,7 +1,7 @@
 <template>
 
 <vue-context-menu id="context-menu" ref="ctxMenu">
-  <li class="ctx-item" @click.stop.prevent="menuItemSelected(item)" v-for="item in contextMenuItems">{{ item.label }}</li>
+  <li class="ctx-item" @click.stop.prevent="menuItemSelected(item)" v-for="item in ctxItemsForType">{{ item.label }}</li>
 </vue-context-menu>
 
 </template>
@@ -17,12 +17,27 @@ export default {
   },
   props: {
     contextMenuItems: {
-      type: Array
+      type: [Array, Object]
     }
   },
   data() {
     return {
       activeNode: null
+    }
+  },
+  computed: {
+    ctxItemsForType() {
+      if (this.activeNode === null) return [];
+      const ctxIsArray = Array.isArray(this.contextMenuItems);
+      const defaultMenu = this.contextMenuItems.default || this.contextMenuItems;
+      const nodeType = this.activeNode.data.type;
+
+      if (ctxIsArray) return defaultMenu;
+      if (!nodeType) return defaultMenu;
+
+      if (!this.contextMenuItems[nodeType]) return defaultMenu;
+
+      return this.contextMenuItems[nodeType];
     }
   },
   methods: {
@@ -32,7 +47,7 @@ export default {
       EventBus.$emit('openNodeContextMenu', this)
     },
     menuItemSelected(item) {
-      EventBus.$emit('contextMenuItemSelect', item, this.activeNode)
+      EventBus.$emit('contextMenuItemSelect', item, this.activeNode);
     }
   },
   created() {
