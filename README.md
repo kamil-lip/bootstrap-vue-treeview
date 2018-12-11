@@ -70,7 +70,8 @@ export default {
 | nodesDraggable   | Boolean       | Enable/disable drag & drop feature | false | No
 | contextMenu      | Boolean       | Enable/disable context menu | true | No
 | renameNodeOnDblClick | Boolean   | Enable/disable double click to rename feature | true | No
-| contextMenuItems | Array of menu items         | Context menu items | [ { code: 'DELETE_NODE', label: 'Delete node' }, { code: 'RENAME_NODE', label: 'Rename node' } ] | No
+| contextMenuItems | Array of menu items | Context menu items | [ { code: 'DELETE_NODE', label: 'Delete node' }, { code: 'RENAME_NODE', label: 'Rename node' } ] | No
+| contextMenuItems | Object | Context menus per node type (see previous entry) | [contextMenuItemsArray] | No
 
 #### 2. Events
 
@@ -99,6 +100,36 @@ Props and events of the tree node component are not intended to be used directly
 | expand      | Expand node (show children)   | -          |
 | collapse    | Collapse node (hide children) | -          |
 | toggle      | Expand/collapse               | -          |
+
+#### 2. Properties
+
+| Property | type | Description | Example Value |
+|----------|------|-------------|---------------|
+| type     | String| Node type for custom contextMenu options| "book" |
+
+### Context Menu
+
+Context menu items can either be Array of Menu Items or Object with key for each Menu Array.
+If `contextMenuItems` is an Array, every Tree Node will have the same Context Menu options.
+Otherwise if `contextMenuItems` is an Object, each Tree Node with defined `type` property will use
+Menu Items Array defined under key of its type or, if it's not found, menu under `default` key.
+
+
+```javascript
+const ctxItems = {
+    default: [
+        { code: 'ADD_CHILD', label: 'Add child' },
+        { code: 'DELETE_CHILD', label: 'Delete child' },
+    ],
+    book: [
+        { code: 'DELETE_BOOK', label: 'Delete book' },
+    ],
+    books: [
+        { code: 'ADD_BOOK', label: 'Add book' },
+    ],
+}
+
+```
 
 ### Menu item
 

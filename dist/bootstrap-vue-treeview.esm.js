@@ -1884,7 +1884,7 @@ var script$2 = {
   },
   props: {
     contextMenuItems: {
-      type: Array
+      type: [Array, Object]
     }
   },
   data: function data() {
@@ -1893,6 +1893,21 @@ var script$2 = {
     };
   },
 
+  computed: {
+    ctxItemsForType: function ctxItemsForType() {
+      if (this.activeNode === null) return [];
+      var ctxIsArray = Array.isArray(this.contextMenuItems);
+      var defaultMenu = this.contextMenuItems.default || this.contextMenuItems;
+      var nodeType = this.activeNode.data.type;
+
+      if (ctxIsArray) return defaultMenu;
+      if (!nodeType) return defaultMenu;
+
+      if (!this.contextMenuItems[nodeType]) return defaultMenu;
+
+      return this.contextMenuItems[nodeType];
+    }
+  },
   methods: {
     open: function open(_ref) {
       var event = _ref.event,
@@ -1915,7 +1930,7 @@ var __vue_script__$2 = script$2;
 
 /* template */
 var __vue_render__$2 = function __vue_render__() {
-  var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('vue-context-menu', { ref: "ctxMenu", attrs: { "id": "context-menu" } }, _vm._l(_vm.contextMenuItems, function (item) {
+  var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('vue-context-menu', { ref: "ctxMenu", attrs: { "id": "context-menu" } }, _vm._l(_vm.ctxItemsForType, function (item) {
     return _c('li', { staticClass: "ctx-item", on: { "click": function click($event) {
           $event.stopPropagation();$event.preventDefault();_vm.menuItemSelected(item);
         } } }, [_vm._v(_vm._s(item.label))]);
@@ -1927,7 +1942,7 @@ var __vue_template__$2 = typeof __vue_render__$2 !== 'undefined' ? { render: __v
 /* style */
 var __vue_inject_styles__$2 = function (inject) {
   if (!inject) return;
-  inject("data-v-290bdce4_0", { source: "\n.ctx-item{cursor:pointer;user-select:none\n}", map: undefined, media: undefined });
+  inject("data-v-89cf26e0_0", { source: "\n.ctx-item{cursor:pointer;user-select:none\n}", map: undefined, media: undefined });
 };
 /* scoped */
 var __vue_scope_id__$2 = undefined;
@@ -2070,7 +2085,7 @@ var script$3 = {
             default: true
         },
         contextMenuItems: {
-            type: Array,
+            type: [Array, Object],
             default: [{ code: 'DELETE_NODE', label: 'Delete node' }, { code: 'RENAME_NODE', label: 'Rename node' }]
         },
         renameNodeOnDblClick: {
@@ -2273,7 +2288,7 @@ var __vue_template__$3 = typeof __vue_render__$3 !== 'undefined' ? { render: __v
 /* style */
 var __vue_inject_styles__$3 = function (inject) {
   if (!inject) return;
-  inject("data-v-729969cc_0", { source: "\n.tree-view{text-align:left\n}", map: undefined, media: undefined });
+  inject("data-v-60457102_0", { source: "\n.tree-view{text-align:left\n}", map: undefined, media: undefined });
 };
 /* scoped */
 var __vue_scope_id__$3 = undefined;
