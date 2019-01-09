@@ -1,11 +1,10 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('vue'), require('vue-context-menu')) :
-	typeof define === 'function' && define.amd ? define(['exports', 'vue', 'vue-context-menu'], factory) :
-	(factory((global.bootstrapVueTreeview = {}),global.Vue,global.VueContextMenu));
-}(this, (function (exports,Vue$1,VueContextMenu) { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('vue'), require('v-contextmenu')) :
+	typeof define === 'function' && define.amd ? define(['exports', 'vue', 'v-contextmenu'], factory) :
+	(factory((global.bootstrapVueTreeview = {}),global.Vue,null));
+}(this, (function (exports,Vue$1,vContextmenu) { 'use strict';
 
 	Vue$1 = Vue$1 && Vue$1.hasOwnProperty('default') ? Vue$1['default'] : Vue$1;
-	VueContextMenu = VueContextMenu && VueContextMenu.hasOwnProperty('default') ? VueContextMenu['default'] : VueContextMenu;
 
 	function unwrapExports (x) {
 		return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
@@ -1745,7 +1744,7 @@
 	      } } }, [_c('transition', { attrs: { "name": "rotateArrow" } }, [_vm.hasChildren ? _c('div', { staticClass: "tree-node-icon-container", on: { "click": function click($event) {
 	        $event.preventDefault();return _vm.toggle($event);
 	      } } }, [_vm.nodeIconHtml ? [_c('div', { staticClass: "tree-node-icon" }, [_c('div', { domProps: { "innerHTML": _vm._s(_vm.nodeIconHtml) } })])] : _c('svg', { staticClass: "tree-node-icon", attrs: { "width": "12", "height": "12" } }, [_c('path', { staticClass: "svg-icon", attrs: { "d": "M2 1 L10 6 L2 11 Z" } })])], 2) : _vm._e()]), _vm._v(" "), _c('span', { staticClass: "tree-node-label", on: { "click": _vm.toggleSelection, "dblclick": _vm.dblClickLabel } }, [_vm.showIcon && _vm.iconClass !== null ? _c('i', { class: ['label-icon', _vm.prependIconClass, _vm.iconClass] }) : _vm._e(), _vm._v(" "), _vm.renaming ? _c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.renameNewLabel, expression: "renameNewLabel" }, { name: "focus", rawName: "v-focus" }, { name: "select-text", rawName: "v-select-text" }], ref: "inputRename", staticClass: "form-control form-control-sm input-rename", attrs: { "type": "text" }, domProps: { "value": _vm.renameNewLabel }, on: { "blur": _vm.endRenaming, "keyup": [function ($event) {
-	        if (!('button' in $event) && _vm._k($event.keyCode, "esc", 27, $event.key, "Escape")) {
+	        if (!('button' in $event) && _vm._k($event.keyCode, "esc", 27, $event.key, ["Esc", "Escape"])) {
 	          return null;
 	        }$event.stopPropagation();return _vm.cancelRenaming($event);
 	      }, function ($event) {
@@ -1886,7 +1885,8 @@
 
 	var script$2 = {
 	  components: {
-	    VueContextMenu: VueContextMenu
+	    Contextmenu: vContextmenu.Contextmenu,
+	    ContextmenuItem: vContextmenu.ContextmenuItem
 	  },
 	  props: {
 	    contextMenuItems: {
@@ -1905,11 +1905,10 @@
 	      var ctxIsArray = Array.isArray(this.contextMenuItems);
 	      var defaultMenu = this.contextMenuItems.default || this.contextMenuItems;
 	      var nodeType = this.activeNode.data.type;
-
 	      if (ctxIsArray) return defaultMenu;
 	      if (!nodeType) return defaultMenu;
 
-	      if (!this.contextMenuItems[nodeType]) return defaultMenu;
+	      if (!this.contextMenuItems[nodeType]) return [];
 
 	      return this.contextMenuItems[nodeType];
 	    }
@@ -1920,7 +1919,10 @@
 	          node = _ref.node;
 
 	      this.activeNode = node;
-	      this.$refs.ctxMenu.open(event);
+	      this.$refs.ctxMenu.show({
+	        top: event.clientY,
+	        left: event.clientX
+	      });
 	      EventBus.$emit('openNodeContextMenu', this);
 	    },
 	    menuItemSelected: function menuItemSelected(item) {
@@ -1936,20 +1938,17 @@
 
 	/* template */
 	var __vue_render__$2 = function __vue_render__() {
-	  var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('vue-context-menu', { ref: "ctxMenu", attrs: { "id": "context-menu" } }, _vm._l(_vm.ctxItemsForType, function (item) {
-	    return _c('li', { staticClass: "ctx-item", on: { "click": function click($event) {
-	          $event.stopPropagation();$event.preventDefault();_vm.menuItemSelected(item);
+	  var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('contextmenu', { ref: "ctxMenu", attrs: { "id": "context-menu" } }, _vm._l(_vm.ctxItemsForType, function (item) {
+	    return _c('contextmenu-item', { key: "vue-treeview-ctx-menu-" + item.label, staticClass: "ctx-item", on: { "click": function click($event) {
+	          _vm.menuItemSelected(item);
 	        } } }, [_vm._v(_vm._s(item.label))]);
-	  }));
+	  }), 1);
 	};
 	var __vue_staticRenderFns__$2 = [];
 
 	var __vue_template__$2 = typeof __vue_render__$2 !== 'undefined' ? { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 } : {};
 	/* style */
-	var __vue_inject_styles__$2 = function (inject) {
-	  if (!inject) return;
-	  inject("data-v-89cf26e0_0", { source: "\n.ctx-item{cursor:pointer;user-select:none\n}", map: undefined, media: undefined });
-	};
+	var __vue_inject_styles__$2 = undefined;
 	/* scoped */
 	var __vue_scope_id__$2 = undefined;
 	/* module identifier */
@@ -1969,30 +1968,6 @@
 	  }
 
 	  component._scopeId = scope;
-
-	  {
-	    var hook = void 0;
-	    if (style) {
-	      hook = function hook(context) {
-	        style.call(this, createInjector(context));
-	      };
-	    }
-
-	    if (hook !== undefined) {
-	      if (component.functional) {
-	        // register for functional component in vue file
-	        var originalRender = component.render;
-	        component.render = function renderWithStyleInjection(h, context) {
-	          hook.call(context);
-	          return originalRender(h, context);
-	        };
-	      } else {
-	        // inject component registration as beforeCreate hook
-	        var existing = component.beforeCreate;
-	        component.beforeCreate = existing ? [].concat(existing, hook) : [hook];
-	      }
-	    }
-	  }
 
 	  return component;
 	}

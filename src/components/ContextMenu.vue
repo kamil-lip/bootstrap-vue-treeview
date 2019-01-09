@@ -1,19 +1,25 @@
 <template>
 
-<vue-context-menu id="context-menu" ref="ctxMenu">
-  <li class="ctx-item" @click.stop.prevent="menuItemSelected(item)" v-for="item in ctxItemsForType">{{ item.label }}</li>
-</vue-context-menu>
+<contextmenu id="context-menu" ref="ctxMenu">
+  <contextmenu-item
+    class="ctx-item"
+    @click="menuItemSelected(item)"
+    v-for="item in ctxItemsForType"
+    :key="`vue-treeview-ctx-menu-${item.label}`"
+  >{{ item.label }}</contextmenu-item>
+</contextmenu>
 
 </template>
 
 <script>
-
+import 'v-contextmenu/dist/index.css';
 import EventBus from '../EventBus';
-import VueContextMenu from 'vue-context-menu'
+import { Contextmenu, ContextmenuItem } from 'v-contextmenu'
 
 export default {
   components: {
-    VueContextMenu
+    Contextmenu,
+    ContextmenuItem,
   },
   props: {
     contextMenuItems: {
@@ -31,11 +37,10 @@ export default {
       const ctxIsArray = Array.isArray(this.contextMenuItems);
       const defaultMenu = this.contextMenuItems.default || this.contextMenuItems;
       const nodeType = this.activeNode.data.type;
-
       if (ctxIsArray) return defaultMenu;
       if (!nodeType) return defaultMenu;
 
-      if (!this.contextMenuItems[nodeType]) return defaultMenu;
+      if (!this.contextMenuItems[nodeType]) return [];
 
       return this.contextMenuItems[nodeType];
     }
@@ -43,7 +48,11 @@ export default {
   methods: {
     open({ event, node }) {
       this.activeNode = node
-      this.$refs.ctxMenu.open(event)
+      if (!this.ctxItemsForType || this.ctxItemsForType.length === 0) return;
+      this.$refs.ctxMenu.show({
+        top: event.clientY,
+        left: event.clientX,
+      });
       EventBus.$emit('openNodeContextMenu', this)
     },
     menuItemSelected(item) {
@@ -56,12 +65,3 @@ export default {
 }
 
 </script>
-
-<style>
-
-.ctx-item {
-  cursor: pointer;
-  user-select: none;
-}
-
-</style>
