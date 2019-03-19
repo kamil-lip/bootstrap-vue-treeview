@@ -1667,6 +1667,12 @@ var script$1 = {
         this.cancelRenaming();
       }
       this.select();
+
+      if (this.data.disableCtx) {
+        event.preventDefault();
+        return;
+      }
+
       if (this.contextMenu) {
         event.preventDefault();
         EventBus.$emit('openNodeContextMenuInternal', { event: event, node: this });
@@ -1770,7 +1776,7 @@ var __vue_template__$1 = typeof __vue_render__$1 !== 'undefined' ? { render: __v
 /* style */
 var __vue_inject_styles__$1 = function (inject) {
   if (!inject) return;
-  inject("data-v-2c667d96_0", { source: "\n.tree-node-label{cursor:pointer;padding:2px 4px;border-radius:3px;-ms-user-select:none;user-select:none\n}\n.tree-node-label:hover{background-color:#ebecee\n}\n.tree-node-icon-container{display:inline-block\n}\n.tree-node-icon-container .tree-node-icon{color:#464646;transition:transform .3s\n}\n.tree-node{margin-left:16px\n}\n.tree-node.has-child-nodes{margin-left:0\n}\n.tree-node.has-child-nodes .tree-node-icon-container{cursor:pointer\n}\n.tree-node-expanded .tree-node-icon-container .tree-node-icon{transform:rotate(90deg);transition:transform .3s\n}\n.tree-node-children{margin-left:22px\n}\n.tree-branch{position:relative\n}\n.tree-branch.selected>.tree-node>.tree-node-label{background-color:#007bff;color:#fff\n}\n.tree-node.drop-active{border:1px dashed #d2d2d2\n}\n.tree-node-label .label-icon{font-size:90%\n}\n.tree-node>svg{display:inline-block;-ms-user-select:none;user-select:none\n}\n.tree-node .input-rename{display:inline-block;width:auto;font-weight:400;line-height:1;font-size:1rem;padding:2px 4px;height:auto;box-sizing:border-box\n}\n.tree-node svg>.svg-icon{fill:none;opacity:1;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1\n}\n.tree-node.tree-node-expanded>svg>.svg-icon{fill:none\n}", map: undefined, media: undefined });
+  inject("data-v-d59b554c_0", { source: "\n.tree-node-label{cursor:pointer;padding:2px 4px;border-radius:3px;-ms-user-select:none;user-select:none\n}\n.tree-node-label:hover{background-color:#ebecee\n}\n.tree-node-icon-container{display:inline-block\n}\n.tree-node-icon-container .tree-node-icon{color:#464646;transition:transform .3s\n}\n.tree-node{margin-left:16px\n}\n.tree-node.has-child-nodes{margin-left:0\n}\n.tree-node.has-child-nodes .tree-node-icon-container{cursor:pointer\n}\n.tree-node-expanded .tree-node-icon-container .tree-node-icon{transform:rotate(90deg);transition:transform .3s\n}\n.tree-node-children{margin-left:22px\n}\n.tree-branch{position:relative\n}\n.tree-branch.selected>.tree-node>.tree-node-label{background-color:#007bff;color:#fff\n}\n.tree-node.drop-active{border:1px dashed #d2d2d2\n}\n.tree-node-label .label-icon{font-size:90%\n}\n.tree-node>svg{display:inline-block;-ms-user-select:none;user-select:none\n}\n.tree-node .input-rename{display:inline-block;width:auto;font-weight:400;line-height:1;font-size:1rem;padding:2px 4px;height:auto;box-sizing:border-box\n}\n.tree-node svg>.svg-icon{fill:none;opacity:1;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1\n}\n.tree-node.tree-node-expanded>svg>.svg-icon{fill:none\n}", map: undefined, media: undefined });
 };
 /* scoped */
 var __vue_scope_id__$1 = undefined;
@@ -1906,6 +1912,7 @@ var script$2 = {
       var ctxIsArray = Array.isArray(this.contextMenuItems);
       var defaultMenu = this.contextMenuItems.default || this.contextMenuItems;
       var nodeType = this.activeNode.data.type;
+
       if (ctxIsArray) return defaultMenu;
       if (!nodeType) return defaultMenu;
 
@@ -1920,6 +1927,7 @@ var script$2 = {
           node = _ref.node;
 
       this.activeNode = node;
+      if (!this.ctxItemsForType || this.ctxItemsForType.length === 0) return;
       this.$refs.ctxMenu.show({
         top: event.clientY,
         left: event.clientX

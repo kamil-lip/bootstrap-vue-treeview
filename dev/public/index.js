@@ -78,7 +78,8 @@ var app = new Vue({
                             "children": [
                                 {
                                     "id": 101,
-                                    "name": "Mars"
+                                    "name": "Mars",
+                                    "disableCtx": true,
                                 }
                             ]
                         }

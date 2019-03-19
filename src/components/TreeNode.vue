@@ -371,12 +371,18 @@
       },
       showContextMenu(event) {
         if (this.renaming) {
-          this.cancelRenaming()
+          this.cancelRenaming();
         }
-        this.select()
+        this.select();
+
+        if (this.data.disableCtx) {
+          event.preventDefault();
+          return;
+        }
+
         if(this.contextMenu) {
           event.preventDefault();
-          EventBus.$emit('openNodeContextMenuInternal', { event, node: this })
+          EventBus.$emit('openNodeContextMenuInternal', { event, node: this });
         }
       },
       delete() {

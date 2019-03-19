@@ -37,6 +37,7 @@ export default {
       const ctxIsArray = Array.isArray(this.contextMenuItems);
       const defaultMenu = this.contextMenuItems.default || this.contextMenuItems;
       const nodeType = this.activeNode.data.type;
+
       if (ctxIsArray) return defaultMenu;
       if (!nodeType) return defaultMenu;
 
