@@ -79,8 +79,12 @@ var app = new Vue({
             selectedNode: null,
             contextMenuItems: [{code: 'DELETE_NODE', label: 'Delete node'}, {
                 code: 'ADD_CHILD_NODE',
-                label: 'Add child'
-            }, {code: 'RENAME_NODE', label: 'Rename'}]
+                label: 'Add child',
+            }, {
+                code: 'ADD_FIRST_CHILD_NODE',
+                label: 'Add first child',
+            }
+            , {code: 'RENAME_NODE', label: 'Rename'}]
         }
     },
     methods: {
@@ -98,7 +102,13 @@ var app = new Vue({
                     id: count++,
                     name: 'My new node'
                 })
+            } else if (item.code === 'ADD_FIRST_CHILD_NODE') {
+                node.prependChild({
+                    id: count++,
+                    name: 'My new node2'
+                })
             }
+
         }
     }
 })
