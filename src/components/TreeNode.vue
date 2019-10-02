@@ -345,6 +345,13 @@
                 this.data[this.childrenProp].push(childNodeData)
                 this.expanded = true
             },
+            prependChild(childNodeData) {
+                if (this.data[this.childrenProp] === undefined) {
+                    Vue.set(this.data, this.childrenProp, []);
+                }
+                this.data[this.childrenProp].unshift(childNodeData);
+                this.expanded = true;
+            },
             startRenaming() {
                 this.deselect();
                 this.renameNewLabel = this.data[this.labelProp]
