@@ -65,6 +65,7 @@ export default {
 | nodesDraggable   | Boolean       | Enable/disable drag & drop feature | false | No
 | contextMenu      | Boolean       | Enable/disable context menu | true | No
 | renameNodeOnDblClick | Boolean   | Enable/disable double click to rename feature | true | No
+| expandAll        | Boolean       | Expand/Collapse all nodes| false | No
 | contextMenuItems | Array of menu items         | Context menu items | [ { code: 'DELETE_NODE', label: 'Delete node' }, { code: 'RENAME_NODE', label: 'Rename node' } ] | No
 
 #### 2. Events

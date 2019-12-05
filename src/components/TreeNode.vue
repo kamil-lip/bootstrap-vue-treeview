@@ -58,6 +58,7 @@
                         :showIcon="showIcon"
                         :prependIconClass="prependIconClass"
                         :contextMenu="contextMenu"
+                        :expandAll="expandAll"
                         @nodeSelect="childNodeSelect"
                         @nodeDragStart="nodeDragStart"
                         @deleteNode="deleteChildNode">
@@ -128,11 +129,16 @@
             contextMenu: {
                 type: Boolean,
                 default: true
+            },
+            // force all child nodes to be expanded
+            expandAll: {
+                type: Boolean,
+                default: false
             }
         },
         data() {
             return {
-                expanded: false,
+                expanded: this.expandAll,
                 selected: false,
                 nodeDragOver: false,
                 enterLeaveCounter: 0,

@@ -22,6 +22,7 @@
                     :showIcon="showIcons"
                     :prependIconClass="prependIconClass"
                     :contextMenu="contextMenu"
+                    :expandAll="expandAll"
                     ref="rootNodes"
                     @nodeSelect="nodeSelect"
                     @nodeDragStart="nodeDragStart"
@@ -99,6 +100,11 @@
             },
             // show icons
             showIcons: {
+                type: Boolean,
+                default: false
+            },
+            // force all nodes to be expanded
+            expandAll: {
                 type: Boolean,
                 default: false
             }
