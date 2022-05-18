@@ -4,7 +4,6 @@
       class="ctx-item"
       @click.stop.prevent="menuItemSelected(item)"
       v-for="item in contextMenuItems"
-      :key="item + i"
     >
       {{ item.label }}
     </li>
