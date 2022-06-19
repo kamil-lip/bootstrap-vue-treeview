@@ -28,7 +28,8 @@ export default {
   methods: {
     open(node) {
       this.activeNode = node
-      this.$refs.ctxMenu.open()
+      if (this.$refs.ctxMenu !== undefined)
+        this.$refs.ctxMenu.open()
     },
     menuItemSelected(item) {
       EventBus.$emit('contextMenuItemSelect', item, this.activeNode)
